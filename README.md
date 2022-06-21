@@ -1,0 +1,1 @@
+# opswatch-prometheus-rules

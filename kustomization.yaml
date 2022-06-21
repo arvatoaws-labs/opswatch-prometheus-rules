@@ -18,7 +18,7 @@ resources:
 - rules/elb.yaml
 - rules/asg.yaml
 - rules/rds.yaml
-- rules/opensearch.yaml
+# - rules/opensearch.yaml
 - rules/nlb.yaml
 - rules/ec2.yaml
 - rules/natgw.yaml

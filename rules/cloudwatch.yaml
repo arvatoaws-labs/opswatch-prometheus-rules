@@ -1,0 +1,30 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  labels:
+    release: prometheus
+    app: prometheus-operator
+  name: opswatch.cloudwatch.rules
+  namespace: monitoring
+spec:
+  groups:
+  - name: cloudwatch.rules
+    rules:
+    - alert: AwsCloudwatchMetricUpdateAbsent
+      annotations:
+        summary: Cloudwatch Metric Streams are absent
+        description: Cloudwatch Metric Streams are not present
+        runbook: Ensure that the Opswatch Service is up and running
+      expr: absent(aws_cloudwatch_CloudWatch_MetricUpdate_sum)
+      for: 15m
+      labels:
+        severity: warning
+    - alert: AwsCloudwatchMetricUpdateRateLow
+      annotations:
+        summary: Cloudwatch Metric Streams rate low
+        description: Cloudwatch Metric Streams rate is {{$value}} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+        runbook: Ensure that the Opswatch Service is up and running
+      expr: sum by (overwrite_asy_customer,overwrite_aws_account_id,overwrite_aws_region) (rate(aws_cloudwatch_CloudWatch_MetricUpdate_sum[15m])) < 0.01
+      for: 30m
+      labels:
+        severity: warning

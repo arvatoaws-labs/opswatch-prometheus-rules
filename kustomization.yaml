@@ -29,3 +29,4 @@ resources:
 #- rules/sqs.yaml
 - rules/cloudfront.yaml
 - rules/lambda.yaml
+- rules/cloudwatch.yaml

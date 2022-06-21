@@ -1,0 +1,21 @@
+---
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  labels:
+    release: prometheus
+    app: prometheus-operator
+  name: opswatch.directconnect.rules
+  namespace: monitoring
+spec:
+  groups:
+  - name: directconnect.rules
+    rules:
+    - alert: AwsCloudwatchDirectConnectConnectionStateCritical
+      annotations:
+        summary: DirectConnect Connection is down
+        description: DirectConnect Connection {{ $labels.dimension_ConnectionName }} is down in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+      expr: aws_cloudwatch_DX_ConnectionState_ConnectionId < 1
+      for: 15m
+      labels:
+        severity: critical

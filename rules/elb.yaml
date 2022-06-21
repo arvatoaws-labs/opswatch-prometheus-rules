@@ -1,0 +1,12 @@
+# apiVersion: monitoring.coreos.com/v1
+# kind: PrometheusRule
+# metadata:
+#   labels:
+#     release: prometheus
+#     app: prometheus-operator
+#   name: opswatch.elb.rules
+#   namespace: monitoring
+# spec:
+#   groups:
+#   - name: elb.rules
+#     rules:

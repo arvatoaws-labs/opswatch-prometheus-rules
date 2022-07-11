@@ -115,6 +115,14 @@ spec:
       for: 15m
       labels:
         severity: warning
+    - alert: AwsCloudwatchRdsDDLLatencyWarning
+      annotations:
+        summary: RDS CommitLatency is greater than 20ms
+        description: RDS CommitLatency is {{$value}}ms for DB instance {{ $labels.dimension_DBInstanceIdentifier }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+      expr: round(aws_cloudwatch_RDS_CommitLatency_DBInstanceIdentifier) > 20
+      for: 15m
+      labels:
+        severity: critical
     - alert: AwsCloudwatchRdsDDLLatencyCritical
       annotations:
         summary: RDS CommitLatency is greater than 50ms
@@ -123,6 +131,24 @@ spec:
       for: 15m
       labels:
         severity: critical
+    - alert: AwsCloudwatchRdsBurstBalanceCritical
+      annotations:
+        summary: RDS burst balance is below 10%
+        description: RDS burst balance is at {{$value}}% for DB instance {{ $labels.dimension_DBInstanceIdentifier }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+        runbook_url: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/burstable-credits-baseline-concepts.html
+      labels:
+        severity: critical
+      expr: round(aws_cloudwatch_RDS_BurstBalance_DBInstanceIdentifier) < 10
+      for: 30m
+    - alert: AwsCloudwatchRdsBurstBalancePrediction
+      annotations:
+        summary: RDS burst balance will be below 10% in 2 hours
+        description: RDSburst balance will at {{$value}}% for DB instance {{ $labels.dimension_DBInstanceIdentifier }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+        runbook_url: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/burstable-credits-baseline-concepts.html
+      labels:
+        severity: warning
+      expr: round(predict_linear(aws_cloudwatch_RDS_BurstBalance_DBInstanceIdentifier[30m], 3600 * 2)) < 10
+      for: 30m
     - alert: AwsCloudwatchRdsCPUCreditBalanceCritical
       annotations:
         summary: RDS CPU Credit balance is below 10
@@ -255,8 +281,3 @@ spec:
 # ggf. basierend auf engine und instance_class
 #aws_cloudwatch_RDS_DatabaseConnections_DBInstanceIdentifier
 #aws_cloudwatch_RDS_ServerlessDatabaseCapacity_EngineName
-
-
-
-
-#

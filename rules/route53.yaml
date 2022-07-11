@@ -19,6 +19,7 @@ spec:
       for: 30m
       labels:
         severity: critical
+        is_critical: true
     - alert: AwsCloudwatchRoute53HealthCheckPercentageWarning
       annotations:
         summary: Route53 health check ratio is below 50%

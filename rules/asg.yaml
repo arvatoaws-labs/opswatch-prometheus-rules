@@ -28,6 +28,7 @@ spec:
       for: 15m
       labels:
         severity: critical
+        is_critical: true
     - alert: AwsCloudwatchAutoScalingRatioInServiceHosts
       annotations:
         summary: ASG ratio of in service hostss is below 50%

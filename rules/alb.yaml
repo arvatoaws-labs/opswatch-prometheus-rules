@@ -23,7 +23,7 @@ spec:
         summary: ALB 5xx Error ratio is greater than 20%
         description: ALB TargetGroup 5xx error rate is {{$value}}% for LB {{ $labels.dimension_LoadBalancer }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
         runbook_url: https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-troubleshooting.html
-      expr: round(rate(aws_cloudwatch_ApplicationELB_HTTPCodeTarget5XXCount_LoadBalancer_sum {} [30m]) / (rate(aws_cloudwatch_ApplicationELB_HTTPCodeTarget5XXCount_LoadBalancer_sum {} [30m]) + rate(aws_cloudwatch_ApplicationELB_RequestCount_LoadBalancer_sum {} [30m])) * 100)  > 20
+      expr: round(rate(aws_cloudwatch_ApplicationELB_HTTPCodeTarget5XXCount_LoadBalancer_sum{} [30m]) / (rate(aws_cloudwatch_ApplicationELB_HTTPCodeTarget5XXCount_LoadBalancer_sum{} [30m]) + rate(aws_cloudwatch_ApplicationELB_RequestCount_LoadBalancer_sum{} [30m])) * 100)  > 20
       for: 15m
       labels:
         severity: warning
@@ -32,7 +32,7 @@ spec:
         summary: ALB 4xx Error ratio is greater than 30%
         description: ALB TargetGroup 4xx error rate is {{$value}}% for LB {{ $labels.dimension_LoadBalancer }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
         runbook_url: https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-troubleshooting.html
-      expr: round(rate(aws_cloudwatch_ApplicationELB_HTTPCodeTarget4XXCount_LoadBalancer_sum {} [30m]) / (rate(aws_cloudwatch_ApplicationELB_HTTPCodeTarget4XXCount_LoadBalancer_sum {} [30m]) + rate(aws_cloudwatch_ApplicationELB_RequestCount_LoadBalancer_sum {} [30m])) * 100)  > 30
+      expr: round(rate(aws_cloudwatch_ApplicationELB_HTTPCodeTarget4XXCount_LoadBalancer_sum{} [30m]) / (rate(aws_cloudwatch_ApplicationELB_HTTPCodeTarget4XXCount_LoadBalancer_sum{} [30m]) + rate(aws_cloudwatch_ApplicationELB_RequestCount_LoadBalancer_sum{} [30m])) * 100)  > 30
       for: 15m
       labels:
         severity: warning
@@ -54,6 +54,7 @@ spec:
       for: 15m
       labels:
         severity: critical
+        is_critical: true
     - alert: AwsCloudwatchAlbTargetGroupResponseTimeSlow
       annotations:
         summary: ALB TargetGroup response time is greater than 10s
@@ -68,7 +69,7 @@ spec:
         summary: ALB TargetGroup 5xx Error ratio is greater than 20%
         description: ALB TargetGroup 5xx error rate is {{$value}}% for LB {{ $labels.dimension_LoadBalancer }} & TargetGroup {{ $labels.dimension_TargetGroup }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
         runbook_url: https://aws.amazon.com/de/premiumsupport/knowledge-center/elb-fix-failing-health-checks-alb/
-      expr: round(rate(aws_cloudwatch_ApplicationELB_HTTPCodeTarget5XXCount_LoadBalancer_TargetGroup_sum {} [30m]) / (rate(aws_cloudwatch_ApplicationELB_HTTPCodeTarget5XXCount_LoadBalancer_TargetGroup_sum {} [30m]) + rate(aws_cloudwatch_ApplicationELB_RequestCount_LoadBalancer_TargetGroup_sum {} [30m])) * 100)  > 20
+      expr: round(rate(aws_cloudwatch_ApplicationELB_HTTPCodeTarget5XXCount_LoadBalancer_TargetGroup_sum{} [30m]) / (rate(aws_cloudwatch_ApplicationELB_HTTPCodeTarget5XXCount_LoadBalancer_TargetGroup_sum{} [30m]) + rate(aws_cloudwatch_ApplicationELB_RequestCount_LoadBalancer_TargetGroup_sum{} [30m])) * 100)  > 20
       for: 15m
       labels:
         severity: warning
@@ -77,7 +78,7 @@ spec:
         summary: ALB TargetGroup 4xx Error ratio is greater than 30%
         description: ALB TargetGroup 4xx error rate is {{$value}}% for LB {{ $labels.dimension_LoadBalancer }} & TargetGroup {{ $labels.dimension_TargetGroup }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
         runbook_url: https://aws.amazon.com/de/premiumsupport/knowledge-center/elb-fix-failing-health-checks-alb/
-      expr: round(rate(aws_cloudwatch_ApplicationELB_HTTPCodeTarget4XXCount_LoadBalancer_TargetGroup_sum {} [30m]) / (rate(aws_cloudwatch_ApplicationELB_HTTPCodeTarget4XXCount_LoadBalancer_TargetGroup_sum {} [30m]) + sum_over_time(aws_cloudwatch_ApplicationELB_RequestCount_LoadBalancer_TargetGroup_sum {} [30m])) * 100)  > 30
+      expr: round(rate(aws_cloudwatch_ApplicationELB_HTTPCodeTarget4XXCount_LoadBalancer_TargetGroup_sum{} [30m]) / (rate(aws_cloudwatch_ApplicationELB_HTTPCodeTarget4XXCount_LoadBalancer_TargetGroup_sum{} [30m]) + sum_over_time(aws_cloudwatch_ApplicationELB_RequestCount_LoadBalancer_TargetGroup_sum{} [30m])) * 100)  > 30
       for: 15m
       labels:
         severity: warning

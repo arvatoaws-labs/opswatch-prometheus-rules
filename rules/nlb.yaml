@@ -28,3 +28,4 @@ spec:
       for: 15m
       labels:
         severity: critical
+        is_critical: true

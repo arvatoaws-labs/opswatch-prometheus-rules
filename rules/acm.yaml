@@ -12,20 +12,21 @@ spec:
     rules:
     - alert: AwsCloudwatchAcmCertificateExpirationWarning
       annotations:
-        summary: ACM certificate will expire in less than 14 days
+        summary: ACM certificate will expire in less than 7 days
         description: ACM certificate will expire in {{$value}} days for arn {{ $labels.dimension_CertificateArn }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
         runbook_url: https://docs.aws.amazon.com/acm/latest/userguide/troubleshooting-renewal.html
-      expr: aws_cloudwatch_CertificateManager_DaysToExpiry_CertificateArn{acm_in_use!="0"} < 14
+      expr: aws_cloudwatch_CertificateManager_DaysToExpiry_CertificateArn{acm_in_use!="0"} < 7
       for: 30m
       labels:
         severity: warning
+        asy_itsm_severity: medium
     - alert: AwsCloudwatchAcmCertificateExpirationCritical
       annotations:
-        summary: ACM certificate will expire in less than 4 days
+        summary: ACM certificate will expire in less than 1 days
         description: ACM certificate will expire in {{$value}} days for arn {{ $labels.dimension_CertificateArn }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
         runbook_url: https://docs.aws.amazon.com/acm/latest/userguide/troubleshooting-renewal.html
-      expr: aws_cloudwatch_CertificateManager_DaysToExpiry_CertificateArn{acm_in_use!="0"} < 4
+      expr: aws_cloudwatch_CertificateManager_DaysToExpiry_CertificateArn{acm_in_use!="0"} <= 1
       for: 15m
       labels:
         severity: critical
-        is_critical: true
+        asy_itsm_severity: high

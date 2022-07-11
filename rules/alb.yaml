@@ -54,7 +54,7 @@ spec:
       for: 15m
       labels:
         severity: critical
-        is_critical: true
+        asy_itsm_severity: high
     - alert: AwsCloudwatchAlbTargetGroupResponseTimeSlow
       annotations:
         summary: ALB TargetGroup response time is greater than 10s

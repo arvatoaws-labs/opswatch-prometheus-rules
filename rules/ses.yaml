@@ -38,6 +38,7 @@ spec:
       for: 30m
       labels:
         severity: critical
+        asy_itsm_severity: medium
     - alert: AwsCloudwatchSESComplaintCritical
       annotations:
         summary: SES complain rate is greater than 0.5%
@@ -47,3 +48,4 @@ spec:
       for: 30m
       labels:
         severity: critical
+        asy_itsm_severity: medium

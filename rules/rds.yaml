@@ -91,7 +91,7 @@ spec:
       for: 15m
       labels:
         severity: critical
-    - alert: AwsCloudwatchRdsCommitLatencyWarning
+    - alert: AwsCloudwatchRdsCommitLatencyWarningSingleAz
       annotations:
         summary: RDS CommitLatency is greater than 20ms (single az)
         description: RDS CommitLatency is {{$value}}ms for DB instance {{ $labels.dimension_DBInstanceIdentifier }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
@@ -99,7 +99,7 @@ spec:
       for: 15m
       labels:
         severity: warning
-    - alert: AwsCloudwatchRdsCommitLatencyWarning
+    - alert: AwsCloudwatchRdsCommitLatencyWarningMultiAz
       annotations:
         summary: RDS CommitLatency is greater than 30ms (multi az)
         description: RDS CommitLatency is {{$value}}ms for DB instance {{ $labels.dimension_DBInstanceIdentifier }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
@@ -107,7 +107,7 @@ spec:
       for: 15m
       labels:
         severity: warning
-    - alert: AwsCloudwatchRdsCommitLatencyWarning
+    - alert: AwsCloudwatchRdsCommitLatencyWarningAurora
       annotations:
         summary: RDS CommitLatency is greater than 60ms (aurora)
         description: RDS CommitLatency is {{$value}}ms for DB instance {{ $labels.dimension_DBInstanceIdentifier }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
@@ -120,14 +120,6 @@ spec:
         summary: RDS CommitLatency is greater than 20ms
         description: RDS CommitLatency is {{$value}}ms for DB instance {{ $labels.dimension_DBInstanceIdentifier }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
       expr: round(aws_cloudwatch_RDS_CommitLatency_DBInstanceIdentifier) > 20
-      for: 15m
-      labels:
-        severity: critical
-    - alert: AwsCloudwatchRdsDDLLatencyCritical
-      annotations:
-        summary: RDS CommitLatency is greater than 50ms
-        description: RDS CommitLatency is {{$value}}ms for DB instance {{ $labels.dimension_DBInstanceIdentifier }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-      expr: round(aws_cloudwatch_RDS_CommitLatency_DBInstanceIdentifier) > 50
       for: 15m
       labels:
         severity: critical

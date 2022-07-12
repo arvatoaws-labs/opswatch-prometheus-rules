@@ -13,7 +13,7 @@ spec:
     - alert: AwsCloudwatchECSCPUUtilization
       annotations:
         summary: ECS Service CPU Utilizatiom is above 90 percent
-        description: ECS Service CPU Utilizatiom is {{$value}}% for ECS Cluster {{ $labels.dimension_ServiceName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+        description: ECS Service CPU Utilizatiom is {{$value}}% for ECS Cluster {{ $labels.dimension_ClusterName }} and service {{ $labels.dimension_ServiceName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
         runbook_url: https://docs.aws.amazon.com/AmazonECS/latest/developerguide/troubleshooting.html
       expr: round(aws_cloudwatch_ECS_CPUUtilization_ClusterName_ServiceName) > 90
       for: 15m
@@ -22,36 +22,18 @@ spec:
     - alert: AwsCloudwatchECSMemoryUtilization
       annotations:
         summary: ECS Service Memory Utilizatiom is above 90 percent
-        description: ECS Service Memory Utilizatiom is {{$value}}% for ECS Cluster {{ $labels.dimension_ServiceName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+        description: ECS Service Memory Utilizatiom is {{$value}}% for ECS Cluster {{ $labels.dimension_ClusterName }} and service {{ $labels.dimension_ServiceName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
         runbook_url: https://docs.aws.amazon.com/AmazonECS/latest/developerguide/troubleshooting.html
       expr: round(aws_cloudwatch_ECS_MemoryUtilization_ClusterName_ServiceName) > 90
       for: 15m
       labels:
         severity: warning
-    - alert: AwsCloudwatchECSMemoryUtilization
+    - alert: AwsCloudwatchECSDesiredTaskCountZero
       annotations:
-        summary: ECS Service Desired Task Count below 1
-        description: ECS Service Desired Task Count is {{$value}} for ECS Cluster {{ $labels.dimension_ServiceName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+        summary: ECS Service Desired Task Count is 0
+        description: ECS Service Desired Task Count is 0 for ECS Cluster {{ $labels.dimension_ClusterName }} and service {{ $labels.dimension_ServiceName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
         runbook_url: https://docs.aws.amazon.com/AmazonECS/latest/developerguide/troubleshooting.html
-      expr: aws_cloudwatch_ECSContainerInsights_DesiredTaskCount_ClusterName_ServiceName < 1
-      for: 15m
-      labels:
-        severity: warning
-    - alert: AwsCloudwatchECSMemoryUtilization
-      annotations:
-        summary: ECS Service Task Count below 1
-        description: ECS Service Task Count is {{$value}} for ECS Cluster {{ $labels.dimension_ServiceName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-        runbook_url: https://docs.aws.amazon.com/AmazonECS/latest/developerguide/troubleshooting.html
-      expr: aws_cloudwatch_ECSContainerInsights_TaskCount_ClusterName < 1
-      for: 15m
-      labels:
-        severity: warning
-    - alert: AwsCloudwatchECSMemoryUtilization
-      annotations:
-        summary: ECS Service Running Task Count below 1
-        description: ECS Service Running Task Count is {{$value}} for ECS Cluster {{ $labels.dimension_ServiceName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-        runbook_url: https://docs.aws.amazon.com/AmazonECS/latest/developerguide/troubleshooting.html
-      expr: aws_cloudwatch_ECSContainerInsights_RunningTaskCount_ClusterName_ServiceName < 1
+      expr: aws_cloudwatch_ECSContainerInsights_RunningTaskCount_ClusterName_ServiceName == 0 and aws_cloudwatch_ECSContainerInsights_DesiredTaskCount_ClusterName_ServiceName > 0
       for: 15m
       labels:
         severity: warning

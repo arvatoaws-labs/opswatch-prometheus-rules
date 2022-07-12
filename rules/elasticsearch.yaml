@@ -19,7 +19,7 @@ spec:
       for: 15m
       labels:
         severity: critical
-    - alert: AwsCloudwatchElasticSearchHealthStatus
+    - alert: AwsCloudwatchElasticSearchHealthStatusRed
       annotations:
         summary: ElasticSearch Health Status is RED
         description: ElasticSearch Cluster Health Status is {{$value}}% for domain {{ $labels.dimension_DomainName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
@@ -28,7 +28,7 @@ spec:
       for: 15m
       labels:
         severity: critical
-    - alert: AwsCloudwatchElasticSearchHealthStatus
+    - alert: AwsCloudwatchElasticSearchHealthStatusYellow
       annotations:
         summary: ElasticSearch Health Status is YELLOW
         description: ElasticSearch Cluster Health Status is {{$value}}% for domain {{ $labels.dimension_DomainName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}

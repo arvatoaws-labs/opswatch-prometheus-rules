@@ -8,50 +8,48 @@ metadata:
   namespace: monitoring
 spec:
   groups:
-  - name: lambda.rules
-    rules:
-    - alert: AwsCloudwatchLambdaErrorRateWarning
-      annotations:
-        summary: Lambda error rate is greater than 5%
-        description: Lambda error rate is {{$value}}% for function {{ $labels.dimension_FunctionName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-        runbook_url: https://docs.aws.amazon.com/lambda/latest/dg/troubleshooting-invocation.html
-      expr: round(rate(aws_cloudwatch_Lambda_Errors_FunctionName_sum[15m]) / (rate(aws_cloudwatch_Lambda_Invocations_FunctionName_sum[15m]) + rate(aws_cloudwatch_Lambda_Errors_FunctionName_sum[15m])) * 100) > 5
-      for: 30m
-      labels:
-        severity: warning
-    - alert: AwsCloudwatchLambdaErrorRateCritical
-      annotations:
-        summary: Lambda error rate is greater than 15%
-        description: Lambda error rate is {{$value}}% for function {{ $labels.dimension_FunctionName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-        runbook_url: https://docs.aws.amazon.com/lambda/latest/dg/troubleshooting-invocation.html
-      expr: round(rate(aws_cloudwatch_Lambda_Errors_FunctionName_sum[15m]) / (rate(aws_cloudwatch_Lambda_Invocations_FunctionName_sum[15m]) + rate(aws_cloudwatch_Lambda_Errors_FunctionName_sum[15m])) * 100) > 15
-      for: 15m
-      labels:
-        severity: critical
-    - alert: AwsCloudwatchLambdaThrottles
-      annotations:
-        summary: Lambda function was throttled
-        description: Lambda was throttled {{$value}} times for function {{ $labels.dimension_FunctionName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-        runbook_url: https://aws.amazon.com/de/premiumsupport/knowledge-center/lambda-troubleshoot-throttling/
-      expr: aws_cloudwatch_Lambda_Throttles_FunctionName > 0
-      for: 15m
-      labels:
-        severity: critical
-    - alert: AwsCloudwatchLambdaTimeout
-      annotations:
-        summary: Lambda function was timed out after 900s
-        description: Lambda function timed out with {{$value}}s for function {{ $labels.dimension_FunctionName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-        runbook_url: https://aws.amazon.com/premiumsupport/knowledge-center/lambda-troubleshoot-invocation-timeouts/
-      expr: aws_cloudwatch_Lambda_Duration_FunctionName / 1000 > 900
-      for: 15m
-      labels:
-        severity: critical
+    - name: lambda.rules
+      rules:
+        - alert: AwsCloudwatchLambdaErrorRateWarning
+          annotations:
+            summary: Lambda error rate is greater than 5%
+            description: Lambda error rate is {{$value}}% for function {{ $labels.dimension_FunctionName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+            runbook_url: https://docs.aws.amazon.com/lambda/latest/dg/troubleshooting-invocation.html
+          expr: round(rate(aws_cloudwatch_Lambda_Errors_FunctionName_sum[15m]) / (rate(aws_cloudwatch_Lambda_Invocations_FunctionName_sum[15m]) + rate(aws_cloudwatch_Lambda_Errors_FunctionName_sum[15m])) * 100) > 5
+          for: 30m
+          labels:
+            severity: warning
+        - alert: AwsCloudwatchLambdaErrorRateCritical
+          annotations:
+            summary: Lambda error rate is greater than 15%
+            description: Lambda error rate is {{$value}}% for function {{ $labels.dimension_FunctionName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+            runbook_url: https://docs.aws.amazon.com/lambda/latest/dg/troubleshooting-invocation.html
+          expr: round(rate(aws_cloudwatch_Lambda_Errors_FunctionName_sum[15m]) / (rate(aws_cloudwatch_Lambda_Invocations_FunctionName_sum[15m]) + rate(aws_cloudwatch_Lambda_Errors_FunctionName_sum[15m])) * 100) > 15
+          for: 15m
+          labels:
+            severity: critical
+        - alert: AwsCloudwatchLambdaThrottles
+          annotations:
+            summary: Lambda function was throttled
+            description: Lambda was throttled {{$value}} times for function {{ $labels.dimension_FunctionName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+            runbook_url: https://aws.amazon.com/de/premiumsupport/knowledge-center/lambda-troubleshoot-throttling/
+          expr: aws_cloudwatch_Lambda_Throttles_FunctionName > 0
+          for: 15m
+          labels:
+            severity: critical
+        - alert: AwsCloudwatchLambdaTimeout
+          annotations:
+            summary: Lambda function was timed out after 900s
+            description: Lambda function timed out with {{$value}}s for function {{ $labels.dimension_FunctionName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+            runbook_url: https://aws.amazon.com/premiumsupport/knowledge-center/lambda-troubleshoot-invocation-timeouts/
+          expr: aws_cloudwatch_Lambda_Duration_FunctionName / 1000 > 900
+          for: 15m
+          labels:
+            severity: critical
 
 
 #aws_cloudwatch_Lambda_Duration_FunctionName
-
-    # Memory Alarme bauen wir nicht nach
-
+# Memory Alarme bauen wir nicht nach
 # mit neuer custom metrik berechnen
 # aws_cloudwatch_Lambda_ConcurrentExecutions_FunctionName
 # aws_cloudwatch_Lambda_UnreservedConcurrentExecutions

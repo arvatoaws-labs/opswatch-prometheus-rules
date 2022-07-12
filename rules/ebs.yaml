@@ -8,15 +8,14 @@ metadata:
   namespace: monitoring
 spec:
   groups:
-  - name: ebs.rules
-    rules:
-    - alert: AwsCloudwatchEBSBurstBalance
-      annotations:
-        summary: EBS Volume Burst Balance low
-        description: EBS Volume Burst Balance is {{$value}}% for EBS Volume {{ $labels.dimension_VolumeId }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-        runbook_url: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AmazonEBS.html
-      expr: aws_cloudwatch_EBS_BurstBalance_VolumeId < 10
-      for: 15m
-      labels:
-        severity: warning
-    
+    - name: ebs.rules
+      rules:
+        - alert: AwsCloudwatchEBSBurstBalance
+          annotations:
+            summary: EBS Volume Burst Balance low
+            description: EBS Volume Burst Balance is {{$value}}% for EBS Volume {{ $labels.dimension_VolumeId }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+            runbook_url: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AmazonEBS.html
+          expr: aws_cloudwatch_EBS_BurstBalance_VolumeId < 10
+          for: 15m
+          labels:
+            severity: warning

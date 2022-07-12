@@ -8,32 +8,32 @@ metadata:
   namespace: monitoring
 spec:
   groups:
-  - name: efs.rules
-    rules:
-    - alert: AwsCloudwatchEFSBurstCreditBalance
-      annotations:
-        summary: EFS burst credit balance is below 100
-        description: EFS burst credit balance is {{$value}} for volume {{ $labels.dimension_FileSystemId }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-        runbook_url: https://docs.aws.amazon.com/efs/latest/ug/troubleshooting.html
-      expr: round(aws_cloudwatch_EFS_BurstCreditBalance_FileSystemId) < 100
-      for: 15m
-      labels:
-        severity: warning
-    - alert: AwsCloudwatchEFSBurstCreditBalancePrediction
-      annotations:
-        summary: EFS burst credit balance will be below 10 in 2 hours
-        description: EFS burst credit balance will be at {{$value}} for volume {{ $labels.dimension_FileSystemId }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-        runbook_url: https://docs.aws.amazon.com/efs/latest/ug/troubleshooting.html
-      labels:
-        severity: warning
-      expr: round(predict_linear(aws_cloudwatch_EFS_BurstCreditBalance_FileSystemId{ec2_credits_mode!="unlimited"}[30m], 3600 * 2)) < 10
-      for: 30m
-    - alert: AwsCloudwatchEFSPercentIOLimit
-      annotations:
-        summary: EFS PercentIOLimit higher than 90 percent
-        description: EFS PercentIOLimit is {{$value}}% for volume {{ $labels.dimension_FileSystemId }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-        runbook_url: https://docs.aws.amazon.com/efs/latest/ug/troubleshooting.html
-      expr: round(aws_cloudwatch_EFS_PercentIOLimit_FileSystemId) > 90
-      for: 15m
-      labels:
-        severity: warning
+    - name: efs.rules
+      rules:
+        - alert: AwsCloudwatchEFSBurstCreditBalance
+          annotations:
+            summary: EFS burst credit balance is below 100
+            description: EFS burst credit balance is {{$value}} for volume {{ $labels.dimension_FileSystemId }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+            runbook_url: https://docs.aws.amazon.com/efs/latest/ug/troubleshooting.html
+          expr: round(aws_cloudwatch_EFS_BurstCreditBalance_FileSystemId) < 100
+          for: 15m
+          labels:
+            severity: warning
+        - alert: AwsCloudwatchEFSBurstCreditBalancePrediction
+          annotations:
+            summary: EFS burst credit balance will be below 10 in 2 hours
+            description: EFS burst credit balance will be at {{$value}} for volume {{ $labels.dimension_FileSystemId }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+            runbook_url: https://docs.aws.amazon.com/efs/latest/ug/troubleshooting.html
+          labels:
+            severity: warning
+          expr: round(predict_linear(aws_cloudwatch_EFS_BurstCreditBalance_FileSystemId{ec2_credits_mode!="unlimited"}[30m], 3600 * 2)) < 10
+          for: 30m
+        - alert: AwsCloudwatchEFSPercentIOLimit
+          annotations:
+            summary: EFS PercentIOLimit higher than 90 percent
+            description: EFS PercentIOLimit is {{$value}}% for volume {{ $labels.dimension_FileSystemId }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+            runbook_url: https://docs.aws.amazon.com/efs/latest/ug/troubleshooting.html
+          expr: round(aws_cloudwatch_EFS_PercentIOLimit_FileSystemId) > 90
+          for: 15m
+          labels:
+            severity: warning

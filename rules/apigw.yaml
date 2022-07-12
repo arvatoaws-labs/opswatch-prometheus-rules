@@ -8,32 +8,32 @@ metadata:
   namespace: monitoring
 spec:
   groups:
-  - name: apigw.rules
-    rules:
-    - alert: AwsCloudwatchApiGatewayLatencySlow
-      annotations:
-        summary: API Gateway latency is greater than 10s
-        description: API Gateway latency time is {{$value}}s for api {{ $labels.dimension_ApiName }} and stage {{ $labels.dimension_Stage }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-        runbook_url: https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-troubleshooting.html
-      expr: aws_cloudwatch_ApiGateway_Latency_ApiName_Stage / 1000 > 10
-      for: 15m
-      labels:
-        severity: warning
-    - alert: AwsCloudwatchApiGatewayErrorRate5xx
-      annotations:
-        summary: API Gateway 5xx error rate is greater than 20%
-        description: API Gateway 5xx error rate is {{$value}}% for api {{ $labels.dimension_ApiName }} and stage {{ $labels.dimension_Stage }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-        runbook_url: https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-troubleshooting.html
-      expr: round(aws_cloudwatch_ApiGateway_5XXError_ApiName_Stage / aws_cloudwatch_ApiGateway_Count_ApiName_Stage * 100) > 20
-      for: 15m
-      labels:
-        severity: warning
-    - alert: AwsCloudwatchApiGatewayErrorRate4xx
-      annotations:
-        summary: API Gateway 4xx error rate is greater than 20%
-        description: API Gateway 4xx error rate is {{$value}}% for api {{ $labels.dimension_ApiName }} and stage {{ $labels.dimension_Stage }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-        runbook_url: https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-troubleshooting.html
-      expr: round(aws_cloudwatch_ApiGateway_5XXError_ApiName_Stage / aws_cloudwatch_ApiGateway_Count_ApiName_Stage * 100) > 20
-      for: 15m
-      labels:
-        severity: warning
+    - name: apigw.rules
+      rules:
+        - alert: AwsCloudwatchApiGatewayLatencySlow
+          annotations:
+            summary: API Gateway latency is greater than 10s
+            description: API Gateway latency time is {{$value}}s for api {{ $labels.dimension_ApiName }} and stage {{ $labels.dimension_Stage }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+            runbook_url: https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-troubleshooting.html
+          expr: aws_cloudwatch_ApiGateway_Latency_ApiName_Stage / 1000 > 10
+          for: 15m
+          labels:
+            severity: warning
+        - alert: AwsCloudwatchApiGatewayErrorRate5xx
+          annotations:
+            summary: API Gateway 5xx error rate is greater than 20%
+            description: API Gateway 5xx error rate is {{$value}}% for api {{ $labels.dimension_ApiName }} and stage {{ $labels.dimension_Stage }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+            runbook_url: https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-troubleshooting.html
+          expr: round(aws_cloudwatch_ApiGateway_5XXError_ApiName_Stage / aws_cloudwatch_ApiGateway_Count_ApiName_Stage * 100) > 20
+          for: 15m
+          labels:
+            severity: warning
+        - alert: AwsCloudwatchApiGatewayErrorRate4xx
+          annotations:
+            summary: API Gateway 4xx error rate is greater than 20%
+            description: API Gateway 4xx error rate is {{$value}}% for api {{ $labels.dimension_ApiName }} and stage {{ $labels.dimension_Stage }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+            runbook_url: https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-troubleshooting.html
+          expr: round(aws_cloudwatch_ApiGateway_5XXError_ApiName_Stage / aws_cloudwatch_ApiGateway_Count_ApiName_Stage * 100) > 20
+          for: 15m
+          labels:
+            severity: warning

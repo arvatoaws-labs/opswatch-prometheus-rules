@@ -20,8 +20,8 @@ jobs:
           sudo apt-get install wget
           sudo wget -qO /usr/local/bin/yq https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64
           sudo chmod 755 /usr/local/bin/yq
-          wget https://github.com/prometheus/prometheus/releases/download/v2.36.2/prometheus-2.36.2.linux-amd64.tar.gz
-          tar -xvzf prometheus-2.36.2.linux-amd64.tar.gz
+          wget -q https://github.com/prometheus/prometheus/releases/download/v2.36.2/prometheus-2.36.2.linux-amd64.tar.gz
+          tar -xzf prometheus-2.36.2.linux-amd64.tar.gz
           sudo mv prometheus-2.36.2.linux-amd64/promtool /usr/local/bin/promtool
       - name: List files in the repository
         run: |

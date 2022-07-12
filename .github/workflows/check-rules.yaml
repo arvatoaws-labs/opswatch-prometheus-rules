@@ -25,7 +25,8 @@ jobs:
           ls ${{ github.workspace }}
       - name: Convert files in the repository
         run: |
-          mkdir test
-          find ${{ github.workspace }}/rules -name "*.yaml"  | awk '{ print "cat " $1 " | yq .spec > test/"$1 }' | sh
-          ls -la test
+          cd ${{ github.workspace }}
+          mkdir -p test/rules
+          find rules -name "*.yaml"  | awk '{ print "cat " $1 " | yq .spec > test/"$1 }' | sh
+          ls -la test/rules
       - run: echo "🍏 This job's status is ${{ job.status }}."

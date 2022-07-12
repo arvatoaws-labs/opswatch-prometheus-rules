@@ -26,7 +26,7 @@ jobs:
       - name: Check files using yamllint
         run: |
           cd ${{ github.workspace }}
-          yamllint rules/*.yaml
+          yamllint --no-warnings rules/*.yaml
       - name: Convert files for promtool
         run: |
           cd ${{ github.workspace }}

@@ -30,3 +30,4 @@ resources:
 - rules/cloudfront.yaml
 - rules/lambda.yaml
 - rules/cloudwatch.yaml
+- rules/patching.yaml

@@ -12,26 +12,28 @@ spec:
       rules:
         - alert: AwsCloudwatchElasticSearchFilesystemDataFreePercent
           annotations:
-            summary: ElasticSearch Free Storage Space below 10GB
-            description: ElasticSearch Free Storage Space is {{$value}}GB for domain {{ $labels.dimension_DomainName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+            summary: ElasticSearch Cluster free storage space below 10GB
+            description: ElasticSearch Cluster free storage space is {{$value}}GB for domain {{ $labels.dimension_DomainName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
             runbook_url: https://docs.aws.amazon.com/opensearch-service/latest/developerguide/handling-errors.html
           expr: (((aws_cloudwatch_ES_FreeStorageSpace_ClientId_DomainName * (increase(aws_cloudwatch_ES_FreeStorageSpace_ClientId_DomainName_count[60m]) / 60 * 5)) / 1024) * 60/300) < 10
-          for: 15m
+          for: 30m
           labels:
             severity: critical
+            asy_itsm_severity: high
         - alert: AwsCloudwatchElasticSearchHealthStatusRed
           annotations:
-            summary: ElasticSearch Health Status is RED
-            description: ElasticSearch Cluster Health Status is {{$value}}% for domain {{ $labels.dimension_DomainName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+            summary: ElasticSearch Cluster health status is RED
+            description: ElasticSearch Cluster health status is red for domain {{ $labels.dimension_DomainName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
             runbook_url: https://docs.aws.amazon.com/opensearch-service/latest/developerguide/handling-errors.html
           expr: aws_cloudwatch_ES_ClusterStatusred_ClientId_DomainName > 1
           for: 15m
           labels:
             severity: critical
+            asy_itsm_severity: high
         - alert: AwsCloudwatchElasticSearchHealthStatusYellow
           annotations:
-            summary: ElasticSearch Health Status is YELLOW
-            description: ElasticSearch Cluster Health Status is {{$value}}% for domain {{ $labels.dimension_DomainName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+            summary: ElasticSearch Cluster health status is YELLOW
+            description: ElasticSearch Cluster health status is yellow for domain {{ $labels.dimension_DomainName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
             runbook_url: https://docs.aws.amazon.com/opensearch-service/latest/developerguide/handling-errors.html
           expr: aws_cloudwatch_ES_ClusterStatusyellow_ClientId_DomainName > 1
           for: 15m
@@ -39,8 +41,8 @@ spec:
             severity: critical
         - alert: AwsCloudwatchElasticSearchHealthUnassignedShards
           annotations:
-            summary: ElasticSearch Health Status Unassigned Shards
-            description: ElasticSearch Cluster Health Unassigned Shards Status is {{$value}} for domain {{ $labels.dimension_DomainName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+            summary: ElasticSearch Cluster has unassigned shards
+            description: ElasticSearch Cluster has {{$value}} unassigned shards for domain {{ $labels.dimension_DomainName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
             runbook_url: https://docs.aws.amazon.com/opensearch-service/latest/developerguide/handling-errors.html
           expr: aws_cloudwatch_ES_Shardsunassigned_ClientId_DomainName > 0
           for: 15m
@@ -48,17 +50,17 @@ spec:
             severity: warning
         - alert: AwsCloudwatchElasticSearchHealthRelocatingShards
           annotations:
-            summary: ElasticSearch Health Status Relocating Shards
-            description: ElasticSearch Cluster Health Relocating Shards Status is {{$value}} for ElasticSearch {{ $labels.dimension_DomainName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+            summary: ElasticSearch Cluster is relocating shards
+            description: ElasticSearch Cluster is relocation {{$value}} shards for domain {{ $labels.dimension_DomainName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
             runbook_url: https://docs.aws.amazon.com/opensearch-service/latest/developerguide/handling-errors.html
           expr: aws_cloudwatch_ES_Shardsrelocating_ClientId_DomainName > 0
-          for: 15m
+          for: 30m
           labels:
             severity: warning
         - alert: AwsCloudwatchElasticSearchHealthActiveShards
           annotations:
-            summary: ElasticSearch Health Actice Shards Status is below 1
-            description: ElasticSearch Cluster Active Shards Status is {{$value}} for domain {{ $labels.dimension_DomainName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+            summary: ElasticSearch Clusters has no active shards
+            description: ElasticSearch Cluster has {{$value}} actiove shards for domain {{ $labels.dimension_DomainName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
             runbook_url: https://docs.aws.amazon.com/opensearch-service/latest/developerguide/handling-errors.html
           expr: aws_cloudwatch_ES_Shardsactive_ClientId_DomainName < 1
           for: 15m
@@ -66,8 +68,8 @@ spec:
             severity: warning
         - alert: AwsCloudwatchElasticSearchCPUUtil
           annotations:
-            summary: ElasticSearch CPU Utilization is above 90 percent
-            description: ElasticSearch Cluster CPU Utilization is above {{$value}}% for domain {{ $labels.dimension_DomainName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+            summary: ElasticSearch Cluster CPU utilization is above 90 percent
+            description: ElasticSearch Cluster CPU utilization is above {{$value}}% for domain {{ $labels.dimension_DomainName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
             runbook_url: https://docs.aws.amazon.com/opensearch-service/latest/developerguide/handling-errors.html
           expr: aws_cloudwatch_ES_CPUUtilization_ClientId_DomainName > 90
           for: 15m
@@ -75,8 +77,8 @@ spec:
             severity: warning
         - alert: AwsCloudwatchElasticSearch345xxErrorCount
           annotations:
-            summary: AwsCloudwatchElasticSearch345xxErrorCount is above 100
-            description: ElasticSearch Cluster Connection Error Count is {{$value}} for domain {{ $labels.dimension_DomainName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+            summary: Elasticsearch Cluster 345xx error count is above 100
+            description: ElasticSearch Cluster Connection error count is {{$value}} for domain {{ $labels.dimension_DomainName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
             runbook_url: https://docs.aws.amazon.com/opensearch-service/latest/developerguide/handling-errors.html
           expr: (aws_cloudwatch_ES_3xx_ClientId_DomainName > 100) OR (aws_cloudwatch_ES_4xx_ClientId_DomainName > 100) OR (aws_cloudwatch_ES_5xx_ClientId_DomainName > 100)
           for: 15m
@@ -84,8 +86,8 @@ spec:
             severity: warning
         - alert: AwsCloudwatchElasticSearchAutomatedSnapshotErrorCount
           annotations:
-            summary: AwsCloudwatchElasticSearchAutomatedSnapshotErrorCount is greater than 2
-            description: ElasticSearch Cluster Automated Snapshot Error Count is {{$value}} for domain {{ $labels.dimension_DomainName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+            summary: Elasticsearch Cluster automated snapshot error count is greater than 2
+            description: ElasticSearch Cluster automated snapshot error count is {{$value}} for domain {{ $labels.dimension_DomainName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
             runbook_url: https://docs.aws.amazon.com/opensearch-service/latest/developerguide/handling-errors.html
           expr: aws_cloudwatch_ES_AutomatedSnapshotFailure_ClientId_DomainName > 2
           for: 15m

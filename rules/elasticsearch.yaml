@@ -93,3 +93,13 @@ spec:
           for: 15m
           labels:
             severity: warning
+        - alert: AwsCloudwatchElasticSearchShardsNumberGrowingStrongly
+          annotations:
+            summary: Elasticsearch Cluster added more than 100 additional shards within last hour
+            description: Elasticsearch Cluster added {{$value}} additional shards for domain {{ $labels.dimension_DomainName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+            runbook_url: https://docs.aws.amazon.com/opensearch-service/latest/developerguide/handling-errors.html
+          expr: max_over_time(aws_cloudwatch_ES_Shardsactive_ClientId_DomainName[60m]) - min_over_time(aws_cloudwatch_ES_Shardsactive_ClientId_DomainName[240m]) > 100
+          for: 30m
+          labels:
+            severity: warning
+            asy_itsm_severity: medium

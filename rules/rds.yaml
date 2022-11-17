@@ -130,6 +130,7 @@ spec:
             runbook_url: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/burstable-credits-baseline-concepts.html
           labels:
             severity: critical
+            asy_itsm_severity: high
           expr: round(aws_cloudwatch_RDS_BurstBalance_DBInstanceIdentifier) < 10
           for: 30m
         - alert: AwsCloudwatchRdsBurstBalancePrediction
@@ -138,7 +139,8 @@ spec:
             description: RDSburst balance will at {{$value}}% for DB instance {{ $labels.dimension_DBInstanceIdentifier }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
             runbook_url: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/burstable-credits-baseline-concepts.html
           labels:
-            severity: warning
+            severity: critical
+            asy_itsm_severity: medium
           expr: round(predict_linear(aws_cloudwatch_RDS_BurstBalance_DBInstanceIdentifier[30m], 3600 * 2)) < 10
           for: 30m
         - alert: AwsCloudwatchRdsCPUCreditBalanceCritical
@@ -226,7 +228,8 @@ spec:
           expr: aws_cloudwatch_RDS_LoginFailures_DBInstanceIdentifier > 0
           for: 15m
           labels:
-            severity: warning
+            severity: critical
+            asy_itsm_severity: high
         - alert: AwsCloudwatchRdsAuroraReplicaLag
           annotations:
             summary: RDS aurora replica lag is more than 100ms
@@ -260,7 +263,8 @@ spec:
           expr: round(aws_cloudwatch_RDS_DatabaseConnections_DBClusterIdentifier / aws_apidescribe_RDS_MaxConnections_DBClusterIdentifier * 100) > 90
           for: 15m
           labels:
-            severity: warning
+            severity: critical
+            asy_itsm_severity: high
         - alert: AwsCloudwatchRdsInstanceMaxConnections
           annotations:
             summary: RDS connection count is more than 90%
@@ -269,7 +273,11 @@ spec:
           expr: round(aws_cloudwatch_RDS_DatabaseConnections_DBInstanceIdentifier / aws_apidescribe_RDS_MaxConnections_DBInstanceIdentifier * 100) > 90
           for: 15m
           labels:
-            severity: warning
+            severity: critical
+            asy_itsm_severity: high
     # ggf. basierend auf engine und instance_class
     #aws_cloudwatch_RDS_DatabaseConnections_DBInstanceIdentifier
     #aws_cloudwatch_RDS_ServerlessDatabaseCapacity_EngineName
+
+# TODO: high ticket für out of memory?
+# TODO: high ticket für out disk space when not autoscaling or at max autoscaling?

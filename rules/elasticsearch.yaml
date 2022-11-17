@@ -19,6 +19,7 @@ spec:
           for: 15m
           labels:
             severity: critical
+            asy_itsm_severity: high
         - alert: AwsCloudwatchElasticSearchHealthStatusRed
           annotations:
             summary: ElasticSearch Health Status is RED
@@ -28,6 +29,7 @@ spec:
           for: 15m
           labels:
             severity: critical
+            asy_itsm_severity: high
         - alert: AwsCloudwatchElasticSearchHealthStatusYellow
           annotations:
             summary: ElasticSearch Health Status is YELLOW
@@ -37,6 +39,7 @@ spec:
           for: 15m
           labels:
             severity: critical
+            asy_itsm_severity: medium
         - alert: AwsCloudwatchElasticSearchHealthUnassignedShards
           annotations:
             summary: ElasticSearch Health Status Unassigned Shards
@@ -91,3 +94,4 @@ spec:
           for: 15m
           labels:
             severity: warning
+# TODO: Check nodes degraded from sensu saas?

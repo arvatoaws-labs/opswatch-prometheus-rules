@@ -1,0 +1,36 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  labels:
+    release: prometheus
+    app: prometheus-operator
+  name: opswatch.patching.rules
+  namespace: monitoring
+spec:
+  groups:
+  - name: patching.rules
+    rules:
+    - alert: AwsPatchingMajor
+      annotations:
+        message: {{ $labels.service_type }}/{{ $labels.resource_name }} in {{ $labels.overwrite_aws_account_id }}/{{ $labels.overwrite_aws_region }} has a major upgrade from {{ $labels.old_version }} to {{ $labels.new_version }}
+      expr: |
+        aws_patching_MajorUpdate > 0
+      for: 5m
+      labels:
+        severity: critical
+    - alert: AwsPatchingService
+      annotations:
+        message: {{ $labels.service_type }}/{{ $labels.resource_name }} in {{ $labels.overwrite_aws_account_id }}/{{ $labels.overwrite_aws_region }} has an available service software update
+      expr: |
+        aws_patching_ServiceSoftwareUpdate > 0
+      for: 5m
+      labels:
+        severity: critical
+    - alert: AwsPatchingMinor
+      annotations:
+        message: {{ $labels.service_type }}/{{ $labels.resource_name }} in {{ $labels.overwrite_aws_account_id }}/{{ $labels.overwrite_aws_region }} has a minor upgrade from {{ $labels.old_version }} to {{ $labels.new_version }}
+      expr: |
+        aws_patching_MinorUpdate > 0
+      for: 5m
+      labels:
+        severity: critical

@@ -39,6 +39,7 @@ spec:
           for: 15m
           labels:
             severity: critical
+            asy_itsm_severity: medium
         - alert: AwsCloudwatchElasticSearchMasterNotReachable
           annotations:
             summary: ElasticSearch Cluster master node is not reachable
@@ -113,3 +114,4 @@ spec:
           labels:
             severity: warning
             asy_itsm_severity: medium
+# TODO: Check nodes degraded from sensu saas?

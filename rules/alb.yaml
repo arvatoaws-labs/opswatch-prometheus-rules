@@ -45,6 +45,7 @@ spec:
           for: 15m
           labels:
             severity: critical
+            asy_itsm_severity: high
         - alert: AwsCloudwatchAlbTargetGroupZeroHealthyHosts
           annotations:
             summary: ALB TargetGroup number of healthy hosts is 0

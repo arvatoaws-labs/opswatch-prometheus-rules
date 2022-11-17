@@ -74,7 +74,7 @@ spec:
         - alert: AwsCloudwatchEc2DiskInodeUsageCritical
           annotations:
             summary: EC2 Disk free inodes less than 1000
-            description: EC2 CPU utlization at {{$value}}% device {{ $labels.dimension_device }} path {{ $labels.dimension_path }} for instance {{ $labels.dimension_InstanceId }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+            description: EC2 Disk free inodes at {{$value}} device {{ $labels.dimension_device }} path {{ $labels.dimension_path }} for instance {{ $labels.dimension_InstanceId }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
           labels:
             severity: critical
           expr: aws_cloudwatch_CWAgent_diskinodesfree_ImageId_InstanceId_InstanceType_device_fstype_path{dimension_device=~"(sd|nv).*"} < 1000

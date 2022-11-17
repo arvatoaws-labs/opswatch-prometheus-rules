@@ -176,7 +176,7 @@ spec:
             runbook_url: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/burstable-credits-baseline-concepts.html
           labels:
             severity: critical
-          expr: aws_cloudwatch_RDS_EBSByteBalance_DBInstanceIdentifier < 10
+          expr: aws_cloudwatch_RDS_EBSByteBalance_DBInstanceIdentifier{rds_engine_version!~".*aurora.*"}  < 10
           for: 30m
         - alert: AwsCloudwatchRdsEBSByteCreditBalancePrediction
           annotations:
@@ -185,7 +185,7 @@ spec:
             runbook_url: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/burstable-credits-baseline-concepts.html
           labels:
             severity: warning
-          expr: round(predict_linear(aws_cloudwatch_RDS_EBSByteBalance_DBInstanceIdentifier[30m], 3600 * 2)) < 10
+          expr: round(predict_linear(aws_cloudwatch_RDS_EBSByteBalance_DBInstanceIdentifier{rds_engine_version!~".*aurora.*"}[30m], 3600 * 2)) < 10
           for: 30m
         - alert: AwsCloudwatchRdsEBSIOCreditBalanceCritical
           annotations:
@@ -194,7 +194,7 @@ spec:
             runbook_url: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/burstable-credits-baseline-concepts.html
           labels:
             severity: critical
-          expr: aws_cloudwatch_RDS_EBSUOBalance_DBInstanceIdentifier < 10
+          expr: aws_cloudwatch_RDS_EBSIOBalance_DBInstanceIdentifier < 10
           for: 30m
         - alert: AwsCloudwatchRdsEBSIOCreditBalancePrediction
           annotations:
@@ -203,7 +203,7 @@ spec:
             runbook_url: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/burstable-credits-baseline-concepts.html
           labels:
             severity: warning
-          expr: round(predict_linear(aws_cloudwatch_RDS_EBSUOBalance_DBInstanceIdentifier[30m], 3600 * 2)) < 10
+          expr: round(predict_linear(aws_cloudwatch_RDS_EBSIOBalance_DBInstanceIdentifier[30m], 3600 * 2)) < 10
           for: 30m
         - alert: AwsCloudwatchRdsDeadlocks
           annotations:

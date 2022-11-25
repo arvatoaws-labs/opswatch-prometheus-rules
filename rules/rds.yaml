@@ -275,9 +275,9 @@ spec:
           labels:
             severity: critical
             asy_itsm_severity: high
+
     # ggf. basierend auf engine und instance_class
     #aws_cloudwatch_RDS_DatabaseConnections_DBInstanceIdentifier
     #aws_cloudwatch_RDS_ServerlessDatabaseCapacity_EngineName
-
 # TODO: high ticket für out of memory?
 # TODO: high ticket für out disk space when not autoscaling or at max autoscaling?

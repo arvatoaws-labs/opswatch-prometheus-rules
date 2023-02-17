@@ -31,3 +31,4 @@ resources:
 - rules/lambda.yaml
 - rules/cloudwatch.yaml
 - rules/patching.yaml
+- rules/mq.yaml

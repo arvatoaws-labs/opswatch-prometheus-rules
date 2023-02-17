@@ -8,14 +8,14 @@ metadata:
   namespace: monitoring
 spec:
   groups:
-    - name: codebuild.rules
-      rules:
-        - alert: AwsCloudwatchCodeBuildFailedBuilds
-          annotations:
-            summary: Codebuild FailedBuilds Count is avove 1
-            description: Codebuild FailedBuilds Count is {{$value}}% for CodeBuild Project {{ $labels.dimension_ProjectName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-            runbook_url: https://docs.aws.amazon.com/codebuild/latest/userguide/troubleshooting.html
-          expr: aws_cloudwatch_CodeBuild_FailedBuilds_ProjectName > 1
-          for: 15m
-          labels:
-            severity: warning
+  - name: codebuild.rules
+    rules:
+    - alert: AwsCloudwatchCodeBuildFailedBuilds
+      annotations:
+        summary: Codebuild FailedBuilds Count is avove 1
+        description: Codebuild FailedBuilds Count is {{$value}}% for CodeBuild Project {{ $labels.dimension_ProjectName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+        runbook_url: https://docs.aws.amazon.com/codebuild/latest/userguide/troubleshooting.html
+      expr: aws_cloudwatch_CodeBuild_FailedBuilds_ProjectName > 1
+      for: 15m
+      labels:
+        severity: warning

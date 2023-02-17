@@ -136,7 +136,7 @@ spec:
         - alert: AwsCloudwatchRdsBurstBalancePrediction
           annotations:
             summary: RDS burst balance will be below 10% in 2 hours
-            description: RDSburst balance will at {{$value}}% for DB instance {{ $labels.dimension_DBInstanceIdentifier }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+            description: RDS burst balance will at {{$value}}% for DB instance {{ $labels.dimension_DBInstanceIdentifier }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
             runbook_url: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/burstable-credits-baseline-concepts.html
           labels:
             severity: critical

@@ -8,77 +8,77 @@ metadata:
   namespace: monitoring
 spec:
   groups:
-    - name: tgw.rules
-      rules:
-        - alert: AwsCloudwatchTGWDropCountBlackhole
-          annotations:
-            summary: TGW Drop Count Blackhole is above 10
-            description: TGW Drop Count Blackhole is {{$value}} for Transit Gateway {{ $labels.dimension_TransitGateway }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-            runbook_url: https://docs.aws.amazon.com/vpc/latest/tgw/what-is-transit-gateway.html
-          expr: aws_cloudwatch_TransitGateway_BytesDropCountBlackhole_TransitGateway > 10
-          for: 15m
-          labels:
-            severity: critical
-        - alert: AwsCloudwatchTGWAttachmentDropCountBlackhole
-          annotations:
-            summary: TGWAttachment Drop Count Blackhole is above 10
-            description: TGW Attachment Drop Count Blackhole is {{$value}} for Transit Gateway Attachment {{ $labels.dimension_TransitGatewayAttachment }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-            runbook_url: https://docs.aws.amazon.com/vpc/latest/tgw/what-is-transit-gateway.html
-          expr: aws_cloudwatch_TransitGateway_BytesDropCountBlackhole_TransitGateway_TransitGatewayAttachment > 10
-          for: 15m
-          labels:
-            severity: critical
-        - alert: AwsCloudwatchTGWDropCountNoRoute
-          annotations:
-            summary: TGW Drop Count No Route is above 10
-            description: TGW Drop Count No Route is {{$value}} for Transit Gateway {{ $labels.dimension_TransitGateway }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-            runbook_url: https://docs.aws.amazon.com/vpc/latest/tgw/what-is-transit-gateway.html
-          expr: aws_cloudwatch_TransitGateway_BytesDropCountNoRoute_TransitGateway > 10
-          for: 15m
-          labels:
-            severity: critical
-        - alert: AwsCloudwatchTGWAttachmentDropCountNoRoute
-          annotations:
-            summary: TGW Drop Count NoRoute is above 10
-            description: TGW  Drop Count NoRoute is {{$value}} for Transit Gateway Attachment {{  $labels.dimension_TransitGatewayAttachment }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-            runbook_url: https://docs.aws.amazon.com/vpc/latest/tgw/what-is-transit-gateway.html
-          expr: aws_cloudwatch_TransitGateway_BytesDropCountNoRoute_TransitGateway_TransitGatewayAttachment > 10
-          for: 15m
-          labels:
-            severity: critical
-        - alert: AwsCloudwatchTGWPacketDropCountBlackhole
-          annotations:
-            summary: TGWAttachment Packet Drop Count Blackhole is above 10
-            description: TGW Attachment Packet Drop Count Blackhole is {{$value}} for Transit Gateway {{ $labels.dimension_TransitGateway }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-            runbook_url: https://docs.aws.amazon.com/vpc/latest/tgw/what-is-transit-gateway.html
-          expr: aws_cloudwatch_TransitGateway_PacketDropCountBlackhole_TransitGateway_TransitGateway > 10
-          for: 15m
-          labels:
-            severity: critical
-        - alert: AwsCloudwatchTGWAttachmentPacketDropCountBlackhole
-          annotations:
-            summary: TGWAttachment Packet Drop Count Blackhole is above 10
-            description: TGW Attachment Packet Drop Count Blackhole is {{$value}} for Transit Gateway Attachment {{ $labels.dimension_TransitGatewayAttachment }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-            runbook_url: https://docs.aws.amazon.com/vpc/latest/tgw/what-is-transit-gateway.html
-          expr: aws_cloudwatch_TransitGateway_PacketDropCountBlackhole_TransitGateway_TransitGatewayAttachment > 10
-          for: 15m
-          labels:
-            severity: critical
-        - alert: AwsCloudwatchTGWPacketDropCountNoRoute
-          annotations:
-            summary: TGW Packet Drop Count Blackhole is above 10
-            description: TGW Packet Drop Count Blackhole is {{$value}} for Transit Gateway {{ $labels.dimension_TransitGateway }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-            runbook_url: https://docs.aws.amazon.com/vpc/latest/tgw/what-is-transit-gateway.html
-          expr: aws_cloudwatch_TransitGateway_PacketDropCountNoRoute_TransitGateway > 10
-          for: 15m
-          labels:
-            severity: critical
-        - alert: AwsCloudwatchTGWAttachmentPacketDropCountNoRoute
-          annotations:
-            summary: TGWAttachment Packet Drop Count No Route is above 10
-            description: TGW Attachment Packet Drop Count No Route is {{$value}} for Transit Gateway Attachment {{ $labels.dimension_TransitGatewayAttachment }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-            runbook_url: https://docs.aws.amazon.com/vpc/latest/tgw/what-is-transit-gateway.html
-          expr: aws_cloudwatch_TransitGateway_PacketDropCountNoRoute_TransitGateway_TransitGatewayAttachment > 10
-          for: 15m
-          labels:
-            severity: critical
+  - name: tgw.rules
+    rules:
+    - alert: AwsCloudwatchTGWDropCountBlackhole
+      annotations:
+        summary: TGW Drop Count Blackhole is above 10
+        description: TGW Drop Count Blackhole is {{$value}} for Transit Gateway {{ $labels.dimension_TransitGateway }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+        runbook_url: https://docs.aws.amazon.com/vpc/latest/tgw/what-is-transit-gateway.html
+      expr: aws_cloudwatch_TransitGateway_BytesDropCountBlackhole_TransitGateway > 10
+      for: 15m
+      labels:
+        severity: critical
+    - alert: AwsCloudwatchTGWAttachmentDropCountBlackhole
+      annotations:
+        summary: TGWAttachment Drop Count Blackhole is above 10
+        description: TGW Attachment Drop Count Blackhole is {{$value}} for Transit Gateway Attachment {{ $labels.dimension_TransitGatewayAttachment }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+        runbook_url: https://docs.aws.amazon.com/vpc/latest/tgw/what-is-transit-gateway.html
+      expr: aws_cloudwatch_TransitGateway_BytesDropCountBlackhole_TransitGateway_TransitGatewayAttachment > 10
+      for: 15m
+      labels:
+        severity: critical
+    - alert: AwsCloudwatchTGWDropCountNoRoute
+      annotations:
+        summary: TGW Drop Count No Route is above 10
+        description: TGW Drop Count No Route is {{$value}} for Transit Gateway {{ $labels.dimension_TransitGateway }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+        runbook_url: https://docs.aws.amazon.com/vpc/latest/tgw/what-is-transit-gateway.html
+      expr: aws_cloudwatch_TransitGateway_BytesDropCountNoRoute_TransitGateway > 10
+      for: 15m
+      labels:
+        severity: critical
+    - alert: AwsCloudwatchTGWAttachmentDropCountNoRoute
+      annotations:
+        summary: TGW Drop Count NoRoute is above 10
+        description: TGW  Drop Count NoRoute is {{$value}} for Transit Gateway Attachment {{  $labels.dimension_TransitGatewayAttachment }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+        runbook_url: https://docs.aws.amazon.com/vpc/latest/tgw/what-is-transit-gateway.html
+      expr: aws_cloudwatch_TransitGateway_BytesDropCountNoRoute_TransitGateway_TransitGatewayAttachment > 10
+      for: 15m
+      labels:
+        severity: critical
+    - alert: AwsCloudwatchTGWPacketDropCountBlackhole
+      annotations:
+        summary: TGWAttachment Packet Drop Count Blackhole is above 10
+        description: TGW Attachment Packet Drop Count Blackhole is {{$value}} for Transit Gateway {{ $labels.dimension_TransitGateway }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+        runbook_url: https://docs.aws.amazon.com/vpc/latest/tgw/what-is-transit-gateway.html
+      expr: aws_cloudwatch_TransitGateway_PacketDropCountBlackhole_TransitGateway_TransitGateway > 10
+      for: 15m
+      labels:
+        severity: critical
+    - alert: AwsCloudwatchTGWAttachmentPacketDropCountBlackhole
+      annotations:
+        summary: TGWAttachment Packet Drop Count Blackhole is above 10
+        description: TGW Attachment Packet Drop Count Blackhole is {{$value}} for Transit Gateway Attachment {{ $labels.dimension_TransitGatewayAttachment }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+        runbook_url: https://docs.aws.amazon.com/vpc/latest/tgw/what-is-transit-gateway.html
+      expr: aws_cloudwatch_TransitGateway_PacketDropCountBlackhole_TransitGateway_TransitGatewayAttachment > 10
+      for: 15m
+      labels:
+        severity: critical
+    - alert: AwsCloudwatchTGWPacketDropCountNoRoute
+      annotations:
+        summary: TGW Packet Drop Count Blackhole is above 10
+        description: TGW Packet Drop Count Blackhole is {{$value}} for Transit Gateway {{ $labels.dimension_TransitGateway }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+        runbook_url: https://docs.aws.amazon.com/vpc/latest/tgw/what-is-transit-gateway.html
+      expr: aws_cloudwatch_TransitGateway_PacketDropCountNoRoute_TransitGateway > 10
+      for: 15m
+      labels:
+        severity: critical
+    - alert: AwsCloudwatchTGWAttachmentPacketDropCountNoRoute
+      annotations:
+        summary: TGWAttachment Packet Drop Count No Route is above 10
+        description: TGW Attachment Packet Drop Count No Route is {{$value}} for Transit Gateway Attachment {{ $labels.dimension_TransitGatewayAttachment }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+        runbook_url: https://docs.aws.amazon.com/vpc/latest/tgw/what-is-transit-gateway.html
+      expr: aws_cloudwatch_TransitGateway_PacketDropCountNoRoute_TransitGateway_TransitGatewayAttachment > 10
+      for: 15m
+      labels:
+        severity: critical

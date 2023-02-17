@@ -9,23 +9,23 @@ metadata:
   namespace: monitoring
 spec:
   groups:
-    - name: privatelink.rules
-      rules:
-        - alert: AwsCloudwatchPrivateLinkEndpointPacketsDropped
-          annotations:
-            summary: PrivateLinkEndpoint has Dropped Packets Count higher than 10
-            description: PrivateLinkEndpoint {{ $labels.dimension_VPCEndpointId }} has {{$value}} dropped Packets in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-            runbook_url: https://docs.aws.amazon.com/whitepapers/latest/aws-vpc-connectivity-options/aws-privatelink.html
-          expr: aws_cloudwatch_PrivateLinkEndpoints_PacketsDropped_EndpointType_ServiceName_SubnetId_VPCEndpointId_VPCId > 10
-          for: 15m
-          labels:
-            severity: warning
-        - alert: AwsCloudwatchPrivateLinkEndpointRstPacketsReceived
-          annotations:
-            summary: PrivateLinkEndpoint has ResetPackaetsReceived Count higher than 10
-            description: PrivateLinkEndpoint {{ $labels.dimension_VPCEndpointId }} has {{$value}} Reset Packets received in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-            runbook_url: https://docs.aws.amazon.com/whitepapers/latest/aws-vpc-connectivity-options/aws-privatelink.html
-          expr: aws_cloudwatch_PrivateLinkEndpoints_RstPacketsReceived_EndpointType_ServiceName_VPCEndpointId_VPCId > 10
-          for: 15m
-          labels:
-            severity: warning
+  - name: privatelink.rules
+    rules:
+    - alert: AwsCloudwatchPrivateLinkEndpointPacketsDropped
+      annotations:
+        summary: PrivateLinkEndpoint has Dropped Packets Count higher than 10
+        description: PrivateLinkEndpoint {{ $labels.dimension_VPCEndpointId }} has {{$value}} dropped Packets in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+        runbook_url: https://docs.aws.amazon.com/whitepapers/latest/aws-vpc-connectivity-options/aws-privatelink.html
+      expr: aws_cloudwatch_PrivateLinkEndpoints_PacketsDropped_EndpointType_ServiceName_SubnetId_VPCEndpointId_VPCId > 10
+      for: 15m
+      labels:
+        severity: warning
+    - alert: AwsCloudwatchPrivateLinkEndpointRstPacketsReceived
+      annotations:
+        summary: PrivateLinkEndpoint has ResetPackaetsReceived Count higher than 10
+        description: PrivateLinkEndpoint {{ $labels.dimension_VPCEndpointId }} has {{$value}} Reset Packets received in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+        runbook_url: https://docs.aws.amazon.com/whitepapers/latest/aws-vpc-connectivity-options/aws-privatelink.html
+      expr: aws_cloudwatch_PrivateLinkEndpoints_RstPacketsReceived_EndpointType_ServiceName_VPCEndpointId_VPCId > 10
+      for: 15m
+      labels:
+        severity: warning

@@ -10,31 +10,31 @@ metadata:
   namespace: monitoring
 spec:
   groups:
-    - name: dynamodb.rules
-      rules:
-        - alert: AwsCloudwatchDynamodbSuccessfulRequestLatencyWarning
-          annotations:
-            summary: DynamoDB SuccessfulRequestLatency is greater than 20ms
-            description: DynamoDB {{ $labels.dimension_Operation}} operation SuccessfulRequestLatency is {{$value}}ms for table {{ $labels.dimension_TableName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-            runbook_url: https://aws.amazon.com/de/premiumsupport/knowledge-center/dynamodb-high-latency/
-          expr: round(aws_cloudwatch_DynamoDB_SuccessfulRequestLatency_Operation_TableName) > 20
-          for: 30m
-          labels:
-            severity: warning
-        - alert: AwsCloudwatchDynamodbSuccessfulRequestLatencyCritical
-          annotations:
-            summary: DynamoDB SuccessfulRequestLatency is greater than 100ms
-            description: DynamoDB {{ $labels.dimension_Operation}} operation SuccessfulRequestLatency is {{$value}}ms for table {{ $labels.dimension_TableName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-            runbook_url: https://aws.amazon.com/de/premiumsupport/knowledge-center/dynamodb-high-latency/
-          expr: round(aws_cloudwatch_DynamoDB_SuccessfulRequestLatency_Operation_TableName) > 100
-          for: 15m
-          labels:
-            severity: critical
-        - alert: AwsCloudwatchDynamodbThrottledRequestsCritical
-          annotations:
-            summary: DynamoDB requests are throttled
-            description: DynamoDB {{ $labels.dimension_Operation}} requests were throttled {{$value}} times for table {{ $labels.dimension_TableName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-          expr: aws_cloudwatch_DynamoDB_ThrottledRequests_Operation_TableName > 0
-          for: 15m
-          labels:
-            severity: critical
+  - name: dynamodb.rules
+    rules:
+    - alert: AwsCloudwatchDynamodbSuccessfulRequestLatencyWarning
+      annotations:
+        summary: DynamoDB SuccessfulRequestLatency is greater than 20ms
+        description: DynamoDB {{ $labels.dimension_Operation}} operation SuccessfulRequestLatency is {{$value}}ms for table {{ $labels.dimension_TableName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+        runbook_url: https://aws.amazon.com/de/premiumsupport/knowledge-center/dynamodb-high-latency/
+      expr: round(aws_cloudwatch_DynamoDB_SuccessfulRequestLatency_Operation_TableName) > 20
+      for: 30m
+      labels:
+        severity: warning
+    - alert: AwsCloudwatchDynamodbSuccessfulRequestLatencyCritical
+      annotations:
+        summary: DynamoDB SuccessfulRequestLatency is greater than 100ms
+        description: DynamoDB {{ $labels.dimension_Operation}} operation SuccessfulRequestLatency is {{$value}}ms for table {{ $labels.dimension_TableName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+        runbook_url: https://aws.amazon.com/de/premiumsupport/knowledge-center/dynamodb-high-latency/
+      expr: round(aws_cloudwatch_DynamoDB_SuccessfulRequestLatency_Operation_TableName) > 100
+      for: 15m
+      labels:
+        severity: critical
+    - alert: AwsCloudwatchDynamodbThrottledRequestsCritical
+      annotations:
+        summary: DynamoDB requests are throttled
+        description: DynamoDB {{ $labels.dimension_Operation}} requests were throttled {{$value}} times for table {{ $labels.dimension_TableName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+      expr: aws_cloudwatch_DynamoDB_ThrottledRequests_Operation_TableName > 0
+      for: 15m
+      labels:
+        severity: critical

@@ -9,13 +9,13 @@ metadata:
   namespace: monitoring
 spec:
   groups:
-    - name: sns.rules
-      rules:
-        - alert: AwsCloudwatchSNSFailures
-          annotations:
-            summary: SNS delivery failures
-            description: SNS topic {{ $labels.dimension_TopicName }} has {{$value}} delivery failures in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-          expr: aws_cloudwatch_SNS_NumberOfNotificationsFailed_TopicName > 0
-          for: 30m
-          labels:
-            severity: warning
+  - name: sns.rules
+    rules:
+    - alert: AwsCloudwatchSNSFailures
+      annotations:
+        summary: SNS delivery failures
+        description: SNS topic {{ $labels.dimension_TopicName }} has {{$value}} delivery failures in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+      expr: aws_cloudwatch_SNS_NumberOfNotificationsFailed_TopicName > 0
+      for: 30m
+      labels:
+        severity: warning

@@ -15,7 +15,6 @@ resources:
 - rules/ses.yaml
 - rules/acm.yaml
 - rules/codebuild.yaml
-- rules/elb.yaml
 - rules/asg.yaml
 - rules/rds.yaml
 # - rules/opensearch.yaml

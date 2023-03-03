@@ -10,12 +10,30 @@ spec:
   groups:
   - name: mq.storage.rules
     rules:
+    # JournalFilledOpenTransactions (https://github.com/arvatoaws-labs/activemq-xa-cli)
+    - alert: AwsCloudwatchMQJournalWarning
+      annotations:
+        summary: MQ Journal is above 300 open files
+        description: MQ Journal has {{$value}} files for MQ Broker {{ $labels.dimensions_Broker }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}. Consider rollbacking or committing open XA transactions.
+      expr: round(aws_cloudwatch_AmazonMQ_JournalFilesForFullRecovery_Broker + aws_cloudwatch_AmazonMQ_JournalFilesForFastRecovery_Broker) > 300
+      for: 30m
+      labels:
+        severity: warning
+    - alert: AwsCloudwatchMQJournalCritical
+      annotations:
+        summary: MQ Journal is above 1000 open files
+        description: MQ Journal has {{$value}} files for MQ Broker {{ $labels.dimensions_Broker }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}. Consider rollbacking or committing open XA transactions.
+      expr: round(aws_cloudwatch_AmazonMQ_JournalFilesForFullRecovery_Broker + aws_cloudwatch_AmazonMQ_JournalFilesForFastRecovery_Broker) > 1000
+      for: 30m
+      labels:
+        severity: critical
+        asy_itsm_severity: medium
     # StoragePercentUsage
     - alert: AwsCloudwatchMQStoragePercentUsageWarning
       annotations:
         summary: MQ Storage Utilizatiom is above 90 percent
         description: MQ Storage Utilizatiom is {{$value}}% for MQ Broker {{ $labels.dimensions_Broker }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-      expr: round(aws_cloudwatch_MQ_StoragePercentUsage_Broker) > 90
+      expr: round(aws_cloudwatch_AmazonMQ_StoragePercentUsage_Broker) > 90
       for: 30m
       labels:
         severity: warning
@@ -23,7 +41,7 @@ spec:
       annotations:
         summary: MQ Storage Utilizatiom is above 95 percent
         description: MQ Storage Utilizatiom is {{$value}}% for MQ Broker {{ $labels.dimensions_Broker }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-      expr: round(aws_cloudwatch_MQ_StoragePercentUsage_Broker) > 95
+      expr: round(aws_cloudwatch_AmazonMQ_StoragePercentUsage_Broker) > 95
       for: 15m
       labels:
         severity: critical
@@ -35,7 +53,7 @@ spec:
       annotations:
         summary: MQ CPU Utilizatiom is above 90 percent
         description: MQ CPU Utilizatiom is {{$value}}% for MQ Broker {{ $labels.dimensions_Broker }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-      expr: round(aws_cloudwatch_MQ_CpuUtilization_Broker) > 90
+      expr: round(aws_cloudwatch_AmazonMQ_CpuUtilization_Broker) > 90
       for: 30m
       labels:
         severity: warning
@@ -43,7 +61,7 @@ spec:
       annotations:
         summary: MQ CPU Utilizatiom is above 95 percent
         description: MQ CPU Utilizatiom is {{$value}}% for MQ Broker {{ $labels.dimensions_Broker }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-      expr: round(aws_cloudwatch_MQ_CpuUtilization_Broker) > 95
+      expr: round(aws_cloudwatch_AmazonMQ_CpuUtilization_Broker) > 95
       for: 15m
       labels:
         severity: critical
@@ -56,7 +74,7 @@ spec:
       labels:
         severity: critical
         asy_itsm_severity: high
-      expr: round(aws_cloudwatch_MQ_BurstBalance_Broker) < 10
+      expr: round(aws_cloudwatch_AmazonMQ_BurstBalance_Broker) < 10
       for: 30m
     - alert: AwsCloudwatchMQBurstBalancePrediction
       annotations:
@@ -65,7 +83,7 @@ spec:
       labels:
         severity: critical
         asy_itsm_severity: medium
-      expr: round(predict_linear(aws_cloudwatch_MQ_BurstBalance_Broker[30m], 3600 * 2)) < 10
+      expr: round(predict_linear(aws_cloudwatch_AmazonMQ_BurstBalance_Broker[30m], 3600 * 2)) < 10
       for: 30m
   - name: mq.memory.rules
     rules:
@@ -74,7 +92,7 @@ spec:
       annotations:
         summary: MQ Heap Utilizatiom is above 90 percent
         description: MQ Heap Utilizatiom is {{$value}}% for MQ Broker {{ $labels.dimensions_Broker }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-      expr: round(aws_cloudwatch_MQ_HeapUsage_Broker) > 90
+      expr: round(aws_cloudwatch_AmazonMQ_HeapUsage_Broker) > 90
       for: 30m
       labels:
         severity: warning
@@ -82,7 +100,7 @@ spec:
       annotations:
         summary: MQ Heap Utilizatiom is above 95 percent
         description: MQ Heap Utilizatiom is {{$value}}% for MQ Broker {{ $labels.dimensions_Broker }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-      expr: round(aws_cloudwatch_MQ_HeapUsage_Broker) > 95
+      expr: round(aws_cloudwatch_AmazonMQ_HeapUsage_Broker) > 95
       for: 15m
       labels:
         severity: critical
@@ -94,7 +112,7 @@ spec:
       annotations:
         summary: MQ AMQP connections are above 90 percent
         description: MQ connection usage is {{$value}}% for MQ Broker {{ $labels.dimension_Broker }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-      expr: round(100 * aws_cloudwatch_MQ_CurrentConnectionsCount_Broker / aws_cloudwatch_MQ_AmqpMaximumConnections_Broker) > 90
+      expr: round(100 * aws_cloudwatch_AmazonMQ_CurrentConnectionsCount_Broker / aws_cloudwatch_AmazonMQ_AmqpMaximumConnections_Broker) > 90
       for: 15m
       labels:
         severity: critical
@@ -103,7 +121,7 @@ spec:
       annotations:
         summary: MQ MQTT connections are above 90 percent
         description: MQ connection usage is {{$value}}% for MQ Broker {{ $labels.dimension_Broker }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-      expr: round(100 * aws_cloudwatch_MQ_CurrentConnectionsCount_Broker / aws_cloudwatch_MQ_MqttMaximumConnections_Broker) > 90
+      expr: round(100 * aws_cloudwatch_AmazonMQ_CurrentConnectionsCount_Broker / aws_cloudwatch_AmazonMQ_MqttMaximumConnections_Broker) > 90
       for: 15m
       labels:
         severity: critical
@@ -112,7 +130,7 @@ spec:
       annotations:
         summary: MQ Openwire connections are above 90 percent
         description: MQ connection usage is {{$value}}% for MQ Broker {{ $labels.dimension_Broker }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-      expr: round(100 * aws_cloudwatch_MQ_CurrentConnectionsCount_Broker / aws_cloudwatch_MQ_OpenwireMaximumConnections_Broker) > 90
+      expr: round(100 * aws_cloudwatch_AmazonMQ_CurrentConnectionsCount_Broker / aws_cloudwatch_AmazonMQ_OpenwireMaximumConnections_Broker) > 90
       for: 15m
       labels:
         severity: critical
@@ -121,7 +139,7 @@ spec:
       annotations:
         summary: MQ Stomp connections are above 90 percent
         description: MQ connection usage is {{$value}}% for MQ Broker {{ $labels.dimension_Broker }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-      expr: round(100 * aws_cloudwatch_MQ_CurrentConnectionsCount_Broker / aws_cloudwatch_MQ_StompMaximumConnections_Broker) > 90
+      expr: round(100 * aws_cloudwatch_AmazonMQ_CurrentConnectionsCount_Broker / aws_cloudwatch_AmazonMQ_StompMaximumConnections_Broker) > 90
       for: 15m
       labels:
         severity: critical
@@ -130,7 +148,7 @@ spec:
       annotations:
         summary: MQ WS connections are above 90 percent
         description: MQ connection usage is {{$value}}% for MQ Broker {{ $labels.dimension_Broker }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-      expr: round(100 * aws_cloudwatch_MQ_CurrentConnectionsCount_Broker / aws_cloudwatch_MQ_WsMaximumConnections_Broker) > 90
+      expr: round(100 * aws_cloudwatch_AmazonMQ_CurrentConnectionsCount_Broker / aws_cloudwatch_AmazonMQ_WsMaximumConnections_Broker) > 90
       for: 15m
       labels:
         severity: critical

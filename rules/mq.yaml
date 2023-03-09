@@ -8,22 +8,41 @@ metadata:
   namespace: monitoring
 spec:
   groups:
+  - name: mq.queue.rules
+    rules:
+    - alert: AwsCloudwatchMQQueueLengthWarning
+      annotations:
+        summary: MQ queue length is above 1000
+        description: MQ queue {{ $labels.dimensions_Queue }} has {{$value}} open items for MQ Broker {{ $labels.dimensions_Broker }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}.
+      expr: round(aws_cloudwatch_AmazonMQ_QueueSize_Broker_Queue) > 1000
+      for: 30m
+      labels:
+        severity: warning
+    - alert: AwsCloudwatchMQQueueLengthCritical
+      annotations:
+        summary: MQ queue length is above 10000
+        description: MQ queue {{ $labels.dimensions_Queue }} has {{$value}} open items for MQ Broker {{ $labels.dimensions_Broker }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}.
+      expr: round(aws_cloudwatch_AmazonMQ_QueueSize_Broker_Queue) > 10000
+      for: 30m
+      labels:
+        severity: critical
+        asy_itsm_severity: medium
   - name: mq.storage.rules
     rules:
     # JournalFilledOpenTransactions (https://github.com/arvatoaws-labs/activemq-xa-cli)
     - alert: AwsCloudwatchMQJournalWarning
       annotations:
-        summary: MQ Journal is above 300 open files
+        summary: MQ Journal is above 100 open files
         description: MQ Journal has {{$value}} files for MQ Broker {{ $labels.dimensions_Broker }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}. Consider rollbacking or committing open XA transactions.
-      expr: round(aws_cloudwatch_AmazonMQ_JournalFilesForFullRecovery_Broker + aws_cloudwatch_AmazonMQ_JournalFilesForFastRecovery_Broker) > 300
+      expr: round(aws_cloudwatch_AmazonMQ_JournalFilesForFullRecovery_Broker + aws_cloudwatch_AmazonMQ_JournalFilesForFastRecovery_Broker) > 100
       for: 30m
       labels:
         severity: warning
     - alert: AwsCloudwatchMQJournalCritical
       annotations:
-        summary: MQ Journal is above 1000 open files
+        summary: MQ Journal is above 400 open files
         description: MQ Journal has {{$value}} files for MQ Broker {{ $labels.dimensions_Broker }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}. Consider rollbacking or committing open XA transactions.
-      expr: round(aws_cloudwatch_AmazonMQ_JournalFilesForFullRecovery_Broker + aws_cloudwatch_AmazonMQ_JournalFilesForFastRecovery_Broker) > 1000
+      expr: round(aws_cloudwatch_AmazonMQ_JournalFilesForFullRecovery_Broker + aws_cloudwatch_AmazonMQ_JournalFilesForFastRecovery_Broker) > 400
       for: 30m
       labels:
         severity: critical

@@ -150,6 +150,7 @@ spec:
         runbook_url: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/burstable-credits-baseline-concepts.html
       labels:
         severity: critical
+        asy_itsm_severity: high
       expr: round(aws_cloudwatch_RDS_CPUCreditBalance_DBInstanceIdentifier) < 10
       for: 30m
     - alert: AwsCloudwatchRdsCPUCreditBalancePrediction
@@ -158,7 +159,8 @@ spec:
         description: RDS Credit balance will at {{$value}} for DB instance {{ $labels.dimension_DBInstanceIdentifier }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
         runbook_url: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/burstable-credits-baseline-concepts.html
       labels:
-        severity: warning
+        severity: critical
+        asy_itsm_severity: medium
       expr: round(predict_linear(aws_cloudwatch_RDS_CPUCreditBalance_DBInstanceIdentifier[30m], 3600 * 2)) < 10
       for: 30m
     - alert: AwsCloudwatchRDSCPUUtilizationHigh
@@ -176,6 +178,7 @@ spec:
         runbook_url: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/burstable-credits-baseline-concepts.html
       labels:
         severity: critical
+        asy_itsm_severity: high
       expr: aws_cloudwatch_RDS_EBSByteBalance_DBInstanceIdentifier{rds_engine!~".*aurora.*"}  < 10
       for: 30m
     - alert: AwsCloudwatchRdsEBSByteCreditBalancePrediction
@@ -184,7 +187,8 @@ spec:
         description: RDS EBS Byte Credit balance will at {{$value}} for DB instance {{ $labels.dimension_DBInstanceIdentifier }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
         runbook_url: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/burstable-credits-baseline-concepts.html
       labels:
-        severity: warning
+        severity: critical
+        asy_itsm_severity: medium
       expr: round(predict_linear(aws_cloudwatch_RDS_EBSByteBalance_DBInstanceIdentifier{rds_engine!~".*aurora.*"}[30m], 3600 * 2)) < 10
       for: 30m
     - alert: AwsCloudwatchRdsEBSIOCreditBalanceCritical
@@ -194,6 +198,7 @@ spec:
         runbook_url: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/burstable-credits-baseline-concepts.html
       labels:
         severity: critical
+        asy_itsm_severity: high
       expr: aws_cloudwatch_RDS_EBSIOBalance_DBInstanceIdentifier < 10
       for: 30m
     - alert: AwsCloudwatchRdsEBSIOCreditBalancePrediction
@@ -202,7 +207,8 @@ spec:
         description: RDS EBS IO Credit balance will at {{$value}} for DB instance {{ $labels.dimension_DBInstanceIdentifier }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
         runbook_url: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/burstable-credits-baseline-concepts.html
       labels:
-        severity: warning
+        severity: critical
+        asy_itsm_severity: medium
       expr: round(predict_linear(aws_cloudwatch_RDS_EBSIOBalance_DBInstanceIdentifier[30m], 3600 * 2)) < 10
       for: 30m
     - alert: AwsCloudwatchRdsDeadlocks

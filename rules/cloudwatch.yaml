@@ -30,3 +30,32 @@ spec:
       labels:
         severity: critical
         asy_itsm_severity: high
+  - name: prometheus.rules
+    rules:
+    - alert: PrometheusTSDBOutOfOrderSamples
+      annotations:
+        summary: Prometheus TSDB Out Of Order Samples
+        description: Prometheus TSDB Out Of Order Samples
+      expr: irate(prometheus_tsdb_out_of_order_samples_total[15m]) > 0
+      for: 5m
+      labels:
+        severity: critical
+        asy_itsm_severity: medium
+    - alert: PrometheusTargetScrapesOutOfOrderSamples
+      annotations:
+        summary: Prometheus Target Scrapes Out Of Order Samples
+        description: Prometheus Target Scrapes Out Of Order Samples
+      expr: irate(prometheus_target_scrapes_sample_out_of_order_total[15m]) > 0
+      for: 5m
+      labels:
+        severity: critical
+        asy_itsm_severity: medium
+    - alert: PrometheusTargetScrapesDuplicateTimestamp
+      annotations:
+        summary: Prometheus Target Scrapes Duplicate Timestamp
+        description: Prometheus Target Scrapes Duplicate Timestamp
+      expr: irate(prometheus_target_scrapes_sample_duplicate_timestamp_total[15m]) > 0
+      for: 5m
+      labels:
+        severity: warning
+        asy_itsm_severity: medium

@@ -4,7 +4,7 @@ resources:
 - rules/waf.yaml
 - rules/alb.yaml
 - rules/route53.yaml
-- rules/backup.yaml
+#- rules/backup.yaml
 - rules/ebs.yaml
 - rules/tgw.yaml
 - rules/elasticsearch.yaml

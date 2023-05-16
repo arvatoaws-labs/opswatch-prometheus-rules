@@ -12,17 +12,17 @@ spec:
     rules:
     - alert: AwsCloudwatchMQQueueLengthWarning
       annotations:
-        summary: MQ queue length is above 1000
+        summary: MQ queue length is above 5000
         description: MQ queue {{ $labels.dimensions_Queue }} has {{$value}} open items for MQ Broker {{ $labels.dimensions_Broker }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}.
-      expr: round(aws_cloudwatch_AmazonMQ_QueueSize_Broker_Queue) > 1000
+      expr: round(aws_cloudwatch_AmazonMQ_QueueSize_Broker_Queue) > 5000
       for: 30m
       labels:
         severity: warning
     - alert: AwsCloudwatchMQQueueLengthCritical
       annotations:
-        summary: MQ queue length is above 10000
+        summary: MQ queue length is above 50000
         description: MQ queue {{ $labels.dimensions_Queue }} has {{$value}} open items for MQ Broker {{ $labels.dimensions_Broker }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}.
-      expr: round(aws_cloudwatch_AmazonMQ_QueueSize_Broker_Queue) > 10000
+      expr: round(aws_cloudwatch_AmazonMQ_QueueSize_Broker_Queue) > 50000
       for: 30m
       labels:
         severity: critical

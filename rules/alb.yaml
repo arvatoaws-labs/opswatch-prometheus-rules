@@ -8,6 +8,17 @@ metadata:
   namespace: monitoring
 spec:
   groups:
+  - name: aws-lb-controller.rules
+    rules:
+    - alert: AWSLBControllerCertificateMissing
+      annotations:
+        summary: AWS LoadBalancer Controller Certificate is missing
+        description: AWS LoadBalancer Controller Certificate is missing
+      expr: absent(certmanager_certificate_ready_status{name="aws-load-balancer-serving-cert"}) > 0
+      for: 15m
+      labels:
+        severity: critical
+        asy_itsm_severity: medium
   - name: alb.rules
     rules:
     - alert: AwsCloudwatchAlbTargetResponseTimeSlow

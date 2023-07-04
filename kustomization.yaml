@@ -31,3 +31,4 @@ resources:
 - rules/cloudwatch.yaml
 - rules/patching.yaml
 - rules/mq.yaml
+- rules/kafka.yaml

@@ -1,0 +1,20 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  labels:
+    release: prometheus
+    app: prometheus-operator
+  name: opswatch.kafka.rules
+  namespace: monitoring
+spec:
+  groups:
+  - name: kafka.queue.rules
+    rules:
+    - alert: Active_Controller
+      expr: sum(aws_cloudwatch_Kafka_ActiveControllerCount_ClusterName) != 1
+      for: 1m
+      labels:
+        severity: critical
+      annotations:
+        summary: 'Kafka: No active controller'
+        description: 'No broker in the cluster is reporting as the active controller in the last 1 minute interval. During steady state there should be only one active controller per cluster.'

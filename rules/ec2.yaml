@@ -19,7 +19,7 @@ spec:
         severity: critical
         asy_itsm_severity: high
       expr: aws_cloudwatch_EC2_StatusCheckFailedInstance_InstanceId > 0
-      for: 15m
+      for: 30m
     - alert: AwsCloudwatchEc2StatusCheckFailedSystem
       annotations:
         summary: EC2 StatusCheck System failed
@@ -29,7 +29,7 @@ spec:
         severity: critical
         asy_itsm_severity: high
       expr: aws_cloudwatch_EC2_StatusCheckFailedSystem_InstanceId > 0
-      for: 15m
+      for: 30m
     - alert: AwsCloudwatchEc2CPUCreditBalanceCritical
       annotations:
         summary: EC2 CPU Credit balance is low below 10

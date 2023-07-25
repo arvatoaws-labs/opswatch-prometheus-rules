@@ -31,4 +31,5 @@ resources:
 - rules/cloudwatch.yaml
 - rules/patching.yaml
 - rules/mq.yaml
+#test kafka/MSK signing
 - rules/kafka.yaml

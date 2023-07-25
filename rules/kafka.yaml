@@ -29,7 +29,7 @@ spec:
   - name: kafka.content.rules
     rules:
     - alert: Offline_Partitions
-      expr: sum(aws_cloudwatch_Kafka_OfflinePartitionsCount_ClusterName) < 1
+      expr: sum(aws_cloudwatch_Kafka_OfflinePartitionsCount_ClusterName) > 0
       for: 15m
       labels:
         severity: critical

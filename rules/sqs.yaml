@@ -44,4 +44,5 @@ spec:
       expr: aws_cloudwatch_SQS_ApproximateAgeOfOldestMessage_QueueName{dimension_QueueName=~".*(dead-let[t]?er|dlq|DLQ)(\\.fifo)?$"} > 0
       for: 15m
       labels:
-        severity: warning
+        severity: critical
+        asy_itsm_severity: medium

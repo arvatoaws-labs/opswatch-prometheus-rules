@@ -12,13 +12,24 @@ spec:
     rules:
     - alert: AwsCloudwatchEc2StatusCheckFailedInstance
       annotations:
-        summary: EC2 Instance Status failed
-        description: EC2 Instance Status failed for instance {{ $labels.dimension_InstanceId }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+        summary: EC2 StatusCheck Instance failed
+        description: EC2 StatusCheck Instance failed for instance {{ $labels.dimension_InstanceId }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
         runbook_url: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/TroubleshootingInstances.html
       labels:
         severity: critical
+        asy_itsm_severity: high
       expr: aws_cloudwatch_EC2_StatusCheckFailedInstance_InstanceId > 0
-      for: 15m
+      for: 30m
+    - alert: AwsCloudwatchEc2StatusCheckFailedSystem
+      annotations:
+        summary: EC2 StatusCheck System failed
+        description: EC2 StatusCheck System failed for instance {{ $labels.dimension_InstanceId }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+        runbook_url: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/TroubleshootingInstances.html
+      labels:
+        severity: critical
+        asy_itsm_severity: high
+      expr: aws_cloudwatch_EC2_StatusCheckFailedSystem_InstanceId > 0
+      for: 30m
     - alert: AwsCloudwatchEc2CPUCreditBalanceCritical
       annotations:
         summary: EC2 CPU Credit balance is low below 10

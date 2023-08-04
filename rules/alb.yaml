@@ -53,10 +53,10 @@ spec:
         description: ALB TargetGroup health ratio is {{$value}}% for LB {{ $labels.dimension_LoadBalancer }} & TargetGroup {{ $labels.dimension_TargetGroup }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
         runbook_url: https://aws.amazon.com/de/premiumsupport/knowledge-center/elb-fix-failing-health-checks-alb/
       expr: round(aws_cloudwatch_ApplicationELB_HealthyHostCount_LoadBalancer_TargetGroup / ( aws_cloudwatch_ApplicationELB_HealthyHostCount_LoadBalancer_TargetGroup + aws_cloudwatch_ApplicationELB_UnHealthyHostCount_LoadBalancer_TargetGroup ) * 100 ) < 50
-      for: 15m
+      for: 30m
       labels:
         severity: critical
-        asy_itsm_severity: high
+        asy_itsm_severity: medium
     - alert: AwsCloudwatchAlbTargetGroupZeroHealthyHosts
       annotations:
         summary: ALB TargetGroup number of healthy hosts is 0

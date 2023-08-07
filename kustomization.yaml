@@ -32,3 +32,4 @@ resources:
 - rules/patching.yaml
 - rules/mq.yaml
 - rules/kafka.yaml
+- rules/billing.yaml

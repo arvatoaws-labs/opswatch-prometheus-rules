@@ -15,6 +15,7 @@ spec:
       for: 15m
       labels:
         severity: critical
+        asy_itsm_severity: high
       annotations:
         summary: 'Kafka: No active controller'
         description: 'No broker in the cluster is reporting as the active controller in the last 1 minute interval. During steady state there should be only one active controller per cluster.'

@@ -11,7 +11,7 @@ spec:
   - name: kafka.cluster.rules
     rules:
     - alert: Active_Controller
-      expr: sum(aws_cloudwatch_Kafka_ActiveControllerCount_ClusterName) = 0
+      expr: sum(aws_cloudwatch_Kafka_ActiveControllerCount_ClusterName) == 0
       for: 15m
       labels:
         severity: critical

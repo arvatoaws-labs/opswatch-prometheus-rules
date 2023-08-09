@@ -11,13 +11,14 @@ spec:
   - name: kafka.cluster.rules
     rules:
     - alert: Active_Controller
-      expr: sum(aws_cloudwatch_Kafka_ActiveControllerCount_ClusterName) != 1
+      expr: sum(aws_cloudwatch_Kafka_ActiveControllerCount_ClusterName) = 0
       for: 15m
       labels:
         severity: critical
+        asy_itsm_severity: high
       annotations:
         summary: 'Kafka: No active controller'
-        description: 'No broker in the cluster is reporting as the active controller in the last 1 minute interval. During steady state there should be only one active controller per cluster.'
+        description: 'No broker in the cluster is reporting as the active controller in the last 15 minute interval. During steady state there should be only one active controller per cluster.'
     - alert: Zookeeper_Session_State
       expr: sum(aws_cloudwatch_Kafka_ZooKeeperSessionState_ClusterName) != 1
       for: 15m

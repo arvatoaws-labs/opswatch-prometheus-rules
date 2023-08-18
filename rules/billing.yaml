@@ -6,7 +6,7 @@ metadata:
   namespace: monitoring
 spec:
   groups:
-  - name: billing.rules
+  - name: billing.rules # TODO: not part of opswatch
     rules:
     - record: namespace_cpu_requests
       expr: sum(kube_pod_container_resource_requests{resource="cpu"}) by (cluster, namespace, aws_account_id)

@@ -10,7 +10,7 @@ spec:
   groups:
   - name: aws-lb-controller.rules
     rules:
-    - alert: AWSLBControllerCertificateMissing
+    - alert: AWSLBControllerCertificateMissing # TODO: not part of opswatch
       annotations:
         summary: AWS LoadBalancer Controller Certificate is missing
         description: AWS LoadBalancer Controller Certificate is missing

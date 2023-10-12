@@ -18,6 +18,7 @@ spec:
       expr: round(aws_cloudwatch_ECS_CPUUtilization_ClusterName_ServiceName) > 90
       for: 15m
       labels:
+        rule_source: opswatch-prometheus-rules
         severity: warning
     - alert: AwsCloudwatchECSMemoryUtilization
       annotations:
@@ -27,6 +28,7 @@ spec:
       expr: round(aws_cloudwatch_ECS_MemoryUtilization_ClusterName_ServiceName) > 90
       for: 15m
       labels:
+        rule_source: opswatch-prometheus-rules
         severity: warning
     - alert: AwsCloudwatchECSDesiredTaskCountZero
       annotations:
@@ -36,4 +38,5 @@ spec:
       expr: aws_cloudwatch_ECSContainerInsights_RunningTaskCount_ClusterName_ServiceName == 0 and aws_cloudwatch_ECSContainerInsights_DesiredTaskCount_ClusterName_ServiceName > 0
       for: 15m
       labels:
+        rule_source: opswatch-prometheus-rules
         severity: warning

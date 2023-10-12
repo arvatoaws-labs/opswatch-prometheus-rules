@@ -18,6 +18,7 @@ spec:
       expr: round(rate(aws_cloudwatch_WAF_BlockedRequests_Region_Rule_WebACL_sum{dimension_Rule="ALL"}[15m]) / (rate(aws_cloudwatch_WAF_AllowedRequests_Region_Rule_WebACL_sum{dimension_Rule="ALL"}[15m]) + rate(aws_cloudwatch_WAF_BlockedRequests_Region_Rule_WebACL_sum{dimension_Rule="ALL"}[15m])) * 100) > 20
       for: 30m
       labels:
+        rule_source: opswatch-prometheus-rules
         severity: warning
     - alert: AwsCloudwatchWafV2BlockRate
       annotations:
@@ -27,4 +28,5 @@ spec:
       expr: round(rate(aws_cloudwatch_WAFV2_BlockedRequests_Rule_WebACL_sum{dimension_Rule="ALL"}[15m]) / (rate(aws_cloudwatch_WAFV2_AllowedRequests_Rule_WebACL_sum{dimension_Rule="ALL"}[15m]) + rate(aws_cloudwatch_WAFV2_CountedRequests_Rule_WebACL_sum{dimension_Rule="ALL"}[15m]) + rate(aws_cloudwatch_WAFV2_BlockedRequests_Rule_WebACL_sum{dimension_Rule="ALL"}[15m])) * 100) > 20
       for: 30m
       labels:
+        rule_source: opswatch-prometheus-rules
         severity: warning

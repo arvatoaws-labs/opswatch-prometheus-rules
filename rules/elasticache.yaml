@@ -18,6 +18,7 @@ spec:
       expr: round(aws_cloudwatch_ElastiCache_CPUUtilization_CacheClusterId_CacheNodeId) > 90
       for: 15m
       labels:
+        rule_source: opswatch-prometheus-rules
         severity: warning
     - alert: AwsCloudwatchElastiCacheAuthenticationFailures
       annotations:
@@ -27,6 +28,7 @@ spec:
       expr: aws_cloudwatch_ElastiCache_AuthenticationFailures_CacheClusterId > 3
       for: 15m
       labels:
+        rule_source: opswatch-prometheus-rules
         severity: warning
     - alert: AwsCloudwatchElastiCacheCPUCreditBalance
       annotations:
@@ -36,6 +38,7 @@ spec:
       expr: aws_cloudwatch_ElastiCache_CPUCreditBalance_CacheClusterId_CacheNodeId < 10
       for: 15m
       labels:
+        rule_source: opswatch-prometheus-rules
         severity: warning
     - alert: AwsCloudwatchElastiCacheCPUCreditBalancePrediction
       annotations:
@@ -43,6 +46,7 @@ spec:
         description: ElastiCache CPU Credit balance will be at {{$value}} for instance {{ $labels.dimension_CacheNodeId }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
         runbook_url: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/burstable-credits-baseline-concepts.html
       labels:
+        rule_source: opswatch-prometheus-rules
         severity: warning
       expr: round(predict_linear(aws_cloudwatch_ElastiCache_CPUCreditBalance_CacheClusterId_CacheNodeId[30m], 3600 * 2)) < 10
       for: 30m
@@ -54,6 +58,7 @@ spec:
       expr: aws_cloudwatch_ElastiCache_CacheHitRate_CacheClusterId < 10
       for: 30m
       labels:
+        rule_source: opswatch-prometheus-rules
         severity: warning
     - alert: AwsCloudwatchElastiCacheDatabaseMemoryUsageCountedForEvictPercentage
       annotations:
@@ -63,6 +68,7 @@ spec:
       expr: aws_cloudwatch_ElastiCache_DatabaseMemoryUsageCountedForEvictPercentage > 85
       for: 15m
       labels:
+        rule_source: opswatch-prometheus-rules
         severity: warning
 
     # aws_cloudwatch_ElastiCache_DatabaseMemoryUsageCountedForEvictPercentage_ReplicationGroupId

@@ -18,4 +18,5 @@ spec:
       expr: aws_cloudwatch_DX_ConnectionState_ConnectionId < 1
       for: 15m
       labels:
+        rule_source: opswatch-prometheus-rules
         severity: critical

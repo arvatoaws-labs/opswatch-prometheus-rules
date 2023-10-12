@@ -18,6 +18,7 @@ spec:
       expr: round(aws_cloudwatch_NetworkELB_HealthyHostCount_LoadBalancer_TargetGroup / ( aws_cloudwatch_NetworkELB_HealthyHostCount_LoadBalancer_TargetGroup + aws_cloudwatch_NetworkELB_UnHealthyHostCount_LoadBalancer_TargetGroup ) * 100 ) < 50
       for: 15m
       labels:
+        rule_source: opswatch-prometheus-rules
         severity: critical
         asy_itsm_severity: high
     - alert: AwsCloudwatchNlbTargetGroupZeroHealthyHosts
@@ -28,5 +29,6 @@ spec:
       expr: aws_cloudwatch_NetworkELB_HealthyHostCount_LoadBalancer_TargetGroup == 0
       for: 15m
       labels:
+        rule_source: opswatch-prometheus-rules
         severity: critical
         asy_itsm_severity: high

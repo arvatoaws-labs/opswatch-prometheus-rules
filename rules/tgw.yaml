@@ -18,6 +18,7 @@ spec:
       expr: aws_cloudwatch_TransitGateway_BytesDropCountBlackhole_TransitGateway > 10
       for: 15m
       labels:
+        rule_source: opswatch-prometheus-rules
         severity: critical
     - alert: AwsCloudwatchTGWAttachmentDropCountBlackhole
       annotations:
@@ -27,6 +28,7 @@ spec:
       expr: aws_cloudwatch_TransitGateway_BytesDropCountBlackhole_TransitGateway_TransitGatewayAttachment > 10
       for: 15m
       labels:
+        rule_source: opswatch-prometheus-rules
         severity: critical
     - alert: AwsCloudwatchTGWDropCountNoRoute
       annotations:
@@ -36,6 +38,7 @@ spec:
       expr: aws_cloudwatch_TransitGateway_BytesDropCountNoRoute_TransitGateway > 10
       for: 15m
       labels:
+        rule_source: opswatch-prometheus-rules
         severity: critical
     - alert: AwsCloudwatchTGWAttachmentDropCountNoRoute
       annotations:
@@ -45,6 +48,7 @@ spec:
       expr: aws_cloudwatch_TransitGateway_BytesDropCountNoRoute_TransitGateway_TransitGatewayAttachment > 10
       for: 15m
       labels:
+        rule_source: opswatch-prometheus-rules
         severity: critical
     - alert: AwsCloudwatchTGWPacketDropCountBlackhole
       annotations:
@@ -54,6 +58,7 @@ spec:
       expr: aws_cloudwatch_TransitGateway_PacketDropCountBlackhole_TransitGateway_TransitGateway > 10
       for: 15m
       labels:
+        rule_source: opswatch-prometheus-rules
         severity: critical
     - alert: AwsCloudwatchTGWAttachmentPacketDropCountBlackhole
       annotations:
@@ -63,6 +68,7 @@ spec:
       expr: aws_cloudwatch_TransitGateway_PacketDropCountBlackhole_TransitGateway_TransitGatewayAttachment > 10
       for: 15m
       labels:
+        rule_source: opswatch-prometheus-rules
         severity: critical
     - alert: AwsCloudwatchTGWPacketDropCountNoRoute
       annotations:
@@ -72,6 +78,7 @@ spec:
       expr: aws_cloudwatch_TransitGateway_PacketDropCountNoRoute_TransitGateway > 10
       for: 15m
       labels:
+        rule_source: opswatch-prometheus-rules
         severity: critical
     - alert: AwsCloudwatchTGWAttachmentPacketDropCountNoRoute
       annotations:
@@ -81,4 +88,5 @@ spec:
       expr: aws_cloudwatch_TransitGateway_PacketDropCountNoRoute_TransitGateway_TransitGatewayAttachment > 10
       for: 15m
       labels:
+        rule_source: opswatch-prometheus-rules
         severity: critical

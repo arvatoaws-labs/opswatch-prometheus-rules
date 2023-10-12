@@ -17,6 +17,7 @@ spec:
       expr: round(aws_cloudwatch_AmazonMQ_QueueSize_Broker_Queue) > 1000
       for: 30m
       labels:
+        rule_source: opswatch-prometheus-rules
         severity: warning
     - alert: AwsCloudwatchMQQueueLengthCritical
       annotations:
@@ -25,6 +26,7 @@ spec:
       expr: round(aws_cloudwatch_AmazonMQ_QueueSize_Broker_Queue) > 10000
       for: 30m
       labels:
+        rule_source: opswatch-prometheus-rules
         severity: critical
         asy_itsm_severity: medium
   - name: mq.storage.rules
@@ -37,6 +39,7 @@ spec:
       expr: round(aws_cloudwatch_AmazonMQ_JournalFilesForFullRecovery_Broker + aws_cloudwatch_AmazonMQ_JournalFilesForFastRecovery_Broker) > 100
       for: 30m
       labels:
+        rule_source: opswatch-prometheus-rules
         severity: warning
     - alert: AwsCloudwatchMQJournalCritical
       annotations:
@@ -45,6 +48,7 @@ spec:
       expr: round(aws_cloudwatch_AmazonMQ_JournalFilesForFullRecovery_Broker + aws_cloudwatch_AmazonMQ_JournalFilesForFastRecovery_Broker) > 400
       for: 30m
       labels:
+        rule_source: opswatch-prometheus-rules
         severity: critical
         asy_itsm_severity: medium
     # StoragePercentUsage
@@ -55,6 +59,7 @@ spec:
       expr: round(aws_cloudwatch_AmazonMQ_StoragePercentUsage_Broker) > 90
       for: 30m
       labels:
+        rule_source: opswatch-prometheus-rules
         severity: warning
     - alert: AwsCloudwatchMQStoragePercentUsageCritical
       annotations:
@@ -63,6 +68,7 @@ spec:
       expr: round(aws_cloudwatch_AmazonMQ_StoragePercentUsage_Broker) > 95
       for: 15m
       labels:
+        rule_source: opswatch-prometheus-rules
         severity: critical
         asy_itsm_severity: high
   - name: mq.cpu.rules
@@ -75,6 +81,7 @@ spec:
       expr: round(aws_cloudwatch_AmazonMQ_CpuUtilization_Broker) > 90
       for: 30m
       labels:
+        rule_source: opswatch-prometheus-rules
         severity: warning
     - alert: AwsCloudwatchMQCpuUtilizationCritical
       annotations:
@@ -91,6 +98,7 @@ spec:
         summary: MQ burst balance is below 10%
         description: MQ burst balance is at {{$value}}% for MQ broker {{ $labels.dimension_Broker }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
       labels:
+        rule_source: opswatch-prometheus-rules
         severity: critical
         asy_itsm_severity: high
       expr: round(aws_cloudwatch_AmazonMQ_BurstBalance_Broker) < 10
@@ -100,6 +108,7 @@ spec:
         summary: MQ burst balance will be below 10% in 2 hours
         description: MQ burst balance will at {{$value}}% for MQ broker {{ $labels.dimension_Broker }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
       labels:
+        rule_source: opswatch-prometheus-rules
         severity: critical
         asy_itsm_severity: medium
       expr: round(predict_linear(aws_cloudwatch_AmazonMQ_BurstBalance_Broker[30m], 3600 * 2)) < 10
@@ -114,6 +123,7 @@ spec:
       expr: round(aws_cloudwatch_AmazonMQ_HeapUsage_Broker) > 90
       for: 30m
       labels:
+        rule_source: opswatch-prometheus-rules
         severity: warning
     - alert: AwsCloudwatchMQHeapUsageCritical
       annotations:
@@ -122,6 +132,7 @@ spec:
       expr: round(aws_cloudwatch_AmazonMQ_HeapUsage_Broker) > 95
       for: 15m
       labels:
+        rule_source: opswatch-prometheus-rules
         severity: critical
         asy_itsm_severity: high
   - name: mq.connections.rules
@@ -134,6 +145,7 @@ spec:
       expr: round(100 * aws_cloudwatch_AmazonMQ_CurrentConnectionsCount_Broker / aws_cloudwatch_AmazonMQ_AmqpMaximumConnections_Broker) > 90
       for: 15m
       labels:
+        rule_source: opswatch-prometheus-rules
         severity: critical
         asy_itsm_severity: high
     - alert: AwsCloudwatchMQMqttConnectionPercentUsageCritical
@@ -143,6 +155,7 @@ spec:
       expr: round(100 * aws_cloudwatch_AmazonMQ_CurrentConnectionsCount_Broker / aws_cloudwatch_AmazonMQ_MqttMaximumConnections_Broker) > 90
       for: 15m
       labels:
+        rule_source: opswatch-prometheus-rules
         severity: critical
         asy_itsm_severity: high
     - alert: AwsCloudwatchMQOpenwireConnectionPercentUsageCritical
@@ -152,6 +165,7 @@ spec:
       expr: round(100 * aws_cloudwatch_AmazonMQ_CurrentConnectionsCount_Broker / aws_cloudwatch_AmazonMQ_OpenwireMaximumConnections_Broker) > 90
       for: 15m
       labels:
+        rule_source: opswatch-prometheus-rules
         severity: critical
         asy_itsm_severity: high
     - alert: AwsCloudwatchMQStompConnectionPercentUsageCritical
@@ -161,6 +175,7 @@ spec:
       expr: round(100 * aws_cloudwatch_AmazonMQ_CurrentConnectionsCount_Broker / aws_cloudwatch_AmazonMQ_StompMaximumConnections_Broker) > 90
       for: 15m
       labels:
+        rule_source: opswatch-prometheus-rules
         severity: critical
         asy_itsm_severity: high
     - alert: AwsCloudwatchMQWsConnectionPercentUsageCritical
@@ -170,5 +185,6 @@ spec:
       expr: round(100 * aws_cloudwatch_AmazonMQ_CurrentConnectionsCount_Broker / aws_cloudwatch_AmazonMQ_WsMaximumConnections_Broker) > 90
       for: 15m
       labels:
+        rule_source: opswatch-prometheus-rules
         severity: critical
         asy_itsm_severity: high

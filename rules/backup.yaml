@@ -18,5 +18,6 @@ spec:
       expr: aws_cloudwatch_Backup_NumberOfBackupJobsFailed_BackupVaultName_ResourceType{dimension_ResourceType !~ "(S3|RESOURCE_NOT_SUPPORTED)"} > 0
       for: 15m
       labels:
+        rule_source: opswatch-prometheus-rules
         severity: critical
         asy_itsm_severity: medium

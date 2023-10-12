@@ -18,4 +18,5 @@ spec:
       expr: aws_cloudwatch_CodeBuild_FailedBuilds_ProjectName > 1
       for: 15m
       labels:
+        rule_source: opswatch-prometheus-rules
         severity: warning

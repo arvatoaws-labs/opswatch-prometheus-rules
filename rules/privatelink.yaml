@@ -19,6 +19,7 @@ spec:
       expr: aws_cloudwatch_PrivateLinkEndpoints_PacketsDropped_EndpointType_ServiceName_SubnetId_VPCEndpointId_VPCId > 10
       for: 15m
       labels:
+        rule_source: opswatch-prometheus-rules
         severity: warning
     - alert: AwsCloudwatchPrivateLinkEndpointRstPacketsReceived
       annotations:
@@ -28,4 +29,5 @@ spec:
       expr: aws_cloudwatch_PrivateLinkEndpoints_RstPacketsReceived_EndpointType_ServiceName_VPCEndpointId_VPCId > 10
       for: 15m
       labels:
+        rule_source: opswatch-prometheus-rules
         severity: warning

@@ -19,6 +19,7 @@ spec:
       expr: round(aws_cloudwatch_SES_ReputationBounceRate * 100, 0.01) > 5
       for: 30m
       labels:
+        rule_source: opswatch-prometheus-rules
         severity: warning
     - alert: AwsCloudwatchSESComplaintWarning
       annotations:
@@ -28,6 +29,7 @@ spec:
       expr: round(aws_cloudwatch_SES_ReputationComplaintRate * 100, 0.01) > 0.1
       for: 30m
       labels:
+        rule_source: opswatch-prometheus-rules
         severity: warning
     - alert: AwsCloudwatchSESBounceCritical
       annotations:
@@ -37,6 +39,7 @@ spec:
       expr: round(aws_cloudwatch_SES_ReputationBounceRate * 100, 0.01) > 10
       for: 30m
       labels:
+        rule_source: opswatch-prometheus-rules
         severity: critical
         asy_itsm_severity: medium
     - alert: AwsCloudwatchSESComplaintCritical
@@ -47,5 +50,6 @@ spec:
       expr: round(aws_cloudwatch_SES_ReputationComplaintRate * 100, 0.01) > 0.5
       for: 30m
       labels:
+        rule_source: opswatch-prometheus-rules
         severity: critical
         asy_itsm_severity: medium

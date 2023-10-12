@@ -18,6 +18,7 @@ spec:
       expr: round(aws_cloudwatch_RDS_DDLLatency_DBInstanceIdentifier) > 20
       for: 15m
       labels:
+        rule_source: opswatch-prometheus-rules
         severity: warning
     - alert: AwsCloudwatchRdsDDLLatencyCritical
       annotations:
@@ -26,6 +27,7 @@ spec:
       expr: round(aws_cloudwatch_RDS_DDLLatency_DBInstanceIdentifier) > 50
       for: 15m
       labels:
+        rule_source: opswatch-prometheus-rules
         severity: critical
     - alert: AwsCloudwatchRdsReadLatencyWarning
       annotations:
@@ -34,6 +36,7 @@ spec:
       expr: round(aws_cloudwatch_RDS_ReadLatency_DBInstanceIdentifier) > 20
       for: 15m
       labels:
+        rule_source: opswatch-prometheus-rules
         severity: warning
     - alert: AwsCloudwatchRdsReadLatencyCritical
       annotations:
@@ -42,6 +45,7 @@ spec:
       expr: round(aws_cloudwatch_RDS_ReadLatency_DBInstanceIdentifier) > 50
       for: 15m
       labels:
+        rule_source: opswatch-prometheus-rules
         severity: critical
     - alert: AwsCloudwatchRdsWriteLatencyWarning
       annotations:
@@ -50,6 +54,7 @@ spec:
       expr: round(aws_cloudwatch_RDS_WriteLatency_DBInstanceIdentifier) > 20
       for: 15m
       labels:
+        rule_source: opswatch-prometheus-rules
         severity: warning
     - alert: AwsCloudwatchRdsWriteLatencyCritical
       annotations:
@@ -58,6 +63,7 @@ spec:
       expr: round(aws_cloudwatch_RDS_WriteLatency_DBInstanceIdentifier) > 50
       for: 15m
       labels:
+        rule_source: opswatch-prometheus-rules
         severity: critical
     - alert: AwsCloudwatchRdsDeleteLatencyyWarning
       annotations:
@@ -66,6 +72,7 @@ spec:
       expr: round(aws_cloudwatch_RDS_DeleteLatency_DBInstanceIdentifier) > 20
       for: 15m
       labels:
+        rule_source: opswatch-prometheus-rules
         severity: warning
     - alert: AwsCloudwatchRdsDeleteLatencyCritical
       annotations:
@@ -74,6 +81,7 @@ spec:
       expr: round(aws_cloudwatch_RDS_DeleteLatency_DBInstanceIdentifier) > 50
       for: 15m
       labels:
+        rule_source: opswatch-prometheus-rules
         severity: critical
     - alert: AwsCloudwatchRdsUpdateLatencyWarning
       annotations:
@@ -82,6 +90,7 @@ spec:
       expr: round(aws_cloudwatch_RDS_UpdateLatency_DBInstanceIdentifier) > 20
       for: 15m
       labels:
+        rule_source: opswatch-prometheus-rules
         severity: warning
     - alert: AwsCloudwatchRdsUpdateLatencyCritical
       annotations:
@@ -90,6 +99,7 @@ spec:
       expr: round(aws_cloudwatch_RDS_UpdateLatency_DBInstanceIdentifier) > 50
       for: 15m
       labels:
+        rule_source: opswatch-prometheus-rules
         severity: critical
     - alert: AwsCloudwatchRdsCommitLatencyWarningSingleAz
       annotations:
@@ -98,6 +108,7 @@ spec:
       expr: round(aws_cloudwatch_RDS_CommitLatency_DBInstanceIdentifier{rds_engine!~".*aurora.*",rds_db_multi_az="false"}) > 20
       for: 15m
       labels:
+        rule_source: opswatch-prometheus-rules
         severity: warning
     - alert: AwsCloudwatchRdsCommitLatencyWarningMultiAz
       annotations:
@@ -106,6 +117,7 @@ spec:
       expr: round(aws_cloudwatch_RDS_CommitLatency_DBInstanceIdentifier{rds_engine!~".*aurora.*",rds_db_multi_az="true"}) > 30
       for: 15m
       labels:
+        rule_source: opswatch-prometheus-rules
         severity: warning
     - alert: AwsCloudwatchRdsCommitLatencyWarningAurora
       annotations:
@@ -114,6 +126,7 @@ spec:
       expr: round(aws_cloudwatch_RDS_CommitLatency_DBInstanceIdentifier{rds_engine=~".*aurora.*"}) > 60
       for: 15m
       labels:
+        rule_source: opswatch-prometheus-rules
         severity: warning
     - alert: AwsCloudwatchRdsDDLLatencyWarning
       annotations:
@@ -122,6 +135,7 @@ spec:
       expr: round(aws_cloudwatch_RDS_CommitLatency_DBInstanceIdentifier) > 20
       for: 15m
       labels:
+        rule_source: opswatch-prometheus-rules
         severity: critical
     - alert: AwsCloudwatchRdsBurstBalanceCritical
       annotations:
@@ -129,6 +143,7 @@ spec:
         description: RDS burst balance is at {{$value}}% for DB instance {{ $labels.dimension_DBInstanceIdentifier }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
         runbook_url: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/burstable-credits-baseline-concepts.html
       labels:
+        rule_source: opswatch-prometheus-rules
         severity: critical
         asy_itsm_severity: high
       expr: round(aws_cloudwatch_RDS_BurstBalance_DBInstanceIdentifier) < 10
@@ -139,6 +154,7 @@ spec:
         description: RDS burst balance will at {{$value}}% for DB instance {{ $labels.dimension_DBInstanceIdentifier }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
         runbook_url: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/burstable-credits-baseline-concepts.html
       labels:
+        rule_source: opswatch-prometheus-rules
         severity: critical
         asy_itsm_severity: medium
       expr: round(predict_linear(aws_cloudwatch_RDS_BurstBalance_DBInstanceIdentifier[30m], 3600 * 2)) < 10
@@ -149,6 +165,7 @@ spec:
         description: RDS CPU Credit balance is at {{$value}} for DB instance {{ $labels.dimension_DBInstanceIdentifier }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
         runbook_url: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/burstable-credits-baseline-concepts.html
       labels:
+        rule_source: opswatch-prometheus-rules
         severity: critical
         asy_itsm_severity: high
       expr: round(aws_cloudwatch_RDS_CPUCreditBalance_DBInstanceIdentifier) < 10
@@ -159,6 +176,7 @@ spec:
         description: RDS Credit balance will at {{$value}} for DB instance {{ $labels.dimension_DBInstanceIdentifier }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
         runbook_url: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/burstable-credits-baseline-concepts.html
       labels:
+        rule_source: opswatch-prometheus-rules
         severity: critical
         asy_itsm_severity: medium
       expr: round(predict_linear(aws_cloudwatch_RDS_CPUCreditBalance_DBInstanceIdentifier[30m], 3600 * 2)) < 10
@@ -168,6 +186,7 @@ spec:
         summary: RDS CPU utlization greater than 90%
         description: RDS CPU utlization at {{$value}}% for DB instance {{ $labels.dimension_DBInstanceIdentifier }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
       labels:
+        rule_source: opswatch-prometheus-rules
         severity: warning
       expr: round(aws_cloudwatch_RDS_CPUUtilization_DBInstanceIdentifier) > 90
       for: 30m
@@ -177,6 +196,7 @@ spec:
         description: RDS EBS Byte Credit balance is at {{$value}} for DB instance {{ $labels.dimension_DBInstanceIdentifier }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
         runbook_url: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/burstable-credits-baseline-concepts.html
       labels:
+        rule_source: opswatch-prometheus-rules
         severity: critical
         asy_itsm_severity: high
       expr: aws_cloudwatch_RDS_EBSByteBalance_DBInstanceIdentifier{rds_engine!~".*aurora.*"}  < 10
@@ -187,6 +207,7 @@ spec:
         description: RDS EBS Byte Credit balance will at {{$value}} for DB instance {{ $labels.dimension_DBInstanceIdentifier }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
         runbook_url: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/burstable-credits-baseline-concepts.html
       labels:
+        rule_source: opswatch-prometheus-rules
         severity: critical
         asy_itsm_severity: medium
       expr: round(predict_linear(aws_cloudwatch_RDS_EBSByteBalance_DBInstanceIdentifier{rds_engine!~".*aurora.*"}[30m], 3600 * 2)) < 10
@@ -197,6 +218,7 @@ spec:
         description: RDS EBS IO Credit balance is at {{$value}} for DB instance {{ $labels.dimension_DBInstanceIdentifier }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
         runbook_url: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/burstable-credits-baseline-concepts.html
       labels:
+        rule_source: opswatch-prometheus-rules
         severity: critical
         asy_itsm_severity: high
       expr: aws_cloudwatch_RDS_EBSIOBalance_DBInstanceIdentifier < 10
@@ -207,6 +229,7 @@ spec:
         description: RDS EBS IO Credit balance will at {{$value}} for DB instance {{ $labels.dimension_DBInstanceIdentifier }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
         runbook_url: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/burstable-credits-baseline-concepts.html
       labels:
+        rule_source: opswatch-prometheus-rules
         severity: critical
         asy_itsm_severity: medium
       expr: round(predict_linear(aws_cloudwatch_RDS_EBSIOBalance_DBInstanceIdentifier[30m], 3600 * 2)) < 10
@@ -218,6 +241,7 @@ spec:
       expr: aws_cloudwatch_RDS_Deadlocks_DBInstanceIdentifier > 0
       for: 15m
       labels:
+        rule_source: opswatch-prometheus-rules
         severity: warning
     - alert: AwsCloudwatchRdsAbortedClients
       annotations:
@@ -226,6 +250,7 @@ spec:
       expr: aws_cloudwatch_RDS_AbortedClients_DBInstanceIdentifier > 0
       for: 15m
       labels:
+        rule_source: opswatch-prometheus-rules
         severity: warning
     - alert: AwsCloudwatchRdsLoginFailures
       annotations:
@@ -234,6 +259,7 @@ spec:
       expr: aws_cloudwatch_RDS_LoginFailures_DBInstanceIdentifier > 0
       for: 15m
       labels:
+        rule_source: opswatch-prometheus-rules
         severity: critical
         asy_itsm_severity: high
     - alert: AwsCloudwatchRdsAuroraReplicaLag
@@ -243,6 +269,7 @@ spec:
       expr: round(aws_cloudwatch_RDS_AuroraReplicaLag_DBInstanceIdentifier) > 100
       for: 15m
       labels:
+        rule_source: opswatch-prometheus-rules
         severity: warning
     - alert: AwsCloudwatchRdsAuroraBinlogReplicaLag
       annotations:
@@ -251,6 +278,7 @@ spec:
       expr: round(aws_cloudwatch_RDS_AuroraBinlogReplicaLag_DBInstanceIdentifier) > 100
       for: 15m
       labels:
+        rule_source: opswatch-prometheus-rules
         severity: warning
     - alert: AwsCloudwatchRdsFreeLocalStorage
       annotations:
@@ -260,6 +288,7 @@ spec:
       expr: round(aws_cloudwatch_RDS_FreeLocalStorage) < 10
       for: 15m
       labels:
+        rule_source: opswatch-prometheus-rules
         severity: warning
     - alert: AwsCloudwatchRdsClusterMaxConnections
       annotations:
@@ -269,6 +298,7 @@ spec:
       expr: round(aws_cloudwatch_RDS_DatabaseConnections_DBClusterIdentifier / aws_apidescribe_RDS_MaxConnections_DBClusterIdentifier * 100) > 90
       for: 15m
       labels:
+        rule_source: opswatch-prometheus-rules
         severity: critical
         asy_itsm_severity: high
     - alert: AwsCloudwatchRdsInstanceMaxConnections
@@ -279,6 +309,7 @@ spec:
       expr: round(aws_cloudwatch_RDS_DatabaseConnections_DBInstanceIdentifier / aws_apidescribe_RDS_MaxConnections_DBInstanceIdentifier * 100) > 90
       for: 15m
       labels:
+        rule_source: opswatch-prometheus-rules
         severity: critical
         asy_itsm_severity: high
     - alert: AwsCloudwatchRdsInstanceACUUtilizationHigh
@@ -289,6 +320,7 @@ spec:
       expr: round(aws_cloudwatch_RDS_ACUUtilization_DBInstanceIdentifier) > 90
       for: 15m
       labels:
+        rule_source: opswatch-prometheus-rules
         severity: warning
     - alert: AwsCloudwatchRdsClusterACUUtilizationHigh
       annotations:
@@ -298,6 +330,7 @@ spec:
       expr: round(aws_cloudwatch_RDS_ACUUtilization_DBClusterIdentifier) > 90
       for: 15m
       labels:
+        rule_source: opswatch-prometheus-rules
         severity: warning
     # ggf. basierend auf engine und instance_class
     #aws_cloudwatch_RDS_ServerlessDatabaseCapacity_EngineName

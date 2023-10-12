@@ -20,6 +20,7 @@ spec:
       expr: round(aws_cloudwatch_DynamoDB_SuccessfulRequestLatency_Operation_TableName) > 20
       for: 30m
       labels:
+        rule_source: opswatch-prometheus-rules
         severity: warning
     - alert: AwsCloudwatchDynamodbSuccessfulRequestLatencyCritical
       annotations:
@@ -29,6 +30,7 @@ spec:
       expr: round(aws_cloudwatch_DynamoDB_SuccessfulRequestLatency_Operation_TableName) > 100
       for: 15m
       labels:
+        rule_source: opswatch-prometheus-rules
         severity: critical
     - alert: AwsCloudwatchDynamodbThrottledRequestsCritical
       annotations:
@@ -37,4 +39,5 @@ spec:
       expr: aws_cloudwatch_DynamoDB_ThrottledRequests_Operation_TableName > 0
       for: 15m
       labels:
+        rule_source: opswatch-prometheus-rules
         severity: critical

@@ -18,6 +18,7 @@ spec:
       expr: absent(aws_cloudwatch_CloudWatch_MetricUpdate_sum)
       for: 15m
       labels:
+        rule_source: opswatch-prometheus-rules
         severity: critical
         asy_itsm_severity: high
     - alert: AwsCloudwatchMetricUpdateRateLow
@@ -28,6 +29,7 @@ spec:
       expr: sum by (overwrite_asy_customer,overwrite_aws_account_id,overwrite_aws_region) (rate(aws_cloudwatch_CloudWatch_MetricUpdate_sum[15m])) < 0.01
       for: 30m
       labels:
+        rule_source: opswatch-prometheus-rules
         severity: critical
         asy_itsm_severity: high
   - name: prometheus.rules
@@ -39,6 +41,7 @@ spec:
       expr: irate(prometheus_tsdb_out_of_order_samples_total[15m]) > 0
       for: 5m
       labels:
+        rule_source: opswatch-prometheus-rules
         severity: critical
         asy_itsm_severity: medium
     - alert: PrometheusTargetScrapesOutOfOrderSamples
@@ -48,6 +51,7 @@ spec:
       expr: irate(prometheus_target_scrapes_sample_out_of_order_total[15m]) > 0
       for: 5m
       labels:
+        rule_source: opswatch-prometheus-rules
         severity: critical
         asy_itsm_severity: medium
     - alert: PrometheusTargetScrapesDuplicateTimestamp
@@ -57,5 +61,6 @@ spec:
       expr: irate(prometheus_target_scrapes_sample_duplicate_timestamp_total[15m]) > 0
       for: 5m
       labels:
+        rule_source: opswatch-prometheus-rules
         severity: warning
         asy_itsm_severity: medium

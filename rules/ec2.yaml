@@ -16,6 +16,7 @@ spec:
         description: EC2 StatusCheck Instance failed for instance {{ $labels.dimension_InstanceId }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
         runbook_url: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/TroubleshootingInstances.html
       labels:
+        rule_source: opswatch-prometheus-rules
         severity: critical
         asy_itsm_severity: high
       expr: aws_cloudwatch_EC2_StatusCheckFailedInstance_InstanceId > 0
@@ -26,6 +27,7 @@ spec:
         description: EC2 StatusCheck System failed for instance {{ $labels.dimension_InstanceId }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
         runbook_url: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/TroubleshootingInstances.html
       labels:
+        rule_source: opswatch-prometheus-rules
         severity: critical
         asy_itsm_severity: high
       expr: aws_cloudwatch_EC2_StatusCheckFailedSystem_InstanceId > 0
@@ -36,6 +38,7 @@ spec:
         description: EC2 CPU Credit balance is at {{$value}} for instance {{ $labels.dimension_InstanceId }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
         runbook_url: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/burstable-credits-baseline-concepts.html
       labels:
+        rule_source: opswatch-prometheus-rules
         severity: critical
       expr: aws_cloudwatch_EC2_CPUCreditBalance_InstanceId{ec2_credits_mode!="unlimited"} < 10
       for: 30m
@@ -45,6 +48,7 @@ spec:
     #     description: EC2 CPU Credit is at {{$value}} for instance {{ $labels.dimension_InstanceId }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
     #     runbook_url: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/burstable-credits-baseline-concepts.html
     #   labels:
+    #     rule_source: opswatch-prometheus-rules
     #     severity: warning
     #   expr: aws_cloudwatch_EC2_CPUCreditBalance_InstanceId < 20
     #   for: 30m
@@ -54,6 +58,7 @@ spec:
         description: EC2 CPU Credit balance will be at {{$value}} for instance {{ $labels.dimension_InstanceId }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
         runbook_url: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/burstable-credits-baseline-concepts.html
       labels:
+        rule_source: opswatch-prometheus-rules
         severity: warning
       expr: round(predict_linear(aws_cloudwatch_EC2_CPUCreditBalance_InstanceId{ec2_credits_mode!="unlimited"}[30m], 3600 * 2)) < 10
       for: 30m
@@ -63,6 +68,7 @@ spec:
         description: EC2 Credit surplus charged for instance {{ $labels.dimension_InstanceId }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
         runbook_url: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/burstable-credits-baseline-concepts.html
       labels:
+        rule_source: opswatch-prometheus-rules
         severity: warning
       expr: aws_cloudwatch_EC2_CPUSurplusCreditsCharged_InstanceId > 10
       for: 30m
@@ -71,6 +77,7 @@ spec:
         summary: EC2 CPU utlization greater than 90%
         description: EC2 CPU utlization at {{$value}}% for instance {{ $labels.dimension_InstanceId }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
       labels:
+        rule_source: opswatch-prometheus-rules
         severity: warning
       expr: round(aws_cloudwatch_EC2_CPUUtilization_InstanceId) > 90
       for: 60m
@@ -79,6 +86,7 @@ spec:
         summary: EC2 Disk utlization greater than 90%
         description: EC2 CPU utlization at {{$value}}% device {{ $labels.dimension_device }} path {{ $labels.dimension_path }} for instance {{ $labels.dimension_InstanceId }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
       labels:
+        rule_source: opswatch-prometheus-rules
         severity: critical
       expr: round(aws_cloudwatch_CWAgent_diskusedpercent_ImageId_InstanceId_InstanceType_device_fstype_path{dimension_device=~"(sd|nv).*"}) > 90
       for: 60m
@@ -87,6 +95,7 @@ spec:
         summary: EC2 Disk free inodes less than 1000
         description: EC2 Disk free inodes at {{$value}} device {{ $labels.dimension_device }} path {{ $labels.dimension_path }} for instance {{ $labels.dimension_InstanceId }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
       labels:
+        rule_source: opswatch-prometheus-rules
         severity: critical
       expr: aws_cloudwatch_CWAgent_diskinodesfree_ImageId_InstanceId_InstanceType_device_fstype_path{dimension_device=~"(sd|nv).*"} < 1000
       for: 60m

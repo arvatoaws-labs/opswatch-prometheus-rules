@@ -17,6 +17,7 @@ spec:
       expr: absent(certmanager_certificate_ready_status{name="aws-load-balancer-serving-cert"}) > 0
       for: 15m
       labels:
+        rule_source: opswatch-prometheus-rules
         severity: critical
         asy_itsm_severity: medium
   - name: alb.rules
@@ -28,6 +29,7 @@ spec:
       expr: round(aws_cloudwatch_ApplicationELB_TargetResponseTime_LoadBalancer) > 10
       for: 15m
       labels:
+        rule_source: opswatch-prometheus-rules
         severity: warning
     - alert: AwsCloudwatchAlbErrorRate5xx
       annotations:
@@ -37,6 +39,7 @@ spec:
       expr: round(rate(aws_cloudwatch_ApplicationELB_HTTPCodeTarget5XXCount_LoadBalancer_sum{} [30m]) / (rate(aws_cloudwatch_ApplicationELB_HTTPCodeTarget5XXCount_LoadBalancer_sum{} [30m]) + rate(aws_cloudwatch_ApplicationELB_RequestCount_LoadBalancer_sum{} [30m])) * 100)  > 20
       for: 15m
       labels:
+        rule_source: opswatch-prometheus-rules
         severity: warning
     - alert: AwsCloudwatchAlbErrorRate4xx
       annotations:
@@ -46,6 +49,7 @@ spec:
       expr: round(rate(aws_cloudwatch_ApplicationELB_HTTPCodeTarget4XXCount_LoadBalancer_sum{} [30m]) / (rate(aws_cloudwatch_ApplicationELB_HTTPCodeTarget4XXCount_LoadBalancer_sum{} [30m]) + rate(aws_cloudwatch_ApplicationELB_RequestCount_LoadBalancer_sum{} [30m])) * 100)  > 30
       for: 15m
       labels:
+        rule_source: opswatch-prometheus-rules
         severity: warning
     - alert: AwsCloudwatchAlbTargetGroupRatioHealthyHosts
       annotations:
@@ -55,6 +59,7 @@ spec:
       expr: round(aws_cloudwatch_ApplicationELB_HealthyHostCount_LoadBalancer_TargetGroup / ( aws_cloudwatch_ApplicationELB_HealthyHostCount_LoadBalancer_TargetGroup + aws_cloudwatch_ApplicationELB_UnHealthyHostCount_LoadBalancer_TargetGroup ) * 100 ) < 50
       for: 15m
       labels:
+        rule_source: opswatch-prometheus-rules
         severity: critical
         asy_itsm_severity: high
     - alert: AwsCloudwatchAlbTargetGroupZeroHealthyHosts
@@ -65,6 +70,7 @@ spec:
       expr: aws_cloudwatch_ApplicationELB_HealthyHostCount_LoadBalancer_TargetGroup == 0
       for: 15m
       labels:
+        rule_source: opswatch-prometheus-rules
         severity: critical
         asy_itsm_severity: high
     - alert: AwsCloudwatchAlbTargetGroupResponseTimeSlow
@@ -75,6 +81,7 @@ spec:
       expr: round(aws_cloudwatch_ApplicationELB_TargetResponseTime_LoadBalancer_TargetGroup) > 10
       for: 15m
       labels:
+        rule_source: opswatch-prometheus-rules
         severity: warning
     - alert: AwsCloudwatchAlbTargetGroupErrorRate5xx
       annotations:
@@ -84,6 +91,7 @@ spec:
       expr: round(rate(aws_cloudwatch_ApplicationELB_HTTPCodeTarget5XXCount_LoadBalancer_TargetGroup_sum{} [30m]) / (rate(aws_cloudwatch_ApplicationELB_HTTPCodeTarget5XXCount_LoadBalancer_TargetGroup_sum{} [30m]) + rate(aws_cloudwatch_ApplicationELB_RequestCount_LoadBalancer_TargetGroup_sum{} [30m])) * 100)  > 20
       for: 15m
       labels:
+        rule_source: opswatch-prometheus-rules
         severity: warning
     - alert: AwsCloudwatchAlbTargetGroupErrorRate4xx
       annotations:
@@ -93,4 +101,5 @@ spec:
       expr: round(rate(aws_cloudwatch_ApplicationELB_HTTPCodeTarget4XXCount_LoadBalancer_TargetGroup_sum{} [30m]) / (rate(aws_cloudwatch_ApplicationELB_HTTPCodeTarget4XXCount_LoadBalancer_TargetGroup_sum{} [30m]) + sum_over_time(aws_cloudwatch_ApplicationELB_RequestCount_LoadBalancer_TargetGroup_sum{} [30m])) * 100)  > 30
       for: 15m
       labels:
+        rule_source: opswatch-prometheus-rules
         severity: warning

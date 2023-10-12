@@ -18,6 +18,7 @@ spec:
       expr: aws_cloudwatch_ApiGateway_Latency_ApiName_Stage / 1000 > 10
       for: 15m
       labels:
+        rule_source: opswatch-prometheus-rules
         severity: warning
     - alert: AwsCloudwatchApiGatewayErrorRate5xx
       annotations:
@@ -27,6 +28,7 @@ spec:
       expr: round(aws_cloudwatch_ApiGateway_5XXError_ApiName_Stage / aws_cloudwatch_ApiGateway_Count_ApiName_Stage * 100) > 20
       for: 15m
       labels:
+        rule_source: opswatch-prometheus-rules
         severity: warning
     - alert: AwsCloudwatchApiGatewayErrorRate4xx
       annotations:
@@ -36,4 +38,5 @@ spec:
       expr: round(aws_cloudwatch_ApiGateway_5XXError_ApiName_Stage / aws_cloudwatch_ApiGateway_Count_ApiName_Stage * 100) > 20
       for: 15m
       labels:
+        rule_source: opswatch-prometheus-rules
         severity: warning

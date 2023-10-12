@@ -18,6 +18,7 @@ spec:
       expr: (((aws_cloudwatch_ES_FreeStorageSpace_ClientId_DomainName * (increase(aws_cloudwatch_ES_FreeStorageSpace_ClientId_DomainName_count[60m]) / 60 * 5)) / 1024) * 60/300) < 10
       for: 30m
       labels:
+        rule_source: opswatch-prometheus-rules
         severity: critical
         asy_itsm_severity: high
     - alert: AwsCloudwatchElasticSearchHealthStatusRed
@@ -28,6 +29,7 @@ spec:
       expr: aws_cloudwatch_ES_ClusterStatusred_ClientId_DomainName > 1
       for: 15m
       labels:
+        rule_source: opswatch-prometheus-rules
         severity: critical
         asy_itsm_severity: high
     - alert: AwsCloudwatchElasticSearchHealthStatusYellow
@@ -38,6 +40,7 @@ spec:
       expr: aws_cloudwatch_ES_ClusterStatusyellow_ClientId_DomainName > 1
       for: 15m
       labels:
+        rule_source: opswatch-prometheus-rules
         severity: critical
         asy_itsm_severity: medium
     - alert: AwsCloudwatchElasticSearchMasterNotReachable
@@ -48,6 +51,7 @@ spec:
       expr: aws_cloudwatch_ES_MasterReachableFromNode_ClientId_DomainName == 0
       for: 15m
       labels:
+        rule_source: opswatch-prometheus-rules
         severity: critical
         asy_itsm_severity: high
     - alert: AwsCloudwatchElasticSearchHealthUnassignedShards
@@ -58,6 +62,7 @@ spec:
       expr: aws_cloudwatch_ES_Shardsunassigned_ClientId_DomainName > 0
       for: 15m
       labels:
+        rule_source: opswatch-prometheus-rules
         severity: warning
     - alert: AwsCloudwatchElasticSearchHealthRelocatingShards
       annotations:
@@ -67,6 +72,7 @@ spec:
       expr: aws_cloudwatch_ES_Shardsrelocating_ClientId_DomainName > 0
       for: 30m
       labels:
+        rule_source: opswatch-prometheus-rules
         severity: warning
     - alert: AwsCloudwatchElasticSearchHealthActiveShards
       annotations:
@@ -76,6 +82,7 @@ spec:
       expr: aws_cloudwatch_ES_Shardsactive_ClientId_DomainName < 1
       for: 15m
       labels:
+        rule_source: opswatch-prometheus-rules
         severity: warning
     - alert: AwsCloudwatchElasticSearchCPUUtil
       annotations:
@@ -85,6 +92,7 @@ spec:
       expr: aws_cloudwatch_ES_CPUUtilization_ClientId_DomainName > 90
       for: 15m
       labels:
+        rule_source: opswatch-prometheus-rules
         severity: warning
     - alert: AwsCloudwatchElasticSearch345xxErrorCount
       annotations:
@@ -94,6 +102,7 @@ spec:
       expr: (aws_cloudwatch_ES_3xx_ClientId_DomainName > 100) OR (aws_cloudwatch_ES_4xx_ClientId_DomainName > 100) OR (aws_cloudwatch_ES_5xx_ClientId_DomainName > 100)
       for: 15m
       labels:
+        rule_source: opswatch-prometheus-rules
         severity: warning
     - alert: AwsCloudwatchElasticSearchAutomatedSnapshotErrorCount
       annotations:
@@ -103,6 +112,7 @@ spec:
       expr: aws_cloudwatch_ES_AutomatedSnapshotFailure_ClientId_DomainName > 2
       for: 15m
       labels:
+        rule_source: opswatch-prometheus-rules
         severity: warning
     - alert: AwsCloudwatchElasticSearchShardsNumberGrowingStrongly
       annotations:
@@ -112,6 +122,7 @@ spec:
       expr: max_over_time(aws_cloudwatch_ES_Shardsactive_ClientId_DomainName[60m]) - min_over_time(aws_cloudwatch_ES_Shardsactive_ClientId_DomainName[240m]) > 100
       for: 30m
       labels:
+        rule_source: opswatch-prometheus-rules
         severity: warning
         #asy_itsm_severity: medium #only occurs after shard cleanup once in a while, then always false positive.
 # TODO: Check nodes degraded from sensu saas?

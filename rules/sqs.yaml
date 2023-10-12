@@ -19,6 +19,7 @@ spec:
       expr: aws_cloudwatch_SQS_ApproximateNumberOfMessagesVisible_QueueName > 150
       for: 15m
       labels:
+        rule_source: opswatch-prometheus-rules
         severity: warning
     - alert: AwsCloudwatchSQSEmptyReceives
       annotations:
@@ -28,6 +29,7 @@ spec:
       expr: aws_cloudwatch_SQS_NumberOfEmptyReceives_QueueName > 100 # TODO: sensible limit value missing
       for: 15m
       labels:
+        rule_source: opswatch-prometheus-rules
         severity: warning
     - alert: AwsCloudwatchSQSOldMessages
       annotations:
@@ -36,6 +38,7 @@ spec:
       expr: predict_linear(aws_cloudwatch_SQS_ApproximateAgeOfOldestMessage_QueueName[1h], 3600) > aws_apidescribe_SQS_MessageRetentionPeriod_QueueName
       for: 15m
       labels:
+        rule_source: opswatch-prometheus-rules
         severity: warning
     - alert: AwsCloudwatchSQSDeadLetter
       annotations:
@@ -44,5 +47,6 @@ spec:
       expr: aws_cloudwatch_SQS_ApproximateAgeOfOldestMessage_QueueName{dimension_QueueName=~".*(dead-let[t]?er|dlq|DLQ)(\\.fifo)?$"} > 0
       for: 15m
       labels:
+        rule_source: opswatch-prometheus-rules
         severity: critical
         asy_itsm_severity: medium

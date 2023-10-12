@@ -18,6 +18,7 @@ spec:
       expr: round(aws_cloudwatch_CloudFront_5xxErrorRate_DistributionId_Region) > 20
       for: 15m
       labels:
+        rule_source: opswatch-prometheus-rules
         severity: warning
     - alert: AwsCloudwatchCloudfrontErrorRate4xx
       annotations:
@@ -27,4 +28,5 @@ spec:
       expr: round(aws_cloudwatch_CloudFront_4xxErrorRate_DistributionId_Region) > 30
       for: 30m
       labels:
+        rule_source: opswatch-prometheus-rules
         severity: warning

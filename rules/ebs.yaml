@@ -18,4 +18,5 @@ spec:
       expr: aws_cloudwatch_EBS_BurstBalance_VolumeId < 10
       for: 15m
       labels:
+        rule_source: opswatch-prometheus-rules
         severity: warning

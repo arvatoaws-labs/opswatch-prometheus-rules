@@ -14,6 +14,7 @@ spec:
       expr: sum(aws_cloudwatch_Kafka_ActiveControllerCount_ClusterName) == 0
       for: 15m
       labels:
+        rule_source: opswatch-prometheus-rules
         severity: critical
         asy_itsm_severity: high
       annotations:
@@ -23,6 +24,7 @@ spec:
       expr: sum(aws_cloudwatch_Kafka_ZooKeeperSessionState_ClusterName) != 1
       for: 15m
       labels:
+        rule_source: opswatch-prometheus-rules
         severity: critical
       annotations:
         summary: 'Kafka: Zookeeper disconnected.'
@@ -33,6 +35,7 @@ spec:
       expr: sum(aws_cloudwatch_Kafka_OfflinePartitionsCount_ClusterName) > 0
       for: 15m
       labels:
+        rule_source: opswatch-prometheus-rules
         severity: critical
       annotations:
         summary: 'Kafka: All partitions are offline'
@@ -41,6 +44,7 @@ spec:
       expr: sum(aws_cloudwatch_Kafka_GlobalTopicCount_ClusterName) < 1
       for: 15m
       labels:
+        rule_source: opswatch-prometheus-rules
         severity: warning
       annotations:
         summary: 'Kafka: No topics'
@@ -49,6 +53,7 @@ spec:
       expr: sum(aws_cloudwatch_Kafka_GlobalTopicCount_ClusterName) > 1000
       for: 15m
       labels:
+        rule_source: opswatch-prometheus-rules
         severity: warning
       annotations:
         summary: 'Kafka: Over 1000 topics.'
@@ -57,6 +62,7 @@ spec:
       expr: sum(aws_cloudwatch_Kafka_UnderReplicatedPartitions_BrokerID_ClusterName) != 0
       for: 15m
       labels:
+        rule_source: opswatch-prometheus-rules
         severity: warning
       annotations:
         summary: 'Kafka: Underreplicated Partitions.'
@@ -65,6 +71,7 @@ spec:
       expr: sum(aws_cloudwatch_Kafka_UnderMinIsrPartitionCount_BrokerID_ClusterName) != 0
       for: 15m
       labels:
+        rule_source: opswatch-prometheus-rules
         severity: warning
       annotations:
         summary: 'Kafka: Under Min In-Sync-Rate Partitions.'
@@ -75,6 +82,7 @@ spec:
       expr: sum(aws_cloudwatch_Kafka_NetworkRxErrors_BrokerID_ClusterName) != 0
       for: 15m
       labels:
+        rule_source: opswatch-prometheus-rules
         severity: warning
       annotations:
         summary: 'Kafka: Network Rx Errors present.'
@@ -83,6 +91,7 @@ spec:
       expr: sum(aws_cloudwatch_Kafka_NetworkTxErrors_BrokerID_ClusterName) != 0
       for: 15m
       labels:
+        rule_source: opswatch-prometheus-rules
         severity: warning
       annotations:
         summary: 'Kafka: Network Tx Errors present.'

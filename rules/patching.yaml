@@ -17,6 +17,7 @@ spec:
         aws_patching_MajorUpdate > 0
       for: 5m
       labels:
+        rule_source: opswatch-prometheus-rules
         severity: critical
     - alert: AwsPatchingService
       annotations:
@@ -25,6 +26,7 @@ spec:
         aws_patching_ServiceSoftwareUpdate > 0
       for: 5m
       labels:
+        rule_source: opswatch-prometheus-rules
         severity: critical
     - alert: AwsPatchingMinor
       annotations:
@@ -33,4 +35,5 @@ spec:
         aws_patching_MinorUpdate > 0
       for: 5m
       labels:
+        rule_source: opswatch-prometheus-rules
         severity: critical

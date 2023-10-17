@@ -261,7 +261,7 @@ spec:
       labels:
         rule_source: opswatch-prometheus-rules
         severity: critical
-        asy_itsm_severity: high
+        asy_itsm_severity: medium
     - alert: AwsCloudwatchRdsAuroraReplicaLag
       annotations:
         summary: RDS aurora replica lag is more than 100ms

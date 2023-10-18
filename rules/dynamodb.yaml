@@ -21,7 +21,7 @@ spec:
       for: 30m
       labels:
         rule_source: opswatch-prometheus-rules
-        severity: warning
+        severity: info
     - alert: AwsCloudwatchDynamodbSuccessfulRequestLatencyCritical
       annotations:
         summary: DynamoDB SuccessfulRequestLatency is greater than 100ms

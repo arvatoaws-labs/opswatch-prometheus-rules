@@ -18,7 +18,7 @@ spec:
       for: 30m
       labels:
         rule_source: opswatch-prometheus-rules
-        severity: warning
+        severity: info
     - alert: AwsCloudwatchMQQueueLengthCritical
       annotations:
         summary: MQ queue length is above 10000
@@ -27,8 +27,7 @@ spec:
       for: 30m
       labels:
         rule_source: opswatch-prometheus-rules
-        severity: critical
-        asy_itsm_severity: medium
+        severity: warning
   - name: mq.storage.rules
     rules:
     # JournalFilledOpenTransactions (https://github.com/arvatoaws-labs/activemq-xa-cli)
@@ -40,7 +39,7 @@ spec:
       for: 30m
       labels:
         rule_source: opswatch-prometheus-rules
-        severity: warning
+        severity: info
     - alert: AwsCloudwatchMQJournalCritical
       annotations:
         summary: MQ Journal is above 400 open files
@@ -49,8 +48,7 @@ spec:
       for: 30m
       labels:
         rule_source: opswatch-prometheus-rules
-        severity: critical
-        asy_itsm_severity: medium
+        severity: warning
     # StoragePercentUsage
     - alert: AwsCloudwatchMQStoragePercentUsageWarning
       annotations:
@@ -69,8 +67,7 @@ spec:
       for: 15m
       labels:
         rule_source: opswatch-prometheus-rules
-        severity: critical
-        asy_itsm_severity: high
+        severity: warning
   - name: mq.cpu.rules
     rules:
     # CpuUtilization
@@ -91,7 +88,6 @@ spec:
       for: 15m
       labels:
         severity: critical
-        asy_itsm_severity: high
     # BurstBalance
     - alert: AwsCloudwatchMQBurstBalanceCritical
       annotations:
@@ -100,7 +96,6 @@ spec:
       labels:
         rule_source: opswatch-prometheus-rules
         severity: critical
-        asy_itsm_severity: high
       expr: round(aws_cloudwatch_AmazonMQ_BurstBalance_Broker) < 10
       for: 30m
     - alert: AwsCloudwatchMQBurstBalancePrediction
@@ -109,8 +104,7 @@ spec:
         description: MQ burst balance will at {{$value}}% for MQ broker {{ $labels.dimension_Broker }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
       labels:
         rule_source: opswatch-prometheus-rules
-        severity: critical
-        asy_itsm_severity: medium
+        severity: warning
       expr: round(predict_linear(aws_cloudwatch_AmazonMQ_BurstBalance_Broker[30m], 3600 * 2)) < 10
       for: 30m
   - name: mq.memory.rules
@@ -134,57 +128,96 @@ spec:
       labels:
         rule_source: opswatch-prometheus-rules
         severity: critical
-        asy_itsm_severity: high
   - name: mq.connections.rules
     rules:
     # CurrentConnectionsCount / (AmqpMaximumConnections or MqttMaximumConnections or OpenwireMaximumConnections or StompMaximumConnections or WsMaximumConnections)
     - alert: AwsCloudwatchMQAmqpConnectionPercentUsageCritical
       annotations:
-        summary: MQ AMQP connections are above 90 percent
+        summary: MQ AMQP connections are above 95 percent
         description: MQ connection usage is {{$value}}% for MQ Broker {{ $labels.dimension_Broker }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-      expr: round(100 * aws_cloudwatch_AmazonMQ_CurrentConnectionsCount_Broker / aws_cloudwatch_AmazonMQ_AmqpMaximumConnections_Broker) > 90
+      expr: round(100 * aws_cloudwatch_AmazonMQ_CurrentConnectionsCount_Broker / aws_cloudwatch_AmazonMQ_AmqpMaximumConnections_Broker) > 95
       for: 15m
       labels:
         rule_source: opswatch-prometheus-rules
         severity: critical
-        asy_itsm_severity: high
     - alert: AwsCloudwatchMQMqttConnectionPercentUsageCritical
       annotations:
-        summary: MQ MQTT connections are above 90 percent
+        summary: MQ MQTT connections are above 95 percent
         description: MQ connection usage is {{$value}}% for MQ Broker {{ $labels.dimension_Broker }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-      expr: round(100 * aws_cloudwatch_AmazonMQ_CurrentConnectionsCount_Broker / aws_cloudwatch_AmazonMQ_MqttMaximumConnections_Broker) > 90
+      expr: round(100 * aws_cloudwatch_AmazonMQ_CurrentConnectionsCount_Broker / aws_cloudwatch_AmazonMQ_MqttMaximumConnections_Broker) > 95
       for: 15m
       labels:
         rule_source: opswatch-prometheus-rules
         severity: critical
-        asy_itsm_severity: high
     - alert: AwsCloudwatchMQOpenwireConnectionPercentUsageCritical
       annotations:
-        summary: MQ Openwire connections are above 90 percent
+        summary: MQ Openwire connections are above 95 percent
         description: MQ connection usage is {{$value}}% for MQ Broker {{ $labels.dimension_Broker }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-      expr: round(100 * aws_cloudwatch_AmazonMQ_CurrentConnectionsCount_Broker / aws_cloudwatch_AmazonMQ_OpenwireMaximumConnections_Broker) > 90
+      expr: round(100 * aws_cloudwatch_AmazonMQ_CurrentConnectionsCount_Broker / aws_cloudwatch_AmazonMQ_OpenwireMaximumConnections_Broker) > 95
       for: 15m
       labels:
         rule_source: opswatch-prometheus-rules
         severity: critical
-        asy_itsm_severity: high
     - alert: AwsCloudwatchMQStompConnectionPercentUsageCritical
       annotations:
-        summary: MQ Stomp connections are above 90 percent
+        summary: MQ Stomp connections are above 95 percent
         description: MQ connection usage is {{$value}}% for MQ Broker {{ $labels.dimension_Broker }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-      expr: round(100 * aws_cloudwatch_AmazonMQ_CurrentConnectionsCount_Broker / aws_cloudwatch_AmazonMQ_StompMaximumConnections_Broker) > 90
+      expr: round(100 * aws_cloudwatch_AmazonMQ_CurrentConnectionsCount_Broker / aws_cloudwatch_AmazonMQ_StompMaximumConnections_Broker) > 95
       for: 15m
       labels:
         rule_source: opswatch-prometheus-rules
         severity: critical
-        asy_itsm_severity: high
     - alert: AwsCloudwatchMQWsConnectionPercentUsageCritical
       annotations:
-        summary: MQ WS connections are above 90 percent
+        summary: MQ WS connections are above 95 percent
         description: MQ connection usage is {{$value}}% for MQ Broker {{ $labels.dimension_Broker }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-      expr: round(100 * aws_cloudwatch_AmazonMQ_CurrentConnectionsCount_Broker / aws_cloudwatch_AmazonMQ_WsMaximumConnections_Broker) > 90
+      expr: round(100 * aws_cloudwatch_AmazonMQ_CurrentConnectionsCount_Broker / aws_cloudwatch_AmazonMQ_WsMaximumConnections_Broker) > 95
       for: 15m
       labels:
         rule_source: opswatch-prometheus-rules
         severity: critical
-        asy_itsm_severity: high
+    - alert: AwsCloudwatchMQAmqpConnectionPercentUsageWarning
+      annotations:
+        summary: MQ AMQP connections are above 80 percent
+        description: MQ connection usage is {{$value}}% for MQ Broker {{ $labels.dimension_Broker }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+      expr: round(100 * aws_cloudwatch_AmazonMQ_CurrentConnectionsCount_Broker / aws_cloudwatch_AmazonMQ_AmqpMaximumConnections_Broker) > 80
+      for: 15m
+      labels:
+        rule_source: opswatch-prometheus-rules
+        severity: warning
+    - alert: AwsCloudwatchMQMqttConnectionPercentUsageWarning
+      annotations:
+        summary: MQ MQTT connections are above 80 percent
+        description: MQ connection usage is {{$value}}% for MQ Broker {{ $labels.dimension_Broker }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+      expr: round(100 * aws_cloudwatch_AmazonMQ_CurrentConnectionsCount_Broker / aws_cloudwatch_AmazonMQ_MqttMaximumConnections_Broker) > 80
+      for: 15m
+      labels:
+        rule_source: opswatch-prometheus-rules
+        severity: warning
+    - alert: AwsCloudwatchMQOpenwireConnectionPercentUsageWarning
+      annotations:
+        summary: MQ Openwire connections are above 80 percent
+        description: MQ connection usage is {{$value}}% for MQ Broker {{ $labels.dimension_Broker }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+      expr: round(100 * aws_cloudwatch_AmazonMQ_CurrentConnectionsCount_Broker / aws_cloudwatch_AmazonMQ_OpenwireMaximumConnections_Broker) > 80
+      for: 15m
+      labels:
+        rule_source: opswatch-prometheus-rules
+        severity: warning
+    - alert: AwsCloudwatchMQStompConnectionPercentUsageWarning
+      annotations:
+        summary: MQ Stomp connections are above 80 percent
+        description: MQ connection usage is {{$value}}% for MQ Broker {{ $labels.dimension_Broker }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+      expr: round(100 * aws_cloudwatch_AmazonMQ_CurrentConnectionsCount_Broker / aws_cloudwatch_AmazonMQ_StompMaximumConnections_Broker) > 80
+      for: 15m
+      labels:
+        rule_source: opswatch-prometheus-rules
+        severity: warning
+    - alert: AwsCloudwatchMQWsConnectionPercentUsageWarning
+      annotations:
+        summary: MQ WS connections are above 80 percent
+        description: MQ connection usage is {{$value}}% for MQ Broker {{ $labels.dimension_Broker }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+      expr: round(100 * aws_cloudwatch_AmazonMQ_CurrentConnectionsCount_Broker / aws_cloudwatch_AmazonMQ_WsMaximumConnections_Broker) > 80
+      for: 15m
+      labels:
+        rule_source: opswatch-prometheus-rules
+        severity: warning

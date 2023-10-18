@@ -18,7 +18,6 @@ spec:
       labels:
         rule_source: opswatch-prometheus-rules
         severity: critical
-        asy_itsm_severity: high
       expr: aws_cloudwatch_EC2_StatusCheckFailedInstance_InstanceId > 0
       for: 30m
     - alert: AwsCloudwatchEc2StatusCheckFailedSystem
@@ -29,7 +28,6 @@ spec:
       labels:
         rule_source: opswatch-prometheus-rules
         severity: critical
-        asy_itsm_severity: high
       expr: aws_cloudwatch_EC2_StatusCheckFailedSystem_InstanceId > 0
       for: 30m
     - alert: AwsCloudwatchEc2CPUCreditBalanceCritical
@@ -69,7 +67,7 @@ spec:
         runbook_url: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/burstable-credits-baseline-concepts.html
       labels:
         rule_source: opswatch-prometheus-rules
-        severity: warning
+        severity: info
       expr: aws_cloudwatch_EC2_CPUSurplusCreditsCharged_InstanceId > 10
       for: 30m
     - alert: AwsCloudwatchEc2CPUUtilizationHigh

@@ -26,19 +26,18 @@ spec:
         description: ASG number of in service hosts is zero for group {{ $labels.dimension_AutoScalingGroupName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
         runbook_url: https://docs.aws.amazon.com/autoscaling/ec2/userguide/CHAP_Troubleshooting.html
       expr: aws_cloudwatch_AutoScaling_GroupInServiceInstances_AutoScalingGroupName == 0 and aws_cloudwatch_AutoScaling_GroupDesiredCapacity_AutoScalingGroupName > 0
-      for: 15m
+      for: 45m
       labels:
         rule_source: opswatch-prometheus-rules
         severity: critical
-        asy_itsm_severity: high
     - alert: AwsCloudwatchAutoScalingRatioInServiceHosts
       annotations:
-        summary: ASG ratio of in service hostss is below 50%
+        summary: ASG ratio of in service hosts is below 50%
         description: ASG number of in service hosts ratio is {{$value}}% for group {{ $labels.dimension_AutoScalingGroupName }} & TargetGroup {{ $labels.dimension_TargetGroup }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
         runbook_url: https://docs.aws.amazon.com/autoscaling/ec2/userguide/CHAP_Troubleshooting.html
       expr: round(aws_cloudwatch_AutoScaling_GroupInServiceInstances_AutoScalingGroupName / aws_cloudwatch_AutoScaling_GroupTotalInstances_AutoScalingGroupName * 100 ) < 50
       for: 30m
       labels:
         rule_source: opswatch-prometheus-rules
-        severity: critical
+        severity: warning
 # TODO: lambda sensu saas check too many terminated instances after each other?

@@ -20,7 +20,7 @@ spec:
       for: 15m
       labels:
         rule_source: opswatch-prometheus-rules
-        severity: warning
+        severity: info
     - alert: AwsCloudwatchSQSEmptyReceives
       annotations:
         summary: SQS has more than 100 empty receives
@@ -30,7 +30,7 @@ spec:
       for: 15m
       labels:
         rule_source: opswatch-prometheus-rules
-        severity: warning
+        severity: info
     - alert: AwsCloudwatchSQSOldMessages
       annotations:
         summary: SQS has messsages approaching expiration
@@ -48,5 +48,4 @@ spec:
       for: 15m
       labels:
         rule_source: opswatch-prometheus-rules
-        severity: critical
-        asy_itsm_severity: medium
+        severity: warning

@@ -49,3 +49,4 @@ spec:
       labels:
         rule_source: opswatch-prometheus-rules
         severity: warning
+        alarm_class: REACTIVE

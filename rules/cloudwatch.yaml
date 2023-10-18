@@ -20,6 +20,7 @@ spec:
       labels:
         rule_source: opswatch-prometheus-rules
         severity: critical
+        alarm_scope: INTERNAL
     - alert: AwsCloudwatchMetricUpdateRateLow
       annotations:
         summary: Cloudwatch Metric Streams rate low
@@ -30,6 +31,7 @@ spec:
       labels:
         rule_source: opswatch-prometheus-rules
         severity: critical
+        alarm_scope: INTERNAL
   - name: prometheus.rules
     rules:
     - alert: PrometheusTSDBOutOfOrderSamples
@@ -41,6 +43,8 @@ spec:
       labels:
         rule_source: opswatch-prometheus-rules
         severity: warning
+        alarm_class: REACTIVE
+        alarm_scope: INTERNAL
     - alert: PrometheusTargetScrapesOutOfOrderSamples
       annotations:
         summary: Prometheus Target Scrapes Out Of Order Samples
@@ -50,6 +54,8 @@ spec:
       labels:
         rule_source: opswatch-prometheus-rules
         severity: warning
+        alarm_class: REACTIVE
+        alarm_scope: INTERNAL
     - alert: PrometheusTargetScrapesDuplicateTimestamp
       annotations:
         summary: Prometheus Target Scrapes Duplicate Timestamp
@@ -59,3 +65,5 @@ spec:
       labels:
         rule_source: opswatch-prometheus-rules
         severity: warning
+        alarm_class: REACTIVE
+        alarm_scope: INTERNAL

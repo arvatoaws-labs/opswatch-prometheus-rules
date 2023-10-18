@@ -30,6 +30,7 @@ spec:
       labels:
         rule_source: opswatch-prometheus-rules
         severity: warning
+        alarm_class: REACTIVE
     - alert: AwsCloudwatchLambdaThrottles
       annotations:
         summary: Lambda function was throttled
@@ -40,6 +41,7 @@ spec:
       labels:
         rule_source: opswatch-prometheus-rules
         severity: warning
+        alarm_class: REACTIVE
     - alert: AwsCloudwatchLambdaTimeout
       annotations:
         summary: Lambda function was timed out after 900s
@@ -50,6 +52,7 @@ spec:
       labels:
         rule_source: opswatch-prometheus-rules
         severity: warning
+        alarm_class: REACTIVE
 
 
 #aws_cloudwatch_Lambda_Duration_FunctionName

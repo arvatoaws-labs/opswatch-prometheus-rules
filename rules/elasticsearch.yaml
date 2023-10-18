@@ -80,6 +80,7 @@ spec:
       labels:
         rule_source: opswatch-prometheus-rules
         severity: warning
+        alarm_class: REACTIVE
     - alert: AwsCloudwatchElasticSearchCPUUtil
       annotations:
         summary: ElasticSearch Cluster CPU utilization is above 90 percent
@@ -100,6 +101,7 @@ spec:
       labels:
         rule_source: opswatch-prometheus-rules
         severity: warning
+        alarm_class: REACTIVE
     - alert: AwsCloudwatchElasticSearchAutomatedSnapshotErrorCount
       annotations:
         summary: Elasticsearch Cluster automated snapshot error count is greater than 2

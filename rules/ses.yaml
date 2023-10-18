@@ -41,6 +41,8 @@ spec:
       labels:
         rule_source: opswatch-prometheus-rules
         severity: warning
+        alarm_class: REACTIVE
+        ci_operational: 'false'
     - alert: AwsCloudwatchSESComplaintCritical
       annotations:
         summary: SES complain rate is greater than 0.5%
@@ -51,3 +53,5 @@ spec:
       labels:
         rule_source: opswatch-prometheus-rules
         severity: warning
+        alarm_class: REACTIVE
+        ci_operational: 'false'

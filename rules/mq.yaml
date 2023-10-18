@@ -67,7 +67,7 @@ spec:
       for: 15m
       labels:
         rule_source: opswatch-prometheus-rules
-        severity: warning
+        severity: critical
   - name: mq.cpu.rules
     rules:
     # CpuUtilization

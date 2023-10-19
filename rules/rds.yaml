@@ -318,20 +318,22 @@ spec:
         description: RDS ACU utilization is {{$value}}% for DB instance {{ $labels.dimension_DBInstanceIdentifier }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
         runbook_url: https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_Limits.html#RDS_Limits.MaxConnections
       expr: round(aws_cloudwatch_RDS_ACUUtilization_DBInstanceIdentifier) > 90
-      for: 15m
+      for: 30m
       labels:
         rule_source: opswatch-prometheus-rules
-        severity: warning
+        severity: critical
+        asy_itsm_severity: high
     - alert: AwsCloudwatchRdsClusterACUUtilizationHigh
       annotations:
         summary: RDS ACU utilization is more than 90%
         description: RDS ACU utilization is {{$value}}% for DB instance {{ $labels.dimension_DBInstanceIdentifier }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
         runbook_url: https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_Limits.html#RDS_Limits.MaxConnections
       expr: round(aws_cloudwatch_RDS_ACUUtilization_DBClusterIdentifier) > 90
-      for: 15m
+      for: 30m
       labels:
         rule_source: opswatch-prometheus-rules
-        severity: warning
+        severity: critical
+        asy_itsm_severity: high
     # ggf. basierend auf engine und instance_class
     #aws_cloudwatch_RDS_ServerlessDatabaseCapacity_EngineName
 # TODO: high ticket für out of memory?

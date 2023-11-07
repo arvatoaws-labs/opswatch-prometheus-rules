@@ -10,12 +10,22 @@ spec:
   groups:
   - name: elasticsearch.rules
     rules:
-    - alert: AwsCloudwatchElasticSearchFilesystemDataFreePercent
+    - alert: AwsCloudwatchElasticSearchFilesystemDataFreePrediction
       annotations:
-        summary: ElasticSearch Cluster free storage space below 10GB
+        summary: ElasticSearch Cluster free storage space predicted to be below 10GB
         description: ElasticSearch Cluster free storage space is {{$value}}GB for domain {{ $labels.dimension_DomainName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
         runbook_url: https://docs.aws.amazon.com/opensearch-service/latest/developerguide/handling-errors.html
-      expr: (((aws_cloudwatch_ES_FreeStorageSpace_ClientId_DomainName * (increase(aws_cloudwatch_ES_FreeStorageSpace_ClientId_DomainName_count[60m]) / 60 * 5)) / 1024) * 60/300) < 10
+      labels:
+        rule_source: opswatch-prometheus-rules
+        severity: warning
+      expr: round(predict_linear(aws_cloudwatch_ES_FreeStorageSpace_ClientId_DomainName_min[30m], 3600 * 2) / 1024, 0.1) < 10
+      for: 30m
+    - alert: AwsCloudwatchElasticSearchFilesystemDataFree
+      annotations:
+        summary: ElasticSearch Cluster free storage space below 5GB
+        description: ElasticSearch Cluster free storage space is {{$value}}GB for domain {{ $labels.dimension_DomainName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+        runbook_url: https://docs.aws.amazon.com/opensearch-service/latest/developerguide/handling-errors.html
+      expr: round(aws_cloudwatch_ES_FreeStorageSpace_ClientId_DomainName_min / 1024, 0.1) < 5
       for: 30m
       labels:
         rule_source: opswatch-prometheus-rules

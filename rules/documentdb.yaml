@@ -29,3 +29,4 @@ spec:
           expr: round(predict_linear(aws_cloudwatch_DocDB_CPUCreditBalance_DBInstanceIdentifier[30m], 3600 * 2)) < 10
           for: 30m
 # aws_cloudwatch_DocDB_DatabaseConnections_DBInstanceIdentifier
+# status would be critical & high ITSM severity

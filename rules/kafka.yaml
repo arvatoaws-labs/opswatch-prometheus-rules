@@ -1,0 +1,98 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  labels:
+    release: prometheus
+    app: prometheus-operator
+  name: opswatch.kafka.rules
+  namespace: monitoring
+spec:
+  groups:
+  - name: kafka.cluster.rules
+    rules:
+    - alert: Active_Controller
+      expr: sum(aws_cloudwatch_Kafka_ActiveControllerCount_ClusterName) == 0
+      for: 15m
+      labels:
+        rule_source: opswatch-prometheus-rules
+        severity: critical
+        asy_itsm_severity: high
+      annotations:
+        summary: 'Kafka: No active controller'
+        description: 'No broker in the cluster is reporting as the active controller in the last 15 minute interval. During steady state there should be only one active controller per cluster.'
+    - alert: Zookeeper_Session_State
+      expr: sum(aws_cloudwatch_Kafka_ZooKeeperSessionState_ClusterName) != 1
+      for: 15m
+      labels:
+        rule_source: opswatch-prometheus-rules
+        severity: critical
+      annotations:
+        summary: 'Kafka: Zookeeper disconnected.'
+        description: 'Zookeeper disconnected.'
+  - name: kafka.content.rules
+    rules:
+    - alert: Offline_Partitions
+      expr: sum(aws_cloudwatch_Kafka_OfflinePartitionsCount_ClusterName) > 0
+      for: 15m
+      labels:
+        rule_source: opswatch-prometheus-rules
+        severity: critical
+      annotations:
+        summary: 'Kafka: All partitions are offline'
+        description: 'Offline partitions are not available for reading and writing. Restart the brokers, if needed, and check the logs for errors.'
+    - alert: Topic_Count_Low
+      expr: sum(aws_cloudwatch_Kafka_GlobalTopicCount_ClusterName) < 1
+      for: 15m
+      labels:
+        rule_source: opswatch-prometheus-rules
+        severity: warning
+      annotations:
+        summary: 'Kafka: No topics'
+        description: 'The number of active topics in the cluster is below 1.'
+    - alert: Topic_Count_High
+      expr: sum(aws_cloudwatch_Kafka_GlobalTopicCount_ClusterName) > 1000
+      for: 15m
+      labels:
+        rule_source: opswatch-prometheus-rules
+        severity: warning
+      annotations:
+        summary: 'Kafka: Over 1000 topics.'
+        description: 'The number of active topics in the cluster is above 1000.'
+    - alert: Undererplikated_Partitions
+      expr: sum(aws_cloudwatch_Kafka_UnderReplicatedPartitions_BrokerID_ClusterName) != 0
+      for: 15m
+      labels:
+        rule_source: opswatch-prometheus-rules
+        severity: warning
+      annotations:
+        summary: 'Kafka: Underreplicated Partitions.'
+        description: 'Under-replicated partitions means that one or more replicas are not available. This is usually because a broker is down.  Restart the broker, and check for errors in the logs.'
+    - alert: Under_Min_Isr_Partitions
+      expr: sum(aws_cloudwatch_Kafka_UnderMinIsrPartitionCount_BrokerID_ClusterName) != 0
+      for: 15m
+      labels:
+        rule_source: opswatch-prometheus-rules
+        severity: warning
+      annotations:
+        summary: 'Kafka: Under Min In-Sync-Rate Partitions.'
+        description: 'Partitions In-Sync-Rate too low.'
+  - name: kafka.network.rules
+    rules:
+    - alert: Network_Rx_Errors
+      expr: sum(aws_cloudwatch_Kafka_NetworkRxErrors_BrokerID_ClusterName) != 0
+      for: 15m
+      labels:
+        rule_source: opswatch-prometheus-rules
+        severity: warning
+      annotations:
+        summary: 'Kafka: Network Rx Errors present.'
+        description: 'Network Receiving Errors.'
+    - alert: Network_Tx_Errors
+      expr: sum(aws_cloudwatch_Kafka_NetworkTxErrors_BrokerID_ClusterName) != 0
+      for: 15m
+      labels:
+        rule_source: opswatch-prometheus-rules
+        severity: warning
+      annotations:
+        summary: 'Kafka: Network Tx Errors present.'
+        description: 'Network Transmitting Errors.'

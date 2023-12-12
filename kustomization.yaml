@@ -4,7 +4,7 @@ resources:
 - rules/waf.yaml
 - rules/alb.yaml
 - rules/route53.yaml
-- rules/backup.yaml
+#- rules/backup.yaml
 - rules/ebs.yaml
 - rules/tgw.yaml
 - rules/elasticsearch.yaml
@@ -15,7 +15,6 @@ resources:
 - rules/ses.yaml
 - rules/acm.yaml
 - rules/codebuild.yaml
-- rules/elb.yaml
 - rules/asg.yaml
 - rules/rds.yaml
 # - rules/opensearch.yaml
@@ -30,3 +29,7 @@ resources:
 - rules/cloudfront.yaml
 - rules/lambda.yaml
 - rules/cloudwatch.yaml
+- rules/patching.yaml
+- rules/mq.yaml
+- rules/kafka.yaml
+- rules/billing.yaml

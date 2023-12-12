@@ -8,23 +8,25 @@ metadata:
   namespace: monitoring
 spec:
   groups:
-    - name: waf.rules
-      rules:
-        - alert: AwsCloudwatchWafV1BlockRate
-          annotations:
-            summary: WAF block ratio is greater than 20%
-            description: WAF block ratio is {{$value}}% for WAF ACL {{ $labels.dimension_WebACL }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-            runbook_url: https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-troubleshooting.html
-          expr: round(rate(aws_cloudwatch_WAF_BlockedRequests_Region_Rule_WebACL_sum{dimension_Rule="ALL"}[15m]) / (rate(aws_cloudwatch_WAF_AllowedRequests_Region_Rule_WebACL_sum{dimension_Rule="ALL"}[15m]) + rate(aws_cloudwatch_WAF_BlockedRequests_Region_Rule_WebACL_sum{dimension_Rule="ALL"}[15m])) * 100) > 20
-          for: 30m
-          labels:
-            severity: warning
-        - alert: AwsCloudwatchWafV2BlockRate
-          annotations:
-            summary: WAF block ratio is greater than 20%
-            description: WAF block ratio is {{$value}}% for WAF ACL {{ $labels.dimension_WebACL }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-            runbook_url: https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-troubleshooting.html
-          expr: round(rate(aws_cloudwatch_WAFV2_BlockedRequests_Rule_WebACL_sum{dimension_Rule="ALL"}[15m]) / (rate(aws_cloudwatch_WAFV2_AllowedRequests_Rule_WebACL_sum{dimension_Rule="ALL"}[15m]) + rate(aws_cloudwatch_WAFV2_CountedRequests_Rule_WebACL_sum{dimension_Rule="ALL"}[15m]) + rate(aws_cloudwatch_WAFV2_BlockedRequests_Rule_WebACL_sum{dimension_Rule="ALL"}[15m])) * 100) > 20
-          for: 30m
-          labels:
-            severity: warning
+  - name: waf.rules
+    rules:
+    - alert: AwsCloudwatchWafV1BlockRate
+      annotations:
+        summary: WAF block ratio is greater than 20%
+        description: WAF block ratio is {{$value}}% for WAF ACL {{ $labels.dimension_WebACL }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+        runbook_url: https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-troubleshooting.html
+      expr: round(rate(aws_cloudwatch_WAF_BlockedRequests_Region_Rule_WebACL_sum{dimension_Rule="ALL"}[15m]) / (rate(aws_cloudwatch_WAF_AllowedRequests_Region_Rule_WebACL_sum{dimension_Rule="ALL"}[15m]) + rate(aws_cloudwatch_WAF_BlockedRequests_Region_Rule_WebACL_sum{dimension_Rule="ALL"}[15m])) * 100) > 20
+      for: 30m
+      labels:
+        rule_source: opswatch-prometheus-rules
+        severity: warning
+    - alert: AwsCloudwatchWafV2BlockRate
+      annotations:
+        summary: WAF block ratio is greater than 20%
+        description: WAF block ratio is {{$value}}% for WAF ACL {{ $labels.dimension_WebACL }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+        runbook_url: https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-troubleshooting.html
+      expr: round(rate(aws_cloudwatch_WAFV2_BlockedRequests_Rule_WebACL_sum{dimension_Rule="ALL"}[15m]) / (rate(aws_cloudwatch_WAFV2_AllowedRequests_Rule_WebACL_sum{dimension_Rule="ALL"}[15m]) + rate(aws_cloudwatch_WAFV2_CountedRequests_Rule_WebACL_sum{dimension_Rule="ALL"}[15m]) + rate(aws_cloudwatch_WAFV2_BlockedRequests_Rule_WebACL_sum{dimension_Rule="ALL"}[15m])) * 100) > 20
+      for: 30m
+      labels:
+        rule_source: opswatch-prometheus-rules
+        severity: warning

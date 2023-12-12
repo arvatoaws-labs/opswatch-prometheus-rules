@@ -1,10 +1,8 @@
 ---
-
 yaml-files:
-  - '*.yaml'
-  - '*.yml'
-  - '.yamllint'
-
+- '*.yaml'
+- '*.yml'
+- '.yamllint'
 rules:
   braces: enable
   brackets: enable
@@ -20,14 +18,16 @@ rules:
   empty-lines: enable
   empty-values: disable
   hyphens: enable
-  indentation: enable
   key-duplicates: enable
   key-ordering: disable
   line-length: disable
-  new-line-at-end-of-file: enable
+  new-line-at-end-of-file: disable
   new-lines: enable
   octal-values: disable
   quoted-strings: disable
   trailing-spaces: enable
   truthy:
     level: warning
+  indentation:
+    spaces: 2
+    indent-sequences: false

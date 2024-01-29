@@ -29,7 +29,6 @@ resources:
 - rules/cloudfront.yaml
 - rules/lambda.yaml
 - rules/cloudwatch.yaml
-- rules/patching.yaml
 - rules/mq.yaml
 - rules/kafka.yaml
 - rules/billing.yaml

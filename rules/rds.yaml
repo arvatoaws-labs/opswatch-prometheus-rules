@@ -289,7 +289,8 @@ spec:
       for: 15m
       labels:
         rule_source: opswatch-prometheus-rules
-        severity: warning
+        severity: critical
+        asy_itsm_severity: medium
     - alert: AwsCloudwatchRdsFreeStorage
       annotations:
         summary: RDS free storage is less than 4GB
@@ -299,7 +300,8 @@ spec:
       for: 15m
       labels:
         rule_source: opswatch-prometheus-rules
-        severity: warning
+        severity: critical
+        asy_itsm_severity: high
     - alert: AwsCloudwatchRdsClusterMaxConnections
       annotations:
         summary: RDS connection count is more than 90%

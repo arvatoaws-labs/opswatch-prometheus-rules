@@ -273,15 +273,25 @@ spec:
         severity: info
     - alert: AwsCloudwatchRdsFreeLocalStorage
       annotations:
-        summary: RDS free local storage is less than 10GB
+        summary: RDS free local storage is less than 4GB
         description: RDS free local storage is {{$value}}GB for DB instance {{ $labels.dimension_DBInstanceIdentifier }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
         runbook_url: https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_Troubleshooting.html#CHAP_Troubleshooting.Storage
-      expr: round(aws_cloudwatch_RDS_FreeLocalStorage) < 10
+      expr: round(aws_cloudwatch_RDS_FreeLocalStorage_DBInstanceIdentifier) < 4000000000
       for: 15m
       labels:
         rule_source: opswatch-prometheus-rules
         severity: warning
-    - alert: AwsCloudwatchRdsClusterMaxConnectionsCritical
+    - alert: AwsCloudwatchRdsFreeStorage
+      annotations:
+        summary: RDS free storage is less than 4GB
+        description: RDS free storage is {{$value}}GB for DB instance {{ $labels.dimension_DBInstanceIdentifier }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+        runbook_url: https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_Troubleshooting.html#CHAP_Troubleshooting.Storage
+      expr: round(aws_cloudwatch_RDS_FreeStorageSpace_DBInstanceIdentifier) < 4000000000
+      for: 15m
+      labels:
+        rule_source: opswatch-prometheus-rules
+        severity: critical
+    - alert: AwsCloudwatchRdsClusterMaxConnections
       annotations:
         summary: RDS connection count is more than 95%
         description: RDS connection count is {{$value}}% for DB cluster {{ $labels.dimension_DBClusterIdentifier }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
@@ -327,20 +337,22 @@ spec:
         description: RDS ACU utilization is {{$value}}% for DB instance {{ $labels.dimension_DBInstanceIdentifier }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
         runbook_url: https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_Limits.html#RDS_Limits.MaxConnections
       expr: round(aws_cloudwatch_RDS_ACUUtilization_DBInstanceIdentifier) > 90
-      for: 15m
+      for: 30m
       labels:
         rule_source: opswatch-prometheus-rules
-        severity: warning
+        severity: critical
+        asy_itsm_severity: high
     - alert: AwsCloudwatchRdsClusterACUUtilizationHigh
       annotations:
         summary: RDS ACU utilization is more than 90%
         description: RDS ACU utilization is {{$value}}% for DB instance {{ $labels.dimension_DBInstanceIdentifier }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
         runbook_url: https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_Limits.html#RDS_Limits.MaxConnections
       expr: round(aws_cloudwatch_RDS_ACUUtilization_DBClusterIdentifier) > 90
-      for: 15m
+      for: 30m
       labels:
         rule_source: opswatch-prometheus-rules
-        severity: warning
+        severity: critical
+        asy_itsm_severity: high
     # ggf. basierend auf engine und instance_class
     #aws_cloudwatch_RDS_ServerlessDatabaseCapacity_EngineName
 # TODO: high ticket für out of memory?

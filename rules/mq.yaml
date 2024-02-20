@@ -39,7 +39,8 @@ spec:
       for: 30m
       labels:
         rule_source: opswatch-prometheus-rules
-        severity: info
+        severity: warning
+        runbook_url: https://arvato-systems-group.atlassian.net/wiki/spaces/AWSKB/pages/730760409/Journal+Issues
     - alert: AwsCloudwatchMQJournalCritical
       annotations:
         summary: MQ Journal is above 400 open files
@@ -48,7 +49,8 @@ spec:
       for: 30m
       labels:
         rule_source: opswatch-prometheus-rules
-        severity: warning
+        severity: critical
+        runbook_url: https://arvato-systems-group.atlassian.net/wiki/spaces/AWSKB/pages/730760409/Journal+Issues
     # StoragePercentUsage
     - alert: AwsCloudwatchMQStoragePercentUsageWarning
       annotations:

@@ -16,7 +16,6 @@ spec:
       labels:
         rule_source: opswatch-prometheus-rules
         severity: critical
-        asy_itsm_severity: high
       annotations:
         summary: 'Kafka: No active controller'
         description: 'No broker in the cluster is reporting as the active controller in the last 15 minute interval. During steady state there should be only one active controller per cluster.'
@@ -25,7 +24,8 @@ spec:
       for: 15m
       labels:
         rule_source: opswatch-prometheus-rules
-        severity: critical
+        severity: warning
+        alarm_class: REACTIVE
       annotations:
         summary: 'Kafka: Zookeeper disconnected.'
         description: 'Zookeeper disconnected.'
@@ -45,7 +45,7 @@ spec:
       for: 15m
       labels:
         rule_source: opswatch-prometheus-rules
-        severity: warning
+        severity: info
       annotations:
         summary: 'Kafka: No topics'
         description: 'The number of active topics in the cluster is below 1.'
@@ -54,7 +54,7 @@ spec:
       for: 15m
       labels:
         rule_source: opswatch-prometheus-rules
-        severity: warning
+        severity: info
       annotations:
         summary: 'Kafka: Over 1000 topics.'
         description: 'The number of active topics in the cluster is above 1000.'
@@ -83,7 +83,7 @@ spec:
       for: 15m
       labels:
         rule_source: opswatch-prometheus-rules
-        severity: warning
+        severity: info
       annotations:
         summary: 'Kafka: Network Rx Errors present.'
         description: 'Network Receiving Errors.'
@@ -92,7 +92,7 @@ spec:
       for: 15m
       labels:
         rule_source: opswatch-prometheus-rules
-        severity: warning
+        severity: info
       annotations:
         summary: 'Kafka: Network Tx Errors present.'
         description: 'Network Transmitting Errors.'

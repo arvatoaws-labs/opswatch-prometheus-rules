@@ -16,7 +16,7 @@ spec:
         description: ECS Service CPU Utilizatiom is {{$value}}% for ECS Cluster {{ $labels.dimension_ClusterName }} and service {{ $labels.dimension_ServiceName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
         runbook_url: https://docs.aws.amazon.com/AmazonECS/latest/developerguide/troubleshooting.html
       expr: round(aws_cloudwatch_ECS_CPUUtilization_ClusterName_ServiceName) > 90
-      for: 15m
+      for: 60m
       labels:
         rule_source: opswatch-prometheus-rules
         severity: warning

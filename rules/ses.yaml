@@ -20,7 +20,7 @@ spec:
       for: 30m
       labels:
         rule_source: opswatch-prometheus-rules
-        severity: warning
+        severity: info
     - alert: AwsCloudwatchSESComplaintWarning
       annotations:
         summary: SES complain rate is greater than 0.1%
@@ -30,7 +30,7 @@ spec:
       for: 30m
       labels:
         rule_source: opswatch-prometheus-rules
-        severity: warning
+        severity: info
     - alert: AwsCloudwatchSESBounceCritical
       annotations:
         summary: SES bounce rate is greater than 10%
@@ -40,8 +40,9 @@ spec:
       for: 30m
       labels:
         rule_source: opswatch-prometheus-rules
-        severity: critical
-        asy_itsm_severity: medium
+        severity: warning
+        alarm_class: REACTIVE
+        ci_operational: 'false'
     - alert: AwsCloudwatchSESComplaintCritical
       annotations:
         summary: SES complain rate is greater than 0.5%
@@ -51,5 +52,6 @@ spec:
       for: 30m
       labels:
         rule_source: opswatch-prometheus-rules
-        severity: critical
-        asy_itsm_severity: medium
+        severity: warning
+        alarm_class: REACTIVE
+        ci_operational: 'false'

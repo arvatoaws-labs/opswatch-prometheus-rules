@@ -19,7 +19,7 @@ spec:
       for: 15m
       labels:
         rule_source: opswatch-prometheus-rules
-        severity: warning
+        severity: info
     - alert: AwsCloudwatchCloudfrontErrorRate4xx
       annotations:
         summary: Cloudfront 4xx error rate is greater than 30%
@@ -29,4 +29,4 @@ spec:
       for: 30m
       labels:
         rule_source: opswatch-prometheus-rules
-        severity: warning
+        severity: info

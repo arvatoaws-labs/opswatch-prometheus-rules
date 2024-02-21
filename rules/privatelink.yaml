@@ -20,7 +20,7 @@ spec:
       for: 15m
       labels:
         rule_source: opswatch-prometheus-rules
-        severity: warning
+        severity: info
     - alert: AwsCloudwatchPrivateLinkEndpointRstPacketsReceived
       annotations:
         summary: PrivateLinkEndpoint has ResetPackaetsReceived Count higher than 10
@@ -30,4 +30,4 @@ spec:
       for: 15m
       labels:
         rule_source: opswatch-prometheus-rules
-        severity: warning
+        severity: info

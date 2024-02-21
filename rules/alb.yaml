@@ -18,8 +18,8 @@ spec:
       for: 15m
       labels:
         rule_source: opswatch-prometheus-rules
-        severity: critical
-        asy_itsm_severity: medium
+        severity: warning
+        alarm_class: REACTIVE
   - name: alb.rules
     rules:
     - alert: AwsCloudwatchAlbTargetResponseTimeSlow
@@ -30,7 +30,7 @@ spec:
       for: 15m
       labels:
         rule_source: opswatch-prometheus-rules
-        severity: warning
+        severity: info
     - alert: AwsCloudwatchAlbErrorRate5xx
       annotations:
         summary: ALB 5xx Error ratio is greater than 20%
@@ -40,7 +40,7 @@ spec:
       for: 15m
       labels:
         rule_source: opswatch-prometheus-rules
-        severity: warning
+        severity: info
     - alert: AwsCloudwatchAlbErrorRate4xx
       annotations:
         summary: ALB 4xx Error ratio is greater than 30%
@@ -50,7 +50,7 @@ spec:
       for: 15m
       labels:
         rule_source: opswatch-prometheus-rules
-        severity: warning
+        severity: info
     - alert: AwsCloudwatchAlbTargetGroupRatioHealthyHosts
       annotations:
         summary: ALB TargetGroup ratio of healthy hosts is below 50%
@@ -61,7 +61,6 @@ spec:
       labels:
         rule_source: opswatch-prometheus-rules
         severity: critical
-        asy_itsm_severity: high
     - alert: AwsCloudwatchAlbTargetGroupZeroHealthyHosts
       annotations:
         summary: ALB TargetGroup number of healthy hosts is 0
@@ -72,7 +71,6 @@ spec:
       labels:
         rule_source: opswatch-prometheus-rules
         severity: critical
-        asy_itsm_severity: high
     - alert: AwsCloudwatchAlbTargetGroupResponseTimeSlow
       annotations:
         summary: ALB TargetGroup response time is greater than 10s
@@ -82,7 +80,7 @@ spec:
       for: 15m
       labels:
         rule_source: opswatch-prometheus-rules
-        severity: warning
+        severity: info
     - alert: AwsCloudwatchAlbTargetGroupErrorRate5xx
       annotations:
         summary: ALB TargetGroup 5xx Error ratio is greater than 20%
@@ -92,7 +90,7 @@ spec:
       for: 15m
       labels:
         rule_source: opswatch-prometheus-rules
-        severity: warning
+        severity: info
     - alert: AwsCloudwatchAlbTargetGroupErrorRate4xx
       annotations:
         summary: ALB TargetGroup 4xx Error ratio is greater than 30%
@@ -102,4 +100,4 @@ spec:
       for: 15m
       labels:
         rule_source: opswatch-prometheus-rules
-        severity: warning
+        severity: info

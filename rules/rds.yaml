@@ -165,7 +165,7 @@ spec:
       labels:
         rule_source: opswatch-prometheus-rules
         severity: critical
-      expr: round(aws_cloudwatch_RDS_CPUCreditBalance_DBInstanceIdentifier) < 10
+      expr: round(aws_cloudwatch_RDS_CPUCreditBalance_DBInstanceIdentifier{rds_db_instance_class=~"db.t2.*"}) < 10
       for: 30m
     - alert: AwsCloudwatchRdsCPUCreditBalancePrediction
       annotations:
@@ -175,7 +175,17 @@ spec:
       labels:
         rule_source: opswatch-prometheus-rules
         severity: warning
-      expr: round(predict_linear(aws_cloudwatch_RDS_CPUCreditBalance_DBInstanceIdentifier[30m], 3600 * 2)) < 10
+      expr: round(predict_linear(aws_cloudwatch_RDS_CPUCreditBalance_DBInstanceIdentifier{rds_db_instance_class=~"db.t2.*"}[30m], 3600 * 2)) < 10
+      for: 30m
+    - alert: AwsCloudwatchRdsCPUUnlimitedCreditCharge
+      annotations:
+        summary: RDS has charged CPU credits
+        description: RDS CPU Credit charged is at {{$value}} for DB instance {{ $labels.dimension_DBInstanceIdentifier }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+        runbook_url: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/burstable-credits-baseline-concepts.html
+      labels:
+        rule_source: opswatch-prometheus-rules
+        severity: warning
+      expr: round(aws_cloudwatch_RDS_CPUSurplusCreditsCharged_DBInstanceIdentifier) > 0
       for: 30m
     - alert: AwsCloudwatchRDSCPUUtilizationHigh
       annotations:

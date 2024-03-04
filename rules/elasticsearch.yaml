@@ -132,5 +132,4 @@ spec:
       labels:
         rule_source: opswatch-prometheus-rules
         severity: warning
-        #asy_itsm_severity: medium #only occurs after shard cleanup once in a while, then always false positive.
 # TODO: Check nodes degraded from sensu saas?

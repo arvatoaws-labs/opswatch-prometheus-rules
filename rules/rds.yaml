@@ -371,7 +371,6 @@ spec:
       labels:
         rule_source: opswatch-prometheus-rules
         severity: critical
-        asy_itsm_severity: high
     - alert: AwsCloudwatchRdsClusterACUUtilizationHigh
       annotations:
         summary: RDS ACU utilization is more than 90%
@@ -382,7 +381,6 @@ spec:
       labels:
         rule_source: opswatch-prometheus-rules
         severity: critical
-        asy_itsm_severity: high
     # ggf. basierend auf engine und instance_class
     #aws_cloudwatch_RDS_ServerlessDatabaseCapacity_EngineName
 # TODO: high ticket für out of memory?

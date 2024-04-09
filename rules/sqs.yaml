@@ -35,6 +35,7 @@ spec:
       annotations:
         summary: SQS has messsages approaching expiration
         description: SQS queue {{ $labels.dimension_QueueName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }} doesn't seem to be processing messages, as the messages are close to expiration.
+        runbook: This likely means that the application is not processing messages. Investigate in the application for the root cause.
       expr: predict_linear(aws_cloudwatch_SQS_ApproximateAgeOfOldestMessage_QueueName[1h], 3600) > aws_apidescribe_SQS_MessageRetentionPeriod_QueueName
       for: 15m
       labels:
@@ -44,6 +45,7 @@ spec:
       annotations:
         summary: SQS dead letter queue has messages failures from other queues
         description: SQS queue {{ $labels.dimension_QueueName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }} has message failures from other queues
+        runbook: The application was consistently unable to process messages from the main queue. Investigate the root cause in the application. Once fixed, if desired, the messages can be moved back to the main queue with SQS redrive or deleted from the dead letter queue if a reprocessing isn't desirable.
       expr: aws_cloudwatch_SQS_ApproximateAgeOfOldestMessage_QueueName{dimension_QueueName=~".*(dead-let[t]?er|dlq|DLQ)(\\.fifo)?$"} > 0
       for: 15m
       labels:

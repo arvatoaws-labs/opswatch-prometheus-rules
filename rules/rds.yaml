@@ -201,6 +201,7 @@ spec:
       annotations:
         summary: RDS CPU utlization greater than 90%
         description: RDS CPU utlization at {{$value}}% for DB instance {{ $labels.dimension_DBInstanceIdentifier }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+        runbook: Likely fixing this would either require optimizing the queries (which is up to the app developers) or upgrading the instance class. To provide the customer with information, if enabled you could check the performance insights for what is causing the most load
       labels:
         rule_source: opswatch-prometheus-rules
         severity: warning

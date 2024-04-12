@@ -36,6 +36,7 @@ spec:
       annotations:
         summary: DynamoDB requests are throttled
         description: DynamoDB {{ $labels.dimension_Operation}} requests were throttled {{$value}} times for table {{ $labels.dimension_TableName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+        runbook: Check if the dynamodb uses ondemand or provisioned capacity based mode. If it uses provisioned capacity, check whether capacity autoscaling is enabled, if so it may have reached the maximal capacity allowed, if not it may simply be configured with too little capacity. If any of that is true, a short term fix would be to increase the maximum capacity. In the long term some queries might be designed inefficiently and need to be optimized, including but not limited to additional secondary indexes.
       expr: aws_cloudwatch_DynamoDB_ThrottledRequests_Operation_TableName > 0
       for: 15m
       labels:

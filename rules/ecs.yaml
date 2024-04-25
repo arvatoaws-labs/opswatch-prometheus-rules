@@ -30,13 +30,13 @@ spec:
       labels:
         rule_source: opswatch-prometheus-rules
         severity: warning
-    - alert: AwsCloudwatchECSDesiredTaskCountZero
+    - alert: AwsCloudwatchECSInsightsTaskCount
       annotations:
-        summary: ECS Service Desired Task Count is 0
-        description: ECS Service Desired Task Count is 0 for ECS Cluster {{ $labels.dimension_ClusterName }} and service {{ $labels.dimension_ServiceName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+        summary: ECS Service has less running tasks than desired
+        description: ECS Service has less running tasks than desired for ECS Cluster {{ $labels.dimension_ClusterName }} and service {{ $labels.dimension_ServiceName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
         runbook_url: https://docs.aws.amazon.com/AmazonECS/latest/developerguide/troubleshooting.html
-      expr: aws_cloudwatch_ECSContainerInsights_RunningTaskCount_ClusterName_ServiceName == 0 and aws_cloudwatch_ECSContainerInsights_DesiredTaskCount_ClusterName_ServiceName > 0
-      for: 15m
+      expr: aws_cloudwatch_ECSContainerInsights_RunningTaskCount_ClusterName_ServiceName < aws_cloudwatch_ECSContainerInsights_DesiredTaskCount_ClusterName_ServiceName
+      for: 30m
       labels:
         rule_source: opswatch-prometheus-rules
         severity: warning

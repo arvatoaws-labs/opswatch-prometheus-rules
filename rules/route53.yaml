@@ -20,7 +20,6 @@ spec:
       labels:
         rule_source: opswatch-prometheus-rules
         severity: critical
-        asy_itsm_severity: high
     - alert: AwsCloudwatchRoute53HealthCheckPercentageWarning
       annotations:
         summary: Route53 health check ratio is below 50%
@@ -31,3 +30,5 @@ spec:
       labels:
         rule_source: opswatch-prometheus-rules
         severity: warning
+        alarm_class: REACTIVE
+        ci_operational: 'false'

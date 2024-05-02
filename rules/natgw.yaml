@@ -20,7 +20,7 @@ spec:
       for: 15m
       labels:
         rule_source: opswatch-prometheus-rules
-        severity: warning
+        severity: info
     - alert: AwsCloudwatchNATGatewayErrorPortAllocation
       annotations:
         summary: NATGW has Error Port Allocation higher than 1
@@ -30,4 +30,4 @@ spec:
       for: 15m
       labels:
         rule_source: opswatch-prometheus-rules
-        severity: warning
+        severity: info

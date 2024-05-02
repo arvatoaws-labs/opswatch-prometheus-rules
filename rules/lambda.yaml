@@ -19,7 +19,7 @@ spec:
       for: 30m
       labels:
         rule_source: opswatch-prometheus-rules
-        severity: warning
+        severity: info
     - alert: AwsCloudwatchLambdaErrorRateCritical
       annotations:
         summary: Lambda error rate is greater than 15%
@@ -29,7 +29,8 @@ spec:
       for: 15m
       labels:
         rule_source: opswatch-prometheus-rules
-        severity: critical
+        severity: warning
+        alarm_class: REACTIVE
     - alert: AwsCloudwatchLambdaThrottles
       annotations:
         summary: Lambda function was throttled
@@ -39,7 +40,8 @@ spec:
       for: 15m
       labels:
         rule_source: opswatch-prometheus-rules
-        severity: critical
+        severity: warning
+        alarm_class: REACTIVE
     - alert: AwsCloudwatchLambdaTimeout
       annotations:
         summary: Lambda function was timed out after 900s
@@ -49,7 +51,8 @@ spec:
       for: 15m
       labels:
         rule_source: opswatch-prometheus-rules
-        severity: critical
+        severity: warning
+        alarm_class: REACTIVE
 
 
 #aws_cloudwatch_Lambda_Duration_FunctionName

@@ -17,8 +17,7 @@ spec:
         runbook_url: https://docs.aws.amazon.com/opensearch-service/latest/developerguide/handling-errors.html
       labels:
         rule_source: opswatch-prometheus-rules
-        severity: critical
-        asy_itsm_severity: medium
+        severity: warning
       expr: round(predict_linear(aws_cloudwatch_ES_FreeStorageSpace_ClientId_DomainName_min[30m], 3600 * 2) / 1024, 0.1) < 10
       for: 30m
     - alert: AwsCloudwatchElasticSearchFilesystemDataFree
@@ -31,7 +30,6 @@ spec:
       labels:
         rule_source: opswatch-prometheus-rules
         severity: critical
-        asy_itsm_severity: high
     - alert: AwsCloudwatchElasticSearchHealthStatusRed
       annotations:
         summary: ElasticSearch Cluster health status is RED
@@ -42,7 +40,6 @@ spec:
       labels:
         rule_source: opswatch-prometheus-rules
         severity: critical
-        asy_itsm_severity: high
     - alert: AwsCloudwatchElasticSearchHealthStatusYellow
       annotations:
         summary: ElasticSearch Cluster health status is YELLOW
@@ -52,8 +49,7 @@ spec:
       for: 15m
       labels:
         rule_source: opswatch-prometheus-rules
-        severity: critical
-        asy_itsm_severity: medium
+        severity: warning
     - alert: AwsCloudwatchElasticSearchMasterNotReachable
       annotations:
         summary: ElasticSearch Cluster master node is not reachable
@@ -64,7 +60,6 @@ spec:
       labels:
         rule_source: opswatch-prometheus-rules
         severity: critical
-        asy_itsm_severity: high
     - alert: AwsCloudwatchElasticSearchHealthUnassignedShards
       annotations:
         summary: ElasticSearch Cluster has unassigned shards
@@ -74,7 +69,7 @@ spec:
       for: 15m
       labels:
         rule_source: opswatch-prometheus-rules
-        severity: warning
+        severity: info
     - alert: AwsCloudwatchElasticSearchHealthRelocatingShards
       annotations:
         summary: ElasticSearch Cluster is relocating shards
@@ -84,7 +79,7 @@ spec:
       for: 30m
       labels:
         rule_source: opswatch-prometheus-rules
-        severity: warning
+        severity: info
     - alert: AwsCloudwatchElasticSearchHealthActiveShards
       annotations:
         summary: ElasticSearch Clusters has no active shards
@@ -95,13 +90,14 @@ spec:
       labels:
         rule_source: opswatch-prometheus-rules
         severity: warning
+        alarm_class: REACTIVE
     - alert: AwsCloudwatchElasticSearchCPUUtil
       annotations:
         summary: ElasticSearch Cluster CPU utilization is above 90 percent
         description: ElasticSearch Cluster CPU utilization is above {{$value}}% for domain {{ $labels.dimension_DomainName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
         runbook_url: https://docs.aws.amazon.com/opensearch-service/latest/developerguide/handling-errors.html
       expr: aws_cloudwatch_ES_CPUUtilization_ClientId_DomainName > 90
-      for: 15m
+      for: 60m
       labels:
         rule_source: opswatch-prometheus-rules
         severity: warning
@@ -111,10 +107,11 @@ spec:
         description: ElasticSearch Cluster Connection error count is {{$value}} for domain {{ $labels.dimension_DomainName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
         runbook_url: https://docs.aws.amazon.com/opensearch-service/latest/developerguide/handling-errors.html
       expr: (aws_cloudwatch_ES_3xx_ClientId_DomainName > 100) OR (aws_cloudwatch_ES_4xx_ClientId_DomainName > 100) OR (aws_cloudwatch_ES_5xx_ClientId_DomainName > 100)
-      for: 15m
+      for: 45m
       labels:
         rule_source: opswatch-prometheus-rules
         severity: warning
+        alarm_class: REACTIVE
     - alert: AwsCloudwatchElasticSearchAutomatedSnapshotErrorCount
       annotations:
         summary: Elasticsearch Cluster automated snapshot error count is greater than 2
@@ -135,5 +132,4 @@ spec:
       labels:
         rule_source: opswatch-prometheus-rules
         severity: warning
-        #asy_itsm_severity: medium #only occurs after shard cleanup once in a while, then always false positive.
 # TODO: Check nodes degraded from sensu saas?

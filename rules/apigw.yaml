@@ -19,7 +19,7 @@ spec:
       for: 15m
       labels:
         rule_source: opswatch-prometheus-rules
-        severity: warning
+        severity: info
     - alert: AwsCloudwatchApiGatewayErrorRate5xx
       annotations:
         summary: API Gateway 5xx error rate is greater than 20%
@@ -29,7 +29,7 @@ spec:
       for: 15m
       labels:
         rule_source: opswatch-prometheus-rules
-        severity: warning
+        severity: info
     - alert: AwsCloudwatchApiGatewayErrorRate4xx
       annotations:
         summary: API Gateway 4xx error rate is greater than 20%
@@ -39,4 +39,4 @@ spec:
       for: 15m
       labels:
         rule_source: opswatch-prometheus-rules
-        severity: warning
+        severity: info

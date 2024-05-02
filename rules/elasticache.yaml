@@ -10,13 +10,23 @@ spec:
   groups:
   - name: elasticache.rules
     rules:
+    - alert: AwsCloudwatchElastiCacheEngineCPUUtilization
+      annotations:
+        summary: ElastiCache has Engine CPU Utilization higher than 90 percent
+        description: ElastiCache cluster {{ $labels.dimension_CacheClusterId }} node {{ $labels.dimension_CacheNodeId }} has {{$value}}% Engine CPU Utilization in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+        runbook_url: https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/ErrorMessages.html
+      expr: round(aws_cloudwatch_ElastiCache_EngineCPUUtilization_CacheClusterId_CacheNodeId) > 90
+      for: 30m
+      labels:
+        rule_source: opswatch-prometheus-rules
+        severity: warning
     - alert: AwsCloudwatchElastiCacheCPUUtilization
       annotations:
         summary: ElastiCache has CPU Utilization higher than 90 percent
         description: ElastiCache cluster {{ $labels.dimension_CacheClusterId }} node {{ $labels.dimension_CacheNodeId }} has {{$value}}% CPU Utilization in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
         runbook_url: https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/ErrorMessages.html
       expr: round(aws_cloudwatch_ElastiCache_CPUUtilization_CacheClusterId_CacheNodeId) > 90
-      for: 15m
+      for: 30m
       labels:
         rule_source: opswatch-prometheus-rules
         severity: warning
@@ -39,7 +49,7 @@ spec:
       for: 15m
       labels:
         rule_source: opswatch-prometheus-rules
-        severity: warning
+        severity: critical
     - alert: AwsCloudwatchElastiCacheCPUCreditBalancePrediction
       annotations:
         summary: ElastiCache CPU Credit balance will be below 10 in 2 hours
@@ -59,7 +69,7 @@ spec:
       for: 30m
       labels:
         rule_source: opswatch-prometheus-rules
-        severity: warning
+        severity: info
     - alert: AwsCloudwatchElastiCacheDatabaseMemoryUsageCountedForEvictPercentage
       annotations:
         summary: ElastiCache has DatabaseMemoryUsage Counted for Evict percentage above 85 percent

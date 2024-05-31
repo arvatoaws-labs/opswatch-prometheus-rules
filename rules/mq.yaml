@@ -13,7 +13,10 @@ spec:
     - alert: AwsCloudwatchMQQueueLengthWarning
       annotations:
         summary: MQ queue length is above 1000
-        description: MQ queue {{ $labels.dimensions_Queue }} has {{$value}} open items for MQ Broker {{ $labels.dimensions_Broker }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}.
+        description: MQ queue {{ $labels.dimensions_Queue }} has {{$value}} open items
+          for MQ Broker {{ $labels.dimensions_Broker }} in customer {{ $labels.overwrite_asy_customer
+          }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region
+          }}.
       expr: round(aws_cloudwatch_AmazonMQ_QueueSize_Broker_Queue) > 1000
       for: 30m
       labels:
@@ -22,7 +25,10 @@ spec:
     - alert: AwsCloudwatchMQQueueLengthCritical
       annotations:
         summary: MQ queue length is above 10000
-        description: MQ queue {{ $labels.dimensions_Queue }} has {{$value}} open items for MQ Broker {{ $labels.dimensions_Broker }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}.
+        description: MQ queue {{ $labels.dimensions_Queue }} has {{$value}} open items
+          for MQ Broker {{ $labels.dimensions_Broker }} in customer {{ $labels.overwrite_asy_customer
+          }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region
+          }}.
       expr: round(aws_cloudwatch_AmazonMQ_QueueSize_Broker_Queue) > 10000
       for: 30m
       labels:
@@ -34,8 +40,12 @@ spec:
     - alert: AwsCloudwatchMQJournalWarning
       annotations:
         summary: MQ Journal is above 100 open files
-        description: MQ Journal has {{$value}} files for MQ Broker {{ $labels.dimensions_Broker }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}. Consider rollbacking or committing open XA transactions.
-      expr: round(aws_cloudwatch_AmazonMQ_JournalFilesForFullRecovery_Broker + aws_cloudwatch_AmazonMQ_JournalFilesForFastRecovery_Broker) > 100
+        description: MQ Journal has {{$value}} files for MQ Broker {{ $labels.dimensions_Broker
+          }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id
+          }} region {{ $labels.overwrite_aws_region }}. Consider rollbacking or committing
+          open XA transactions.
+      expr: round(aws_cloudwatch_AmazonMQ_JournalFilesForFullRecovery_Broker + aws_cloudwatch_AmazonMQ_JournalFilesForFastRecovery_Broker)
+        > 100
       for: 30m
       labels:
         rule_source: opswatch-prometheus-rules
@@ -44,8 +54,12 @@ spec:
     - alert: AwsCloudwatchMQJournalCritical
       annotations:
         summary: MQ Journal is above 400 open files
-        description: MQ Journal has {{$value}} files for MQ Broker {{ $labels.dimensions_Broker }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}. Consider rollbacking or committing open XA transactions.
-      expr: round(aws_cloudwatch_AmazonMQ_JournalFilesForFullRecovery_Broker + aws_cloudwatch_AmazonMQ_JournalFilesForFastRecovery_Broker) > 400
+        description: MQ Journal has {{$value}} files for MQ Broker {{ $labels.dimensions_Broker
+          }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id
+          }} region {{ $labels.overwrite_aws_region }}. Consider rollbacking or committing
+          open XA transactions.
+      expr: round(aws_cloudwatch_AmazonMQ_JournalFilesForFullRecovery_Broker + aws_cloudwatch_AmazonMQ_JournalFilesForFastRecovery_Broker)
+        > 400
       for: 30m
       labels:
         rule_source: opswatch-prometheus-rules
@@ -55,7 +69,9 @@ spec:
     - alert: AwsCloudwatchMQStoragePercentUsageWarning
       annotations:
         summary: MQ Storage Utilizatiom is above 90 percent
-        description: MQ Storage Utilizatiom is {{$value}}% for MQ Broker {{ $labels.dimensions_Broker }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+        description: MQ Storage Utilizatiom is {{$value}}% for MQ Broker {{ $labels.dimensions_Broker
+          }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id
+          }} region {{ $labels.overwrite_aws_region }}
       expr: round(aws_cloudwatch_AmazonMQ_StoragePercentUsage_Broker) > 90
       for: 30m
       labels:
@@ -64,7 +80,9 @@ spec:
     - alert: AwsCloudwatchMQStoragePercentUsageCritical
       annotations:
         summary: MQ Storage Utilizatiom is above 95 percent
-        description: MQ Storage Utilizatiom is {{$value}}% for MQ Broker {{ $labels.dimensions_Broker }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+        description: MQ Storage Utilizatiom is {{$value}}% for MQ Broker {{ $labels.dimensions_Broker
+          }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id
+          }} region {{ $labels.overwrite_aws_region }}
       expr: round(aws_cloudwatch_AmazonMQ_StoragePercentUsage_Broker) > 95
       for: 15m
       labels:
@@ -76,7 +94,9 @@ spec:
     - alert: AwsCloudwatchMQCpuUtilizationWarning
       annotations:
         summary: MQ CPU Utilizatiom is above 90 percent
-        description: MQ CPU Utilizatiom is {{$value}}% for MQ Broker {{ $labels.dimensions_Broker }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+        description: MQ CPU Utilizatiom is {{$value}}% for MQ Broker {{ $labels.dimensions_Broker
+          }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id
+          }} region {{ $labels.overwrite_aws_region }}
       expr: round(aws_cloudwatch_AmazonMQ_CpuUtilization_Broker) > 90
       for: 30m
       labels:
@@ -85,7 +105,9 @@ spec:
     - alert: AwsCloudwatchMQCpuUtilizationCritical
       annotations:
         summary: MQ CPU Utilizatiom is above 95 percent
-        description: MQ CPU Utilizatiom is {{$value}}% for MQ Broker {{ $labels.dimensions_Broker }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+        description: MQ CPU Utilizatiom is {{$value}}% for MQ Broker {{ $labels.dimensions_Broker
+          }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id
+          }} region {{ $labels.overwrite_aws_region }}
       expr: round(aws_cloudwatch_AmazonMQ_CpuUtilization_Broker) > 95
       for: 15m
       labels:
@@ -94,7 +116,9 @@ spec:
     - alert: AwsCloudwatchMQBurstBalanceCritical
       annotations:
         summary: MQ burst balance is below 10%
-        description: MQ burst balance is at {{$value}}% for MQ broker {{ $labels.dimension_Broker }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+        description: MQ burst balance is at {{$value}}% for MQ broker {{ $labels.dimension_Broker
+          }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id
+          }} region {{ $labels.overwrite_aws_region }}
       labels:
         rule_source: opswatch-prometheus-rules
         severity: critical
@@ -103,11 +127,14 @@ spec:
     - alert: AwsCloudwatchMQBurstBalancePrediction
       annotations:
         summary: MQ burst balance will be below 10% in 2 hours
-        description: MQ burst balance will at {{$value}}% for MQ broker {{ $labels.dimension_Broker }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+        description: MQ burst balance will at {{$value}}% for MQ broker {{ $labels.dimension_Broker
+          }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id
+          }} region {{ $labels.overwrite_aws_region }}
       labels:
         rule_source: opswatch-prometheus-rules
         severity: warning
-      expr: round(predict_linear(aws_cloudwatch_AmazonMQ_BurstBalance_Broker[30m], 3600 * 2)) < 10
+      expr: round(predict_linear(aws_cloudwatch_AmazonMQ_BurstBalance_Broker[30m],
+        3600 * 2)) < 10
       for: 30m
   - name: mq.memory.rules
     rules:
@@ -115,7 +142,9 @@ spec:
     - alert: AwsCloudwatchMQHeapUsageWarning
       annotations:
         summary: MQ Heap Utilizatiom is above 90 percent
-        description: MQ Heap Utilizatiom is {{$value}}% for MQ Broker {{ $labels.dimensions_Broker }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+        description: MQ Heap Utilizatiom is {{$value}}% for MQ Broker {{ $labels.dimensions_Broker
+          }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id
+          }} region {{ $labels.overwrite_aws_region }}
       expr: round(aws_cloudwatch_AmazonMQ_HeapUsage_Broker) > 90
       for: 30m
       labels:
@@ -124,7 +153,9 @@ spec:
     - alert: AwsCloudwatchMQHeapUsageCritical
       annotations:
         summary: MQ Heap Utilizatiom is above 95 percent
-        description: MQ Heap Utilizatiom is {{$value}}% for MQ Broker {{ $labels.dimensions_Broker }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+        description: MQ Heap Utilizatiom is {{$value}}% for MQ Broker {{ $labels.dimensions_Broker
+          }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id
+          }} region {{ $labels.overwrite_aws_region }}
       expr: round(aws_cloudwatch_AmazonMQ_HeapUsage_Broker) > 95
       for: 15m
       labels:
@@ -136,8 +167,11 @@ spec:
     - alert: AwsCloudwatchMQAmqpConnectionPercentUsageCritical
       annotations:
         summary: MQ AMQP connections are above 95 percent
-        description: MQ connection usage is {{$value}}% for MQ Broker {{ $labels.dimension_Broker }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-      expr: round(100 * aws_cloudwatch_AmazonMQ_CurrentConnectionsCount_Broker / aws_cloudwatch_AmazonMQ_AmqpMaximumConnections_Broker) > 95
+        description: MQ connection usage is {{$value}}% for MQ Broker {{ $labels.dimension_Broker
+          }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id
+          }} region {{ $labels.overwrite_aws_region }}
+      expr: round(100 * aws_cloudwatch_AmazonMQ_CurrentConnectionsCount_Broker / aws_cloudwatch_AmazonMQ_AmqpMaximumConnections_Broker)
+        > 95
       for: 15m
       labels:
         rule_source: opswatch-prometheus-rules
@@ -145,8 +179,11 @@ spec:
     - alert: AwsCloudwatchMQMqttConnectionPercentUsageCritical
       annotations:
         summary: MQ MQTT connections are above 95 percent
-        description: MQ connection usage is {{$value}}% for MQ Broker {{ $labels.dimension_Broker }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-      expr: round(100 * aws_cloudwatch_AmazonMQ_CurrentConnectionsCount_Broker / aws_cloudwatch_AmazonMQ_MqttMaximumConnections_Broker) > 95
+        description: MQ connection usage is {{$value}}% for MQ Broker {{ $labels.dimension_Broker
+          }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id
+          }} region {{ $labels.overwrite_aws_region }}
+      expr: round(100 * aws_cloudwatch_AmazonMQ_CurrentConnectionsCount_Broker / aws_cloudwatch_AmazonMQ_MqttMaximumConnections_Broker)
+        > 95
       for: 15m
       labels:
         rule_source: opswatch-prometheus-rules
@@ -154,8 +191,11 @@ spec:
     - alert: AwsCloudwatchMQOpenwireConnectionPercentUsageCritical
       annotations:
         summary: MQ Openwire connections are above 95 percent
-        description: MQ connection usage is {{$value}}% for MQ Broker {{ $labels.dimension_Broker }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-      expr: round(100 * aws_cloudwatch_AmazonMQ_CurrentConnectionsCount_Broker / aws_cloudwatch_AmazonMQ_OpenwireMaximumConnections_Broker) > 95
+        description: MQ connection usage is {{$value}}% for MQ Broker {{ $labels.dimension_Broker
+          }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id
+          }} region {{ $labels.overwrite_aws_region }}
+      expr: round(100 * aws_cloudwatch_AmazonMQ_CurrentConnectionsCount_Broker / aws_cloudwatch_AmazonMQ_OpenwireMaximumConnections_Broker)
+        > 95
       for: 15m
       labels:
         rule_source: opswatch-prometheus-rules
@@ -163,8 +203,11 @@ spec:
     - alert: AwsCloudwatchMQStompConnectionPercentUsageCritical
       annotations:
         summary: MQ Stomp connections are above 95 percent
-        description: MQ connection usage is {{$value}}% for MQ Broker {{ $labels.dimension_Broker }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-      expr: round(100 * aws_cloudwatch_AmazonMQ_CurrentConnectionsCount_Broker / aws_cloudwatch_AmazonMQ_StompMaximumConnections_Broker) > 95
+        description: MQ connection usage is {{$value}}% for MQ Broker {{ $labels.dimension_Broker
+          }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id
+          }} region {{ $labels.overwrite_aws_region }}
+      expr: round(100 * aws_cloudwatch_AmazonMQ_CurrentConnectionsCount_Broker / aws_cloudwatch_AmazonMQ_StompMaximumConnections_Broker)
+        > 95
       for: 15m
       labels:
         rule_source: opswatch-prometheus-rules
@@ -172,8 +215,11 @@ spec:
     - alert: AwsCloudwatchMQWsConnectionPercentUsageCritical
       annotations:
         summary: MQ WS connections are above 95 percent
-        description: MQ connection usage is {{$value}}% for MQ Broker {{ $labels.dimension_Broker }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-      expr: round(100 * aws_cloudwatch_AmazonMQ_CurrentConnectionsCount_Broker / aws_cloudwatch_AmazonMQ_WsMaximumConnections_Broker) > 95
+        description: MQ connection usage is {{$value}}% for MQ Broker {{ $labels.dimension_Broker
+          }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id
+          }} region {{ $labels.overwrite_aws_region }}
+      expr: round(100 * aws_cloudwatch_AmazonMQ_CurrentConnectionsCount_Broker / aws_cloudwatch_AmazonMQ_WsMaximumConnections_Broker)
+        > 95
       for: 15m
       labels:
         rule_source: opswatch-prometheus-rules
@@ -181,8 +227,11 @@ spec:
     - alert: AwsCloudwatchMQAmqpConnectionPercentUsageWarning
       annotations:
         summary: MQ AMQP connections are above 80 percent
-        description: MQ connection usage is {{$value}}% for MQ Broker {{ $labels.dimension_Broker }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-      expr: round(100 * aws_cloudwatch_AmazonMQ_CurrentConnectionsCount_Broker / aws_cloudwatch_AmazonMQ_AmqpMaximumConnections_Broker) > 80
+        description: MQ connection usage is {{$value}}% for MQ Broker {{ $labels.dimension_Broker
+          }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id
+          }} region {{ $labels.overwrite_aws_region }}
+      expr: round(100 * aws_cloudwatch_AmazonMQ_CurrentConnectionsCount_Broker / aws_cloudwatch_AmazonMQ_AmqpMaximumConnections_Broker)
+        > 80
       for: 15m
       labels:
         rule_source: opswatch-prometheus-rules
@@ -190,8 +239,11 @@ spec:
     - alert: AwsCloudwatchMQMqttConnectionPercentUsageWarning
       annotations:
         summary: MQ MQTT connections are above 80 percent
-        description: MQ connection usage is {{$value}}% for MQ Broker {{ $labels.dimension_Broker }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-      expr: round(100 * aws_cloudwatch_AmazonMQ_CurrentConnectionsCount_Broker / aws_cloudwatch_AmazonMQ_MqttMaximumConnections_Broker) > 80
+        description: MQ connection usage is {{$value}}% for MQ Broker {{ $labels.dimension_Broker
+          }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id
+          }} region {{ $labels.overwrite_aws_region }}
+      expr: round(100 * aws_cloudwatch_AmazonMQ_CurrentConnectionsCount_Broker / aws_cloudwatch_AmazonMQ_MqttMaximumConnections_Broker)
+        > 80
       for: 15m
       labels:
         rule_source: opswatch-prometheus-rules
@@ -199,8 +251,11 @@ spec:
     - alert: AwsCloudwatchMQOpenwireConnectionPercentUsageWarning
       annotations:
         summary: MQ Openwire connections are above 80 percent
-        description: MQ connection usage is {{$value}}% for MQ Broker {{ $labels.dimension_Broker }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-      expr: round(100 * aws_cloudwatch_AmazonMQ_CurrentConnectionsCount_Broker / aws_cloudwatch_AmazonMQ_OpenwireMaximumConnections_Broker) > 80
+        description: MQ connection usage is {{$value}}% for MQ Broker {{ $labels.dimension_Broker
+          }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id
+          }} region {{ $labels.overwrite_aws_region }}
+      expr: round(100 * aws_cloudwatch_AmazonMQ_CurrentConnectionsCount_Broker / aws_cloudwatch_AmazonMQ_OpenwireMaximumConnections_Broker)
+        > 80
       for: 15m
       labels:
         rule_source: opswatch-prometheus-rules
@@ -208,8 +263,11 @@ spec:
     - alert: AwsCloudwatchMQStompConnectionPercentUsageWarning
       annotations:
         summary: MQ Stomp connections are above 80 percent
-        description: MQ connection usage is {{$value}}% for MQ Broker {{ $labels.dimension_Broker }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-      expr: round(100 * aws_cloudwatch_AmazonMQ_CurrentConnectionsCount_Broker / aws_cloudwatch_AmazonMQ_StompMaximumConnections_Broker) > 80
+        description: MQ connection usage is {{$value}}% for MQ Broker {{ $labels.dimension_Broker
+          }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id
+          }} region {{ $labels.overwrite_aws_region }}
+      expr: round(100 * aws_cloudwatch_AmazonMQ_CurrentConnectionsCount_Broker / aws_cloudwatch_AmazonMQ_StompMaximumConnections_Broker)
+        > 80
       for: 15m
       labels:
         rule_source: opswatch-prometheus-rules
@@ -217,8 +275,11 @@ spec:
     - alert: AwsCloudwatchMQWsConnectionPercentUsageWarning
       annotations:
         summary: MQ WS connections are above 80 percent
-        description: MQ connection usage is {{$value}}% for MQ Broker {{ $labels.dimension_Broker }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-      expr: round(100 * aws_cloudwatch_AmazonMQ_CurrentConnectionsCount_Broker / aws_cloudwatch_AmazonMQ_WsMaximumConnections_Broker) > 80
+        description: MQ connection usage is {{$value}}% for MQ Broker {{ $labels.dimension_Broker
+          }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id
+          }} region {{ $labels.overwrite_aws_region }}
+      expr: round(100 * aws_cloudwatch_AmazonMQ_CurrentConnectionsCount_Broker / aws_cloudwatch_AmazonMQ_WsMaximumConnections_Broker)
+        > 80
       for: 15m
       labels:
         rule_source: opswatch-prometheus-rules

@@ -13,7 +13,10 @@ spec:
     - alert: AwsCloudwatchECSCPUUtilization
       annotations:
         summary: ECS Service CPU Utilizatiom is above 90 percent
-        description: ECS Service CPU Utilizatiom is {{$value}}% for ECS Cluster {{ $labels.dimension_ClusterName }} and service {{ $labels.dimension_ServiceName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+        description: ECS Service CPU Utilizatiom is {{$value}}% for ECS Cluster {{
+          $labels.dimension_ClusterName }} and service {{ $labels.dimension_ServiceName
+          }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id
+          }} region {{ $labels.overwrite_aws_region }}
         runbook_url: https://docs.aws.amazon.com/AmazonECS/latest/developerguide/troubleshooting.html
       expr: round(aws_cloudwatch_ECS_CPUUtilization_ClusterName_ServiceName) > 90
       for: 60m
@@ -23,9 +26,13 @@ spec:
     - alert: AwsCloudwatchECSMemoryUtilization
       annotations:
         summary: ECS Service Memory Utilizatiom is above 90 percent
-        description: ECS Service Memory Utilizatiom is {{$value}}% for ECS Cluster {{ $labels.dimension_ClusterName }} and service {{ $labels.dimension_ServiceName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+        description: ECS Service Memory Utilizatiom is {{$value}}% for ECS Cluster
+          {{ $labels.dimension_ClusterName }} and service {{ $labels.dimension_ServiceName
+          }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id
+          }} region {{ $labels.overwrite_aws_region }}
         runbook_url: https://docs.aws.amazon.com/AmazonECS/latest/developerguide/troubleshooting.html
-      expr: round(aws_cloudwatch_ECS_MemoryUtilization_ClusterName_ServiceName) > 90
+      expr: round(aws_cloudwatch_ECS_MemoryUtilization_ClusterName_ServiceName) >
+        90
       for: 15m
       labels:
         rule_source: opswatch-prometheus-rules
@@ -33,9 +40,13 @@ spec:
     - alert: AwsCloudwatchECSInsightsTaskCount
       annotations:
         summary: ECS Service has less running tasks than desired
-        description: ECS Service has less running tasks than desired for ECS Cluster {{ $labels.dimension_ClusterName }} and service {{ $labels.dimension_ServiceName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+        description: ECS Service has less running tasks than desired for ECS Cluster
+          {{ $labels.dimension_ClusterName }} and service {{ $labels.dimension_ServiceName
+          }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id
+          }} region {{ $labels.overwrite_aws_region }}
         runbook_url: https://docs.aws.amazon.com/AmazonECS/latest/developerguide/troubleshooting.html
-      expr: aws_cloudwatch_ECSContainerInsights_RunningTaskCount_ClusterName_ServiceName < aws_cloudwatch_ECSContainerInsights_DesiredTaskCount_ClusterName_ServiceName
+      expr: aws_cloudwatch_ECSContainerInsights_RunningTaskCount_ClusterName_ServiceName
+        < aws_cloudwatch_ECSContainerInsights_DesiredTaskCount_ClusterName_ServiceName
       for: 30m
       labels:
         rule_source: opswatch-prometheus-rules
@@ -43,9 +54,14 @@ spec:
     - alert: AwsCloudwatchECSInsightsEphemeralStorageUtilization
       annotations:
         summary: ECS Service Ephemeral Storage Utilization is above 90 percent
-        description: ECS Service Ephemeral Storage Utilizatiom is {{$value}}% for ECS Cluster {{ $labels.dimension_ClusterName }} and service {{ $labels.dimension_ServiceName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+        description: ECS Service Ephemeral Storage Utilizatiom is {{$value}}% for
+          ECS Cluster {{ $labels.dimension_ClusterName }} and service {{ $labels.dimension_ServiceName
+          }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id
+          }} region {{ $labels.overwrite_aws_region }}
         runbook_url: https://docs.aws.amazon.com/AmazonECS/latest/developerguide/troubleshooting.html
-      expr: aws_cloudwatch_ECSContainerInsights_EphemeralStorageUtilized_ClusterName_ServiceName / aws_cloudwatch_ECSContainerInsights_EphemeralStorageReserved_ClusterName_ServiceName * 100 > 90
+      expr: aws_cloudwatch_ECSContainerInsights_EphemeralStorageUtilized_ClusterName_ServiceName
+        / aws_cloudwatch_ECSContainerInsights_EphemeralStorageReserved_ClusterName_ServiceName
+        * 100 > 90
       for: 15m
       labels:
         rule_source: opswatch-prometheus-rules
@@ -53,9 +69,14 @@ spec:
     - alert: AwsCloudwatchECSInsightsMemoryUtilization
       annotations:
         summary: ECS Service Memory Utilization is above 90 percent
-        description: ECS Service Memory Utilizatiom is {{$value}}% for ECS Cluster {{ $labels.dimension_ClusterName }} and service {{ $labels.dimension_ServiceName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+        description: ECS Service Memory Utilizatiom is {{$value}}% for ECS Cluster
+          {{ $labels.dimension_ClusterName }} and service {{ $labels.dimension_ServiceName
+          }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id
+          }} region {{ $labels.overwrite_aws_region }}
         runbook_url: https://docs.aws.amazon.com/AmazonECS/latest/developerguide/troubleshooting.html
-      expr: aws_cloudwatch_ECSContainerInsights_MemoryUtilized_ClusterName_ServiceName / aws_cloudwatch_ECSContainerInsights_MemoryReserved_ClusterName_ServiceName * 100 > 90
+      expr: aws_cloudwatch_ECSContainerInsights_MemoryUtilized_ClusterName_ServiceName
+        / aws_cloudwatch_ECSContainerInsights_MemoryReserved_ClusterName_ServiceName
+        * 100 > 90
       for: 15m
       labels:
         rule_source: opswatch-prometheus-rules
@@ -63,9 +84,14 @@ spec:
     - alert: AwsCloudwatchECSInsightsCPUUtilization
       annotations:
         summary: ECS Service CPU Utilization is above 90 percent
-        description: ECS Service CPU Utilizatiom is {{$value}}% for ECS Cluster {{ $labels.dimension_ClusterName }} and service {{ $labels.dimension_ServiceName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+        description: ECS Service CPU Utilizatiom is {{$value}}% for ECS Cluster {{
+          $labels.dimension_ClusterName }} and service {{ $labels.dimension_ServiceName
+          }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id
+          }} region {{ $labels.overwrite_aws_region }}
         runbook_url: https://docs.aws.amazon.com/AmazonECS/latest/developerguide/troubleshooting.html
-      expr: aws_cloudwatch_ECSContainerInsights_CpuUtilized_ClusterName_ServiceName / aws_cloudwatch_ECSContainerInsights_CpuReserved_ClusterName_ServiceName * 100 > 90
+      expr: aws_cloudwatch_ECSContainerInsights_CpuUtilized_ClusterName_ServiceName
+        / aws_cloudwatch_ECSContainerInsights_CpuReserved_ClusterName_ServiceName
+        * 100 > 90
       for: 15m
       labels:
         rule_source: opswatch-prometheus-rules

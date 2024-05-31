@@ -13,9 +13,13 @@ spec:
     - alert: AwsCloudwatchElastiCacheEngineCPUUtilization
       annotations:
         summary: ElastiCache has Engine CPU Utilization higher than 90 percent
-        description: ElastiCache cluster {{ $labels.dimension_CacheClusterId }} node {{ $labels.dimension_CacheNodeId }} has {{$value}}% Engine CPU Utilization in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+        description: ElastiCache cluster {{ $labels.dimension_CacheClusterId }} node
+          {{ $labels.dimension_CacheNodeId }} has {{$value}}% Engine CPU Utilization
+          in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id
+          }} region {{ $labels.overwrite_aws_region }}
         runbook_url: https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/ErrorMessages.html
-      expr: round(aws_cloudwatch_ElastiCache_EngineCPUUtilization_CacheClusterId_CacheNodeId) > 90
+      expr: round(aws_cloudwatch_ElastiCache_EngineCPUUtilization_CacheClusterId_CacheNodeId)
+        > 90
       for: 30m
       labels:
         rule_source: opswatch-prometheus-rules
@@ -23,9 +27,13 @@ spec:
     - alert: AwsCloudwatchElastiCacheCPUUtilization
       annotations:
         summary: ElastiCache has CPU Utilization higher than 90 percent
-        description: ElastiCache cluster {{ $labels.dimension_CacheClusterId }} node {{ $labels.dimension_CacheNodeId }} has {{$value}}% CPU Utilization in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+        description: ElastiCache cluster {{ $labels.dimension_CacheClusterId }} node
+          {{ $labels.dimension_CacheNodeId }} has {{$value}}% CPU Utilization in customer
+          {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id
+          }} region {{ $labels.overwrite_aws_region }}
         runbook_url: https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/ErrorMessages.html
-      expr: round(aws_cloudwatch_ElastiCache_CPUUtilization_CacheClusterId_CacheNodeId) > 90
+      expr: round(aws_cloudwatch_ElastiCache_CPUUtilization_CacheClusterId_CacheNodeId)
+        > 90
       for: 30m
       labels:
         rule_source: opswatch-prometheus-rules
@@ -33,7 +41,10 @@ spec:
     - alert: AwsCloudwatchElastiCacheAuthenticationFailures
       annotations:
         summary: ElastiCache has Authentication Failures higher than 3
-        description: ElastiCache cluster {{ $labels.dimension_CacheClusterId }} node {{ $labels.dimension_CacheNodeId }} has {{$value}} Authentication Failures in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+        description: ElastiCache cluster {{ $labels.dimension_CacheClusterId }} node
+          {{ $labels.dimension_CacheNodeId }} has {{$value}} Authentication Failures
+          in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id
+          }} region {{ $labels.overwrite_aws_region }}
         runbook_url: https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/ErrorMessages.html
       expr: aws_cloudwatch_ElastiCache_AuthenticationFailures_CacheClusterId > 3
       for: 15m
@@ -43,9 +54,13 @@ spec:
     - alert: AwsCloudwatchElastiCacheCPUCreditBalance
       annotations:
         summary: ElastiCache has CPUCreditBalance below 10
-        description: ElastiCache CPU Credit balance is at {{$value}} for cluster {{ $labels.dimension_CacheClusterId }} node {{ $labels.dimension_CacheNodeId }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+        description: ElastiCache CPU Credit balance is at {{$value}} for cluster {{
+          $labels.dimension_CacheClusterId }} node {{ $labels.dimension_CacheNodeId
+          }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id
+          }} region {{ $labels.overwrite_aws_region }}
         runbook_url: https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/ErrorMessages.html
-      expr: aws_cloudwatch_ElastiCache_CPUCreditBalance_CacheClusterId_CacheNodeId < 10
+      expr: aws_cloudwatch_ElastiCache_CPUCreditBalance_CacheClusterId_CacheNodeId
+        < 10
       for: 15m
       labels:
         rule_source: opswatch-prometheus-rules
@@ -53,17 +68,24 @@ spec:
     - alert: AwsCloudwatchElastiCacheCPUCreditBalancePrediction
       annotations:
         summary: ElastiCache CPU Credit balance will be below 10 in 2 hours
-        description: ElastiCache CPU Credit balance will be at {{$value}} for cluster {{ $labels.dimension_CacheClusterId }} node {{ $labels.dimension_CacheNodeId }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+        description: ElastiCache CPU Credit balance will be at {{$value}} for cluster
+          {{ $labels.dimension_CacheClusterId }} node {{ $labels.dimension_CacheNodeId
+          }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id
+          }} region {{ $labels.overwrite_aws_region }}
         runbook_url: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/burstable-credits-baseline-concepts.html
       labels:
         rule_source: opswatch-prometheus-rules
         severity: warning
-      expr: round(predict_linear(aws_cloudwatch_ElastiCache_CPUCreditBalance_CacheClusterId_CacheNodeId[30m], 3600 * 2)) < 10
+      expr: round(predict_linear(aws_cloudwatch_ElastiCache_CPUCreditBalance_CacheClusterId_CacheNodeId[30m],
+        3600 * 2)) < 10
       for: 30m
     - alert: AwsCloudwatchElastiCacheCacheHitRate
       annotations:
         summary: ElastiCache has CacheHitRate below 10 percent
-        description: ElastiCache cluster {{ $labels.dimension_CacheClusterId }} node {{ $labels.dimension_CacheNodeId }} has CacheHitRate of {{$value}}% in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+        description: ElastiCache cluster {{ $labels.dimension_CacheClusterId }} node
+          {{ $labels.dimension_CacheNodeId }} has CacheHitRate of {{$value}}% in customer
+          {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id
+          }} region {{ $labels.overwrite_aws_region }}
         runbook_url: https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/ErrorMessages.html
       expr: aws_cloudwatch_ElastiCache_CacheHitRate_CacheClusterId < 10
       for: 30m
@@ -72,10 +94,16 @@ spec:
         severity: info
     - alert: AwsCloudwatchElastiCacheDatabaseMemoryUsageCountedForEvictPercentage
       annotations:
-        summary: ElastiCache has DatabaseMemoryUsage Counted for Evict percentage above 85 percent
-        description: ElastiCache cluster {{ $labels.dimension_CacheClusterId }} node {{ $labels.dimension_CacheNodeId }} has Memory Usage Counted for Evict Percentage of {{$value}}% in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+        summary: ElastiCache has DatabaseMemoryUsage Counted for Evict percentage
+          above 85 percent
+        description: ElastiCache cluster {{ $labels.dimension_CacheClusterId }} node
+          {{ $labels.dimension_CacheNodeId }} has Memory Usage Counted for Evict Percentage
+          of {{$value}}% in customer {{ $labels.overwrite_asy_customer }} account
+          {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region
+          }}
         runbook_url: https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/ErrorMessages.html
-      expr: aws_cloudwatch_ElastiCache_DatabaseMemoryUsageCountedForEvictPercentage > 85
+      expr: aws_cloudwatch_ElastiCache_DatabaseMemoryUsageCountedForEvictPercentage
+        > 85
       for: 15m
       labels:
         rule_source: opswatch-prometheus-rules
@@ -83,9 +111,13 @@ spec:
     - alert: AwsCloudwatchElastiCacheDatabaseCapacityUsage
       annotations:
         summary: ElastiCache has database capacity usage above 90 percent
-        description: ElastiCache cluster {{ $labels.dimension_CacheClusterId }} node {{ $labels.dimension_CacheNodeId }} has {{$value}}% database capacity usage in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+        description: ElastiCache cluster {{ $labels.dimension_CacheClusterId }} node
+          {{ $labels.dimension_CacheNodeId }} has {{$value}}% database capacity usage
+          in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id
+          }} region {{ $labels.overwrite_aws_region }}
         runbook_url: https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/ErrorMessages.html
-      expr: round(aws_cloudwatch_ElastiCache_DatabaseCapacityUsagePercentage_CacheClusterId_CacheNodeId) > 90
+      expr: round(aws_cloudwatch_ElastiCache_DatabaseCapacityUsagePercentage_CacheClusterId_CacheNodeId)
+        > 90
       for: 15m
       labels:
         rule_source: opswatch-prometheus-rules

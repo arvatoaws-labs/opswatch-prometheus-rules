@@ -10,7 +10,7 @@ spec:
   groups:
   - name: kafka.cluster.rules
     rules:
-    - alert: Active_Controller
+    - alert: AwsCloudwatcKafkaActiveController
       expr: sum(aws_cloudwatch_Kafka_ActiveControllerCount_ClusterName) == 0
       for: 15m
       labels:
@@ -18,8 +18,10 @@ spec:
         severity: critical
       annotations:
         summary: 'Kafka: No active controller'
-        description: 'No broker in the cluster is reporting as the active controller in the last 15 minute interval. During steady state there should be only one active controller per cluster.'
-    - alert: Zookeeper_Session_State
+        description: No broker in the cluster is reporting as the active controller
+          in the last 15 minute interval. During steady state there should be only
+          one active controller per cluster.
+    - alert: AwsCloudwatcKafkaZookeeperSessionState
       expr: sum(aws_cloudwatch_Kafka_ZooKeeperSessionState_ClusterName) != 1
       for: 15m
       labels:
@@ -28,10 +30,10 @@ spec:
         alarm_class: REACTIVE
       annotations:
         summary: 'Kafka: Zookeeper disconnected.'
-        description: 'Zookeeper disconnected.'
+        description: Zookeeper disconnected.
   - name: kafka.content.rules
     rules:
-    - alert: Offline_Partitions
+    - alert: AwsCloudwatcKafkaOfflinePartitions
       expr: sum(aws_cloudwatch_Kafka_OfflinePartitionsCount_ClusterName) > 0
       for: 15m
       labels:
@@ -39,8 +41,9 @@ spec:
         severity: critical
       annotations:
         summary: 'Kafka: All partitions are offline'
-        description: 'Offline partitions are not available for reading and writing. Restart the brokers, if needed, and check the logs for errors.'
-    - alert: Topic_Count_Low
+        description: Offline partitions are not available for reading and writing.
+          Restart the brokers, if needed, and check the logs for errors.
+    - alert: AwsCloudwatcKafkaTopicCountLow
       expr: sum(aws_cloudwatch_Kafka_GlobalTopicCount_ClusterName) < 1
       for: 15m
       labels:
@@ -48,8 +51,8 @@ spec:
         severity: info
       annotations:
         summary: 'Kafka: No topics'
-        description: 'The number of active topics in the cluster is below 1.'
-    - alert: Topic_Count_High
+        description: The number of active topics in the cluster is below 1.
+    - alert: AwsCloudwatcKafkaTopicCountHigh
       expr: sum(aws_cloudwatch_Kafka_GlobalTopicCount_ClusterName) > 1000
       for: 15m
       labels:
@@ -57,28 +60,32 @@ spec:
         severity: info
       annotations:
         summary: 'Kafka: Over 1000 topics.'
-        description: 'The number of active topics in the cluster is above 1000.'
-    - alert: Undererplikated_Partitions
-      expr: sum(aws_cloudwatch_Kafka_UnderReplicatedPartitions_BrokerID_ClusterName) != 0
+        description: The number of active topics in the cluster is above 1000.
+    - alert: AwsCloudwatcKafkaUndererplikatedPartitions
+      expr: sum(aws_cloudwatch_Kafka_UnderReplicatedPartitions_BrokerID_ClusterName)
+        != 0
       for: 15m
       labels:
         rule_source: opswatch-prometheus-rules
         severity: warning
       annotations:
         summary: 'Kafka: Underreplicated Partitions.'
-        description: 'Under-replicated partitions means that one or more replicas are not available. This is usually because a broker is down.  Restart the broker, and check for errors in the logs.'
-    - alert: Under_Min_Isr_Partitions
-      expr: sum(aws_cloudwatch_Kafka_UnderMinIsrPartitionCount_BrokerID_ClusterName) != 0
+        description: Under-replicated partitions means that one or more replicas are
+          not available. This is usually because a broker is down.  Restart the broker,
+          and check for errors in the logs.
+    - alert: AwsCloudwatcKafkaUnderMinIsrPartitions
+      expr: sum(aws_cloudwatch_Kafka_UnderMinIsrPartitionCount_BrokerID_ClusterName)
+        != 0
       for: 15m
       labels:
         rule_source: opswatch-prometheus-rules
         severity: warning
       annotations:
         summary: 'Kafka: Under Min In-Sync-Rate Partitions.'
-        description: 'Partitions In-Sync-Rate too low.'
+        description: Partitions In-Sync-Rate too low.
   - name: kafka.network.rules
     rules:
-    - alert: Network_Rx_Errors
+    - alert: AwsCloudwatcKafkaNetworkRxErrors
       expr: sum(aws_cloudwatch_Kafka_NetworkRxErrors_BrokerID_ClusterName) != 0
       for: 15m
       labels:
@@ -86,8 +93,8 @@ spec:
         severity: info
       annotations:
         summary: 'Kafka: Network Rx Errors present.'
-        description: 'Network Receiving Errors.'
-    - alert: Network_Tx_Errors
+        description: Network Receiving Errors.
+    - alert: AwsCloudwatcKafkaNetworkTxErrors
       expr: sum(aws_cloudwatch_Kafka_NetworkTxErrors_BrokerID_ClusterName) != 0
       for: 15m
       labels:
@@ -95,4 +102,4 @@ spec:
         severity: info
       annotations:
         summary: 'Kafka: Network Tx Errors present.'
-        description: 'Network Transmitting Errors.'
+        description: Network Transmitting Errors.

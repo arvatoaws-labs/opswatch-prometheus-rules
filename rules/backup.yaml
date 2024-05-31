@@ -13,9 +13,13 @@ spec:
     - alert: AwsCloudwatchBackupJobFailed
       annotations:
         summary: AWS backup job failed
-        description: AWS backup job failed for vault {{ $labels.dimension_BackupVaultName }} with resource type {{ $labels.dimension_ResourceType }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+        description: AWS backup job failed for vault {{ $labels.dimension_BackupVaultName
+          }} with resource type {{ $labels.dimension_ResourceType }} in customer {{
+          $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id
+          }} region {{ $labels.overwrite_aws_region }}
         runbook_url: https://docs.aws.amazon.com/aws-backup/latest/devguide/troubleshooting.html
-      expr: aws_cloudwatch_Backup_NumberOfBackupJobsFailed_BackupVaultName_ResourceType{dimension_ResourceType!~"(S3|RESOURCE_NOT_SUPPORTED)"} > 0
+      expr: aws_cloudwatch_Backup_NumberOfBackupJobsFailed_BackupVaultName_ResourceType{dimension_ResourceType!~"(S3|RESOURCE_NOT_SUPPORTED)"}
+        > 0
       for: 15m
       labels:
         rule_source: opswatch-prometheus-rules

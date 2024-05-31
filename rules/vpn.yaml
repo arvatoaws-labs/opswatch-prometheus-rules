@@ -1,1 +1,48 @@
-# TODO: high tickets when status failed for both connections of a VPN?
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  labels:
+    release: prometheus
+    app: prometheus-operator
+  name: opswatch.vpn.rules
+  namespace: monitoring
+spec:
+  groups:
+  - name: vpn.rules
+    rules:
+    - alert: AwsCloudwatchVPNTunnelStateDown
+      annotations:
+        summary: VPN Tunnel down
+        description: VPN Tunnel state is {{$value}} for VPN Tunnel {{ $labels.dimension_VpnId
+          }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id
+          }} region {{ $labels.overwrite_aws_region }}
+        runbook_url: hhttps://docs.aws.amazon.com/vpn/latest/s2svpn/monitoring-cloudwatch-vpn.html
+      expr: aws_cloudwatch_VPN_TunnelState_VpnId == 0
+      for: 15m
+      labels:
+        rule_source: opswatch-prometheus-rules
+        severity: critical
+    - alert: AwsCloudwatchVPNTunnelNoDataIn
+      annotations:
+        summary: VPN Tunnel no data inbound
+        description: VPN Tunnel state is {{$value}} for VPN Tunnel {{ $labels.dimension_VpnId
+          }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id
+          }} region {{ $labels.overwrite_aws_region }}
+        runbook_url: hhttps://docs.aws.amazon.com/vpn/latest/s2svpn/monitoring-cloudwatch-vpn.html
+      expr: aws_cloudwatch_VPN_TunnelDataIn_VpnId == 0
+      for: 15m
+      labels:
+        rule_source: opswatch-prometheus-rules
+        severity: warning
+    - alert: AwsCloudwatchVPNTunnelNoDataOut
+      annotations:
+        summary: VPN Tunnel no data outbound
+        description: VPN Tunnel state is {{$value}} for VPN Tunnel {{ $labels.dimension_VpnId
+          }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id
+          }} region {{ $labels.overwrite_aws_region }}
+        runbook_url: hhttps://docs.aws.amazon.com/vpn/latest/s2svpn/monitoring-cloudwatch-vpn.html
+      expr: aws_cloudwatch_VPN_TunnelDataOut_VpnId == 0
+      for: 15m
+      labels:
+        rule_source: opswatch-prometheus-rules
+        severity: warning

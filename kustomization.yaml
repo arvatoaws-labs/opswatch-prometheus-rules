@@ -30,4 +30,5 @@ resources:
 - rules/cloudwatch.yaml
 - rules/mq.yaml
 - rules/kafka.yaml
-- rules/billing.yaml
+- rules/vpn.yaml
+- rules/classic_elb.yaml

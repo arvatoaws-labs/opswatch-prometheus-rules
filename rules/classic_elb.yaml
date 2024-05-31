@@ -1,1 +1,24 @@
-# TODO: healthy nodes high ticket
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  labels:
+    release: prometheus
+    app: prometheus-operator
+  name: opswatch.classic_elb.rules
+  namespace: monitoring
+spec:
+  groups:
+  - name: classic_elb.rules
+    rules:
+    - alert: AwsCloudwatchClassicElbHealthyHosts
+      annotations:
+        summary: Classic ELB Healthy Hosts is zero
+        description: Classic ELB Healthy Host count is {{$value}} for LB {{ $labels.dimension_LoadBalancerName
+          }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id
+          }} region {{ $labels.overwrite_aws_region }}
+        runbook_url: https://docs.aws.amazon.com/elasticloadbalancing/latest/classic/elb-troubleshooting.html
+      expr: aws_cloudwatch_ELB_HealthyHostCount_LoadBalancerName == 0
+      for: 15m
+      labels:
+        rule_source: opswatch-prometheus-rules
+        severity: critical

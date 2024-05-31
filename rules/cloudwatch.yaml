@@ -24,9 +24,12 @@ spec:
     - alert: AwsCloudwatchMetricUpdateRateLow
       annotations:
         summary: Cloudwatch Metric Streams rate low
-        description: Cloudwatch Metric Streams rate is {{$value}} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+        description: Cloudwatch Metric Streams rate is {{$value}} in customer {{ $labels.overwrite_asy_customer
+          }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region
+          }}
         runbook: Ensure that the Opswatch Service is up and running
-      expr: sum by (overwrite_asy_customer,overwrite_aws_account_id,overwrite_aws_region) (rate(aws_cloudwatch_CloudWatch_MetricUpdate_sum[15m])) < 0.01
+      expr: sum by (overwrite_asy_customer,overwrite_aws_account_id,overwrite_aws_region)
+        (rate(aws_cloudwatch_CloudWatch_MetricUpdate_sum[15m])) < 0.01
       for: 30m
       labels:
         rule_source: opswatch-prometheus-rules
@@ -60,7 +63,8 @@ spec:
       annotations:
         summary: Prometheus Target Scrapes Duplicate Timestamp
         description: Prometheus Target Scrapes Duplicate Timestamp
-      expr: irate(prometheus_target_scrapes_sample_duplicate_timestamp_total[15m]) > 0
+      expr: irate(prometheus_target_scrapes_sample_duplicate_timestamp_total[15m])
+        > 0
       for: 5m
       labels:
         rule_source: opswatch-prometheus-rules

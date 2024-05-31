@@ -15,9 +15,13 @@ spec:
     - alert: AwsCloudwatchDynamodbSuccessfulRequestLatencyWarning
       annotations:
         summary: DynamoDB SuccessfulRequestLatency is greater than 20ms
-        description: DynamoDB {{ $labels.dimension_Operation}} operation SuccessfulRequestLatency is {{$value}}ms for table {{ $labels.dimension_TableName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+        description: DynamoDB {{ $labels.dimension_Operation}} operation SuccessfulRequestLatency
+          is {{$value}}ms for table {{ $labels.dimension_TableName }} in customer
+          {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id
+          }} region {{ $labels.overwrite_aws_region }}
         runbook_url: https://aws.amazon.com/de/premiumsupport/knowledge-center/dynamodb-high-latency/
-      expr: round(aws_cloudwatch_DynamoDB_SuccessfulRequestLatency_Operation_TableName) > 20
+      expr: round(aws_cloudwatch_DynamoDB_SuccessfulRequestLatency_Operation_TableName)
+        > 20
       for: 30m
       labels:
         rule_source: opswatch-prometheus-rules
@@ -25,9 +29,13 @@ spec:
     - alert: AwsCloudwatchDynamodbSuccessfulRequestLatencyCritical
       annotations:
         summary: DynamoDB SuccessfulRequestLatency is greater than 100ms
-        description: DynamoDB {{ $labels.dimension_Operation}} operation SuccessfulRequestLatency is {{$value}}ms for table {{ $labels.dimension_TableName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+        description: DynamoDB {{ $labels.dimension_Operation}} operation SuccessfulRequestLatency
+          is {{$value}}ms for table {{ $labels.dimension_TableName }} in customer
+          {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id
+          }} region {{ $labels.overwrite_aws_region }}
         runbook_url: https://aws.amazon.com/de/premiumsupport/knowledge-center/dynamodb-high-latency/
-      expr: round(aws_cloudwatch_DynamoDB_SuccessfulRequestLatency_Operation_TableName) > 100
+      expr: round(aws_cloudwatch_DynamoDB_SuccessfulRequestLatency_Operation_TableName)
+        > 100
       for: 15m
       labels:
         rule_source: opswatch-prometheus-rules
@@ -35,8 +43,17 @@ spec:
     - alert: AwsCloudwatchDynamodbThrottledRequestsCritical
       annotations:
         summary: DynamoDB requests are throttled
-        description: DynamoDB {{ $labels.dimension_Operation}} requests were throttled {{$value}} times for table {{ $labels.dimension_TableName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-        runbook: Check if the dynamodb uses ondemand or provisioned capacity based mode. If it uses provisioned capacity, check whether capacity autoscaling is enabled, if so it may have reached the maximal capacity allowed, if not it may simply be configured with too little capacity. If any of that is true, a short term fix would be to increase the maximum capacity. In the long term some queries might be designed inefficiently and need to be optimized, including but not limited to additional secondary indexes.
+        description: DynamoDB {{ $labels.dimension_Operation}} requests were throttled
+          {{$value}} times for table {{ $labels.dimension_TableName }} in customer
+          {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id
+          }} region {{ $labels.overwrite_aws_region }}
+        runbook: Check if the dynamodb uses ondemand or provisioned capacity based
+          mode. If it uses provisioned capacity, check whether capacity autoscaling
+          is enabled, if so it may have reached the maximal capacity allowed, if not
+          it may simply be configured with too little capacity. If any of that is
+          true, a short term fix would be to increase the maximum capacity. In the
+          long term some queries might be designed inefficiently and need to be optimized,
+          including but not limited to additional secondary indexes.
       expr: aws_cloudwatch_DynamoDB_ThrottledRequests_Operation_TableName > 0
       for: 15m
       labels:

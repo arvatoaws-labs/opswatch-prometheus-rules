@@ -13,9 +13,13 @@ spec:
     - alert: AwsCloudwatchRoute53HealthCheckPercentageCritical
       annotations:
         summary: Route53 health check ratio is below 20%
-        description: Route53 health check ratio is {{$value}}% for health check id {{ $labels.dimension_HealthCheckId }} & address {{ $labels.address }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+        description: Route53 health check ratio is {{$value}}% for health check id
+          {{ $labels.dimension_HealthCheckId }} & address {{ $labels.address }} in
+          customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id
+          }} region {{ $labels.overwrite_aws_region }}
         runbook_url: https://aws.amazon.com/de/premiumsupport/knowledge-center/route-53-fix-unhealthy-health-checks/
-      expr: aws_cloudwatch_Route53_HealthCheckPercentageHealthy_HealthCheckId{r53_disabled="false"} < 20
+      expr: aws_cloudwatch_Route53_HealthCheckPercentageHealthy_HealthCheckId{r53_disabled="false"}
+        < 20
       for: 20m
       labels:
         rule_source: opswatch-prometheus-rules
@@ -23,9 +27,13 @@ spec:
     - alert: AwsCloudwatchRoute53HealthCheckPercentageWarning
       annotations:
         summary: Route53 health check ratio is below 50%
-        description: Route53 health check ratio is {{$value}}% for health check id {{ $labels.dimension_HealthCheckId }} & address {{ $labels.address }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+        description: Route53 health check ratio is {{$value}}% for health check id
+          {{ $labels.dimension_HealthCheckId }} & address {{ $labels.address }} in
+          customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id
+          }} region {{ $labels.overwrite_aws_region }}
         runbook_url: https://aws.amazon.com/de/premiumsupport/knowledge-center/route-53-fix-unhealthy-health-checks/
-      expr: aws_cloudwatch_Route53_HealthCheckPercentageHealthy_HealthCheckId{r53_disabled="false"} < 50
+      expr: aws_cloudwatch_Route53_HealthCheckPercentageHealthy_HealthCheckId{r53_disabled="false"}
+        < 50
       for: 10m
       labels:
         rule_source: opswatch-prometheus-rules

@@ -8,25 +8,30 @@ metadata:
   namespace: monitoring
 spec:
   groups:
-    - name: documentdb.rules
-      rules:
-        - alert: AwsCloudwatchDocDBCPUCreditBalanceCritical
-          annotations:
-            summary: DocumentDB CPU Credit balance is below 10
-            description: RDS CPU Credit balance is at {{$value}} for DB instance {{ $labels.dimension_DBInstanceIdentifier }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-            runbook_url: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/burstable-credits-baseline-concepts.html
-          labels:
-            severity: critical
-          expr: round(aws_cloudwatch_DocDB_CPUCreditBalance_DBInstanceIdentifier) < 10
-          for: 30m
-        - alert: AwsCloudwatchDocDBCPUCreditBalancePrediction
-          annotations:
-            summary: DocumentDB CPU Credit balance will be below 10 in 2 hours
-            description: RDS Credit balance will at {{$value}} for DB instance {{ $labels.dimension_DBInstanceIdentifier }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-            runbook_url: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/burstable-credits-baseline-concepts.html
-          labels:
-            severity: warning
-          expr: round(predict_linear(aws_cloudwatch_DocDB_CPUCreditBalance_DBInstanceIdentifier[30m], 3600 * 2)) < 10
-          for: 30m
+  - name: documentdb.rules
+    rules:
+    - alert: AwsCloudwatchDocDBCPUCreditBalanceCritical
+      annotations:
+        summary: DocumentDB CPU Credit balance is below 10
+        description: RDS CPU Credit balance is at {{$value}} for DB instance {{ $labels.dimension_DBInstanceIdentifier
+          }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id
+          }} region {{ $labels.overwrite_aws_region }}
+        runbook_url: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/burstable-credits-baseline-concepts.html
+      labels:
+        severity: critical
+      expr: round(aws_cloudwatch_DocDB_CPUCreditBalance_DBInstanceIdentifier) < 10
+      for: 30m
+    - alert: AwsCloudwatchDocDBCPUCreditBalancePrediction
+      annotations:
+        summary: DocumentDB CPU Credit balance will be below 10 in 2 hours
+        description: RDS Credit balance will at {{$value}} for DB instance {{ $labels.dimension_DBInstanceIdentifier
+          }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id
+          }} region {{ $labels.overwrite_aws_region }}
+        runbook_url: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/burstable-credits-baseline-concepts.html
+      labels:
+        severity: warning
+      expr: round(predict_linear(aws_cloudwatch_DocDB_CPUCreditBalance_DBInstanceIdentifier[30m],
+        3600 * 2)) < 10
+      for: 30m
 # aws_cloudwatch_DocDB_DatabaseConnections_DBInstanceIdentifier
 # status would be critical & high ITSM severity

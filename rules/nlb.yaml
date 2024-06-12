@@ -1,3 +1,4 @@
+---
 apiVersion: monitoring.coreos.com/v1
 kind: PrometheusRule
 metadata:
@@ -8,35 +9,25 @@ metadata:
   namespace: monitoring
 spec:
   groups:
-  - name: nlb.rules
-    rules:
-    - alert: AwsCloudwatchNlbTargetGroupRatioHealthyHosts
-      annotations:
-        summary: NLB TargetGroup ratio of healthy hosts is below 50%
-        description: NLB TargetGroup health ratio is {{$value}}% for LB {{ $labels.dimension_LoadBalancer
-          }} & TargetGroup {{ $labels.dimension_TargetGroup }} in customer {{ $labels.overwrite_asy_customer
-          }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region
-          }}
-        runbook_url: https://docs.aws.amazon.com/elasticloadbalancing/latest/network/load-balancer-troubleshooting.html
-      expr: round(aws_cloudwatch_NetworkELB_HealthyHostCount_LoadBalancer_TargetGroup
-        / ( aws_cloudwatch_NetworkELB_HealthyHostCount_LoadBalancer_TargetGroup +
-        aws_cloudwatch_NetworkELB_UnHealthyHostCount_LoadBalancer_TargetGroup ) *
-        100 ) < 50
-      for: 15m
-      labels:
-        rule_source: opswatch-prometheus-rules
-        severity: critical
-    - alert: AwsCloudwatchNlbTargetGroupZeroHealthyHosts
-      annotations:
-        summary: NLB TargetGroup number of healthy hosts is 0
-        description: NLB TargetGroup number of health hosts is {{$value}} for LB {{
-          $labels.dimension_LoadBalancer }} & TargetGroup {{ $labels.dimension_TargetGroup
-          }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id
-          }} region {{ $labels.overwrite_aws_region }}
-        runbook_url: https://docs.aws.amazon.com/elasticloadbalancing/latest/network/load-balancer-troubleshooting.html
-      expr: aws_cloudwatch_NetworkELB_HealthyHostCount_LoadBalancer_TargetGroup ==
-        0
-      for: 15m
-      labels:
-        rule_source: opswatch-prometheus-rules
-        severity: critical
+    - name: nlb.rules
+      rules:
+        - alert: AwsCloudwatchNlbTargetGroupRatioHealthyHosts
+          annotations:
+            summary: NLB TargetGroup ratio of healthy hosts is below 50%
+            description: NLB TargetGroup health ratio is {{$value}}% for LB {{ $labels.dimension_LoadBalancer }} & TargetGroup {{ $labels.dimension_TargetGroup }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+            runbook_url: https://docs.aws.amazon.com/elasticloadbalancing/latest/network/load-balancer-troubleshooting.html
+          expr: round(aws_cloudwatch_NetworkELB_HealthyHostCount_LoadBalancer_TargetGroup / ( aws_cloudwatch_NetworkELB_HealthyHostCount_LoadBalancer_TargetGroup + aws_cloudwatch_NetworkELB_UnHealthyHostCount_LoadBalancer_TargetGroup ) * 100 ) < 50
+          for: 15m
+          labels:
+            rule_source: opswatch-prometheus-rules
+            severity: critical
+        - alert: AwsCloudwatchNlbTargetGroupZeroHealthyHosts
+          annotations:
+            summary: NLB TargetGroup number of healthy hosts is 0
+            description: NLB TargetGroup number of health hosts is {{$value}} for LB {{ $labels.dimension_LoadBalancer }} & TargetGroup {{ $labels.dimension_TargetGroup }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+            runbook_url: https://docs.aws.amazon.com/elasticloadbalancing/latest/network/load-balancer-troubleshooting.html
+          expr: aws_cloudwatch_NetworkELB_HealthyHostCount_LoadBalancer_TargetGroup == 0
+          for: 15m
+          labels:
+            rule_source: opswatch-prometheus-rules
+            severity: critical

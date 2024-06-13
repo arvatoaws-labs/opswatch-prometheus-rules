@@ -1,6 +1,7 @@
+---
 apiVersion: kustomize.config.k8s.io/v1beta1
-kind: Kustomization
-resources:
+kind      : Kustomization
+resources :
 - rules/waf.yaml
 - rules/alb.yaml
 - rules/route53.yaml
@@ -30,4 +31,5 @@ resources:
 - rules/cloudwatch.yaml
 - rules/mq.yaml
 - rules/kafka.yaml
-- rules/billing.yaml
+- rules/vpn.yaml
+- rules/classic_elb.yaml

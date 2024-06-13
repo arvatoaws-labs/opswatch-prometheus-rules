@@ -9,25 +9,25 @@ metadata:
   namespace: monitoring
 spec:
   groups:
-  - name: natgw.rules
-    rules:
-    - alert: AwsCloudwatchNATGatewayPacketsDropped
-      annotations:
-        summary: NATGW has Dropped Packets Count higher than 10
-        description: NATGW {{ $labels.dimension_NatGatewayId }} has {{$value}} dropped Packages in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-        runbook_url: https://docs.aws.amazon.com/vpc/latest/userguide/vpc-nat-gateway.html
-      expr: aws_cloudwatch_NATGateway_PacketsDropCount_NatGatewayId > 10
-      for: 15m
-      labels:
-        rule_source: opswatch-prometheus-rules
-        severity: info
-    - alert: AwsCloudwatchNATGatewayErrorPortAllocation
-      annotations:
-        summary: NATGW has Error Port Allocation higher than 1
-        description: NATGW {{ $labels.dimension_NatGatewayId }} has {{$value}} Errors in Port Allocation in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-        runbook_url: https://docs.aws.amazon.com/vpc/latest/userguide/vpc-nat-gateway.html
-      expr: aws_cloudwatch_NATGateway_ErrorPortAllocation_NatGatewayId > 1
-      for: 15m
-      labels:
-        rule_source: opswatch-prometheus-rules
-        severity: info
+    - name: natgw.rules
+      rules:
+        - alert: AwsCloudwatchNATGatewayPacketsDropped
+          annotations:
+            summary: NATGW has Dropped Packets Count higher than 10
+            description: NATGW {{ $labels.dimension_NatGatewayId }} has {{$value}} dropped Packages in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+            runbook_url: https://docs.aws.amazon.com/vpc/latest/userguide/vpc-nat-gateway.html
+          expr: aws_cloudwatch_NATGateway_PacketsDropCount_NatGatewayId > 10
+          for: 15m
+          labels:
+            rule_source: opswatch-prometheus-rules
+            severity: info
+        - alert: AwsCloudwatchNATGatewayErrorPortAllocation
+          annotations:
+            summary: NATGW has Error Port Allocation higher than 1
+            description: NATGW {{ $labels.dimension_NatGatewayId }} has {{$value}} Errors in Port Allocation in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+            runbook_url: https://docs.aws.amazon.com/vpc/latest/userguide/vpc-nat-gateway.html
+          expr: aws_cloudwatch_NATGateway_ErrorPortAllocation_NatGatewayId > 1
+          for: 15m
+          labels:
+            rule_source: opswatch-prometheus-rules
+            severity: info

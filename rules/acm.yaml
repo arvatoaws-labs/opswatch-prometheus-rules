@@ -1,3 +1,4 @@
+---
 apiVersion: monitoring.coreos.com/v1
 kind: PrometheusRule
 metadata:
@@ -8,25 +9,25 @@ metadata:
   namespace: monitoring
 spec:
   groups:
-  - name: acm.rules
-    rules:
-    - alert: AwsCloudwatchAcmCertificateExpirationWarning
-      annotations:
-        summary: ACM certificate will expire in less than 7 days
-        description: ACM certificate will expire in {{$value}} days for arn {{ $labels.dimension_CertificateArn }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-        runbook_url: https://docs.aws.amazon.com/acm/latest/userguide/troubleshooting-renewal.html
-      expr: aws_cloudwatch_CertificateManager_DaysToExpiry_CertificateArn{acm_in_use!="0"} < 7
-      for: 30m
-      labels:
-        rule_source: opswatch-prometheus-rules
-        severity: warning
-    - alert: AwsCloudwatchAcmCertificateExpirationCritical
-      annotations:
-        summary: ACM certificate will expire in less than 1 days
-        description: ACM certificate will expire in {{$value}} days for arn {{ $labels.dimension_CertificateArn }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-        runbook_url: https://docs.aws.amazon.com/acm/latest/userguide/troubleshooting-renewal.html
-      expr: aws_cloudwatch_CertificateManager_DaysToExpiry_CertificateArn{acm_in_use!="0"} <= 1
-      for: 15m
-      labels:
-        rule_source: opswatch-prometheus-rules
-        severity: critical
+    - name: acm.rules
+      rules:
+        - alert: AwsCloudwatchAcmCertificateExpirationWarning
+          annotations:
+            summary: ACM certificate will expire in less than 7 days
+            description: ACM certificate will expire in {{$value}} days for arn {{ $labels.dimension_CertificateArn }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+            runbook_url: https://docs.aws.amazon.com/acm/latest/userguide/troubleshooting-renewal.html
+          expr: aws_cloudwatch_CertificateManager_DaysToExpiry_CertificateArn{acm_in_use!="0"} < 7
+          for: 30m
+          labels:
+            rule_source: opswatch-prometheus-rules
+            severity: warning
+        - alert: AwsCloudwatchAcmCertificateExpirationCritical
+          annotations:
+            summary: ACM certificate will expire in less than 1 days
+            description: ACM certificate will expire in {{$value}} days for arn {{ $labels.dimension_CertificateArn }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+            runbook_url: https://docs.aws.amazon.com/acm/latest/userguide/troubleshooting-renewal.html
+          expr: aws_cloudwatch_CertificateManager_DaysToExpiry_CertificateArn{acm_in_use!="0"} <= 1
+          for: 15m
+          labels:
+            rule_source: opswatch-prometheus-rules
+            severity: critical

@@ -1,4 +1,5 @@
 ---
+# https://aws.amazon.com/de/blogs/database/part1-best-practices-on-how-to-configure-monitoring-and-alerts-for-amazon-rds-for-sql-server/
 apiVersion: monitoring.coreos.com/v1
 kind: PrometheusRule
 metadata:
@@ -11,7 +12,6 @@ spec:
   groups:
     - name: rds.rules
       rules:
-        # https://aws.amazon.com/de/blogs/database/part1-best-practices-on-how-to-configure-monitoring-and-alerts-for-amazon-rds-for-sql-server/
         - alert: AwsCloudwatchRdsDDLLatencyWarning
           annotations:
             summary: RDS DDLLatency is greater than 20ms
@@ -383,7 +383,3 @@ spec:
           labels:
             rule_source: opswatch-prometheus-rules
             severity: critical
-            # ggf. basierend auf engine und instance_class
-            #aws_cloudwatch_RDS_ServerlessDatabaseCapacity_EngineName
-# TODO: high ticket für out of memory?
-# TODO: high ticket für out disk space when not autoscaling or at max autoscaling?

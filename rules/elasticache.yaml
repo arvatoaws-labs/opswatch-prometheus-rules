@@ -91,6 +91,6 @@ spec:
           labels:
             rule_source: opswatch-prometheus-rules
             severity: warning
-      # Todo
-      #aws_cloudwatch_ElastiCache_NetworkBandwidthInAllowanceExceeded_CacheClusterId_CacheNodeId
-      #aws_cloudwatch_ElastiCache_NetworkBandwidthOutAllowanceExceeded_CacheClusterId_CacheNodeId
+# Todo
+# aws_cloudwatch_ElastiCache_NetworkBandwidthInAllowanceExceeded_CacheClusterId_CacheNodeId
+# aws_cloudwatch_ElastiCache_NetworkBandwidthOutAllowanceExceeded_CacheClusterId_CacheNodeId

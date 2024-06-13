@@ -1,6 +1,5 @@
 ---
-#https://aws.amazon.com/de/blogs/database/monitoring-amazon-dynamodb-for-operational-awareness/
-
+# https://aws.amazon.com/de/blogs/database/monitoring-amazon-dynamodb-for-operational-awareness/
 apiVersion: monitoring.coreos.com/v1
 kind: PrometheusRule
 metadata:

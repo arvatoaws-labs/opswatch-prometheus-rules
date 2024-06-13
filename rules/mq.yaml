@@ -52,7 +52,7 @@ spec:
             rule_source: opswatch-prometheus-rules
             severity: critical
             runbook_url: https://arvato-systems-group.atlassian.net/wiki/spaces/AWSKB/pages/730760409/Journal+Issues
-        # StoragePercentUsage
+            # StoragePercentUsage
         - alert: AwsCloudwatchMQStoragePercentUsageWarning
           annotations:
             summary: MQ Storage Utilizatiom is above 90 percent
@@ -91,7 +91,7 @@ spec:
           for: 15m
           labels:
             severity: critical
-        # BurstBalance
+            # BurstBalance
         - alert: AwsCloudwatchMQBurstBalanceCritical
           annotations:
             summary: MQ burst balance is below 10%

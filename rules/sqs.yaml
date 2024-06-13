@@ -26,7 +26,8 @@ spec:
             summary: SQS has more than 100 empty receives
             description: SQS queue {{ $labels.dimension_QueueName }} has {{$value}} empty receives in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
             runbook: Reduction of SQS worker capacity is recommended
-          expr: aws_cloudwatch_SQS_NumberOfEmptyReceives_QueueName > 100 # TODO: sensible limit value missing
+          expr: aws_cloudwatch_SQS_NumberOfEmptyReceives_QueueName > 100
+          # TODO: sensible limit value missing
           for: 15m
           labels:
             rule_source: opswatch-prometheus-rules

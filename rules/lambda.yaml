@@ -54,9 +54,3 @@ spec:
             rule_source: opswatch-prometheus-rules
             severity: warning
             alarm_class: REACTIVE
-
-#aws_cloudwatch_Lambda_Duration_FunctionName
-# Memory Alarme bauen wir nicht nach
-# mit neuer custom metrik berechnen
-# aws_cloudwatch_Lambda_ConcurrentExecutions_FunctionName
-# aws_cloudwatch_Lambda_UnreservedConcurrentExecutions

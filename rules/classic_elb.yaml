@@ -5,11 +5,11 @@ metadata:
   labels:
     release: prometheus
     app: prometheus-operator
-  name: opswatch.classic_elb.rules
+  name: opswatch.classic-elb.rules
   namespace: monitoring
 spec:
   groups:
-    - name: classic_elb.rules
+    - name: classic-elb.rules
       rules:
         - alert: AwsCloudwatchClassicElbHealthyHosts
           annotations:

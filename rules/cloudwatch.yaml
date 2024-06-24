@@ -16,7 +16,7 @@ spec:
             summary: Cloudwatch Metric Streams are absent
             description: Cloudwatch Metric Streams are not present
             runbook: Ensure that the Opswatch Service is up and running
-          expr: absent(aws_cloudwatch_CloudWatch_MetricUpdate_sum)
+          expr: absent(aws_cloudwatch_CloudWatch_MetricUpdate_MetricStreamName_sum)
           for: 15m
           labels:
             rule_source: opswatch-prometheus-rules
@@ -27,7 +27,7 @@ spec:
             summary: Cloudwatch Metric Streams rate low
             description: Cloudwatch Metric Streams rate is {{$value}} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
             runbook: Ensure that the Opswatch Service is up and running
-          expr: sum by (overwrite_asy_customer,overwrite_aws_account_id,overwrite_aws_region) (rate(aws_cloudwatch_CloudWatch_MetricUpdate_sum[15m])) < 0.01
+          expr: sum by (overwrite_asy_customer,overwrite_aws_account_id,overwrite_aws_region) (rate(aws_cloudwatch_CloudWatch_MetricUpdate_MetricStreamName_sum[15m])) < 0.01
           for: 30m
           labels:
             rule_source: opswatch-prometheus-rules

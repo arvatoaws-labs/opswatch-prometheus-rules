@@ -53,20 +53,20 @@ spec:
             severity: critical
             runbook_url: https://arvato-systems-group.atlassian.net/wiki/spaces/AWSKB/pages/730760409/Journal+Issues
             # StoragePercentUsage
-        - alert: AwsCloudwatchMQStoragePercentUsageWarning
+        - alert: AwsCloudwatchMQStorePercentUsageWarning
           annotations:
             summary: MQ Storage Utilizatiom is above 90 percent
             description: MQ Storage Utilizatiom is {{$value}}% for MQ Broker {{ $labels.dimensions_Broker }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-          expr: round(aws_cloudwatch_AmazonMQ_StoragePercentUsage_Broker) > 90
+          expr: round(aws_cloudwatch_AmazonMQ_StorePercentUsage_Broker) > 90
           for: 30m
           labels:
             rule_source: opswatch-prometheus-rules
             severity: warning
-        - alert: AwsCloudwatchMQStoragePercentUsageCritical
+        - alert: AwsCloudwatchMQStorePercentUsageCritical
           annotations:
             summary: MQ Storage Utilizatiom is above 95 percent
             description: MQ Storage Utilizatiom is {{$value}}% for MQ Broker {{ $labels.dimensions_Broker }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-          expr: round(aws_cloudwatch_AmazonMQ_StoragePercentUsage_Broker) > 95
+          expr: round(aws_cloudwatch_AmazonMQ_StorePercentUsage_Broker) > 95
           for: 15m
           labels:
             rule_source: opswatch-prometheus-rules

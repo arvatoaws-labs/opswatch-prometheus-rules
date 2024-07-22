@@ -44,9 +44,9 @@ spec:
             runbook_url: https://arvato-systems-group.atlassian.net/wiki/spaces/AWSKB/pages/730760409/Journal+Issues
         - alert: AwsCloudwatchMQJournalCritical
           annotations:
-            summary: MQ Journal is above 400 open files
+            summary: MQ Journal is above 1000 open files
             description: MQ Journal has {{$value}} files for MQ Broker {{ $labels.dimensions_Broker }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}. Consider rollbacking or committing open XA transactions.
-          expr: round(aws_cloudwatch_AmazonMQ_JournalFilesForFullRecovery_Broker + aws_cloudwatch_AmazonMQ_JournalFilesForFastRecovery_Broker) > 400
+          expr: round(aws_cloudwatch_AmazonMQ_JournalFilesForFullRecovery_Broker + aws_cloudwatch_AmazonMQ_JournalFilesForFastRecovery_Broker) > 1000
           for: 30m
           labels:
             rule_source: opswatch-prometheus-rules

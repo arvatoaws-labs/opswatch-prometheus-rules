@@ -55,18 +55,27 @@ spec:
             # StoragePercentUsage
         - alert: AwsCloudwatchMQStorePercentUsageWarning
           annotations:
-            summary: MQ Storage Utilizatiom is above 90 percent
+            summary: MQ Storage Utilizatiom is above 70 percent
             description: MQ Storage Utilizatiom is {{$value}}% for MQ Broker {{ $labels.dimensions_Broker }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-          expr: round(aws_cloudwatch_AmazonMQ_StorePercentUsage_Broker) > 90
+          expr: round(aws_cloudwatch_AmazonMQ_StorePercentUsage_Broker) > 70
+          for: 15m
+          labels:
+            rule_source: opswatch-prometheus-rules
+            severity: warning
+        - alert: AwsCloudwatchMQStorePercentUsageWarningPrediction
+          annotations:
+            summary: MQ Storage Utilizatiom is predicted to rise over 99 percent
+            description: MQ Storage Utilizatiom prediction is {{$value}}% for MQ Broker {{ $labels.dimensions_Broker }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+          expr: round(predict_linear(aws_cloudwatch_AmazonMQ_StorePercentUsage_Broker[2h], 3600*24)) > 99
           for: 30m
           labels:
             rule_source: opswatch-prometheus-rules
             severity: warning
         - alert: AwsCloudwatchMQStorePercentUsageCritical
           annotations:
-            summary: MQ Storage Utilizatiom is above 95 percent
+            summary: MQ Storage Utilizatiom is above 85 percent
             description: MQ Storage Utilizatiom is {{$value}}% for MQ Broker {{ $labels.dimensions_Broker }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-          expr: round(aws_cloudwatch_AmazonMQ_StorePercentUsage_Broker) > 95
+          expr: round(aws_cloudwatch_AmazonMQ_StorePercentUsage_Broker) > 85
           for: 15m
           labels:
             rule_source: opswatch-prometheus-rules

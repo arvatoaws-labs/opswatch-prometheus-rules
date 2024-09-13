@@ -1,0 +1,31 @@
+---
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  labels:
+    release: prometheus
+    app: prometheus-operator
+  name: opswatch.trustedadvisor.rules
+  namespace: monitoring
+spec:
+  groups:
+    - name: trustedadvisor.rules
+      rules:
+        - alert: AwsCloudwatchTrustedAdvisorYellow
+          annotations:
+            summary: TrustedAdvisor has a yellow status
+            description: Trusted Advisor is reporting {{ $value }} yellows in check {{ $labels.dimension_CheckName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }}
+          expr: aws_cloudwatch_TrustedAdvisor_YellowResources_CheckName > 0
+          for: 15m
+          labels:
+            rule_source: opswatch-prometheus-rules
+            severity: info
+        - alert: AwsCloudwatchTrustedAdvisorRed
+          annotations:
+            summary: TrustedAdvisor has a red status
+            description: Trusted Advisor is reporting {{ $value }} reds in check {{ $labels.dimension_CheckName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }}
+          expr: aws_cloudwatch_TrustedAdvisor_RedResources_CheckName > 0
+          for: 15m
+          labels:
+            rule_source: opswatch-prometheus-rules
+            severity: info

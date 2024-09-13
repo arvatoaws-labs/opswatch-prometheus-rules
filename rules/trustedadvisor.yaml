@@ -29,3 +29,12 @@ spec:
           labels:
             rule_source: opswatch-prometheus-rules
             severity: info
+        - alert: AwsCloudwatchTrustedAdvisorLimit
+          annotations:
+            summary: TrustedAdvisor shows a quota limit has nearly been reached
+            description: Trusted Advisor is reporting {{ $value }} percent quota usage in service {{ $labels.dimension_ServiceName }} and limit type {{ $labels.dimension_ServiceLimit }} for region (if applicable) {{ $labels.dimension_Region }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }}
+          expr: aws_cloudwatch_TrustedAdvisor_ServiceLimitUsage_Region_ServiceLimit_ServiceName * 100 > 80
+          for: 15m
+          labels:
+            rule_source: opswatch-prometheus-rules
+            severity: info

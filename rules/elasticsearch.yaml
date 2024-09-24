@@ -19,7 +19,7 @@ spec:
           labels:
             rule_source: opswatch-prometheus-rules
             severity: warning
-          expr: round(predict_linear(aws_cloudwatch_ES_FreeStorageSpace_ClientId_DomainName_min[30m], 3600 * 2) / 1024, 0.1) < 10
+          expr: round(predict_linear(aws_cloudwatch_ES_FreeStorageSpace_ClientId_DomainName_min[30m], 3600 * 2) / 1024, 0.1) < 5
           for: 30m
         - alert: AwsCloudwatchElasticSearchFilesystemDataFree
           annotations:

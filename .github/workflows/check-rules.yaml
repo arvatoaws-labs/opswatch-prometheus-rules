@@ -66,7 +66,7 @@ jobs:
         {
           cd ${{ github.workspace }}/test
           echo 'FILELIST<<EOF'
-          find . -name '*.md' -print 
+          find . -name '*.yaml' -print 
           echo EOF
         } >> "$GITHUB_ENV"
     - name: Check files using promtool

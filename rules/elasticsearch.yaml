@@ -97,7 +97,7 @@ spec:
             summary: ElasticSearch Cluster CPU utilization is above 90 percent
             description: ElasticSearch Cluster CPU utilization is above {{$value}}% for domain {{ $labels.dimension_DomainName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
             runbook_url: https://docs.aws.amazon.com/opensearch-service/latest/developerguide/handling-errors.html
-          expr: aws_cloudwatch_ES_CPUUtilization_ClientId_DomainName > 90
+          expr: round(aws_cloudwatch_ES_CPUUtilization_ClientId_DomainName) > 90
           for: 60m
           labels:
             rule_source: opswatch-prometheus-rules
@@ -107,7 +107,7 @@ spec:
             summary: Elasticsearch Cluster 4xx error rate is greater than 30%
             description: ElasticSearch Cluster Connection 4xx error rate is {{$value}}% for domain {{ $labels.dimension_DomainName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
             runbook_url: https://docs.aws.amazon.com/opensearch-service/latest/developerguide/handling-errors.html
-          expr: rate(aws_cloudwatch_ES_4xx_ClientId_DomainName_sum[30m])/(rate(aws_cloudwatch_ES_2xx_ClientId_DomainName_sum[30m]) + rate(aws_cloudwatch_ES_3xx_ClientId_DomainName_sum[30m]) + rate(aws_cloudwatch_ES_4xx_ClientId_DomainName_sum[30m]) + rate(aws_cloudwatch_ES_5xx_ClientId_DomainName_sum[30m]))*100 > 30
+          expr: rate(aws_cloudwatch_ES_4xx_ClientId_DomainName_sum[60m])/(rate(aws_cloudwatch_ES_2xx_ClientId_DomainName_sum[60m]) + rate(aws_cloudwatch_ES_3xx_ClientId_DomainName_sum[60m]) + rate(aws_cloudwatch_ES_4xx_ClientId_DomainName_sum[60m]) + rate(aws_cloudwatch_ES_5xx_ClientId_DomainName_sum[60m]))*100 > 30
           for: 15m
           labels:
             rule_source: opswatch-prometheus-rules
@@ -118,7 +118,7 @@ spec:
             summary: Elasticsearch Cluster 5xx error rate is greater than 20%
             description: ElasticSearch Cluster Connection 5xx error rate is {{$value}}% for domain {{ $labels.dimension_DomainName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
             runbook_url: https://docs.aws.amazon.com/opensearch-service/latest/developerguide/handling-errors.html
-          expr: rate(aws_cloudwatch_ES_5xx_ClientId_DomainName_sum[30m])/(rate(aws_cloudwatch_ES_2xx_ClientId_DomainName_sum[30m]) + rate(aws_cloudwatch_ES_3xx_ClientId_DomainName_sum[30m]) + rate(aws_cloudwatch_ES_4xx_ClientId_DomainName_sum[30m]) + rate(aws_cloudwatch_ES_5xx_ClientId_DomainName_sum[30m]))*100 > 20
+          expr: rate(aws_cloudwatch_ES_5xx_ClientId_DomainName_sum[60m])/(rate(aws_cloudwatch_ES_2xx_ClientId_DomainName_sum[60m]) + rate(aws_cloudwatch_ES_3xx_ClientId_DomainName_sum[60m]) + rate(aws_cloudwatch_ES_4xx_ClientId_DomainName_sum[60m]) + rate(aws_cloudwatch_ES_5xx_ClientId_DomainName_sum[60m]))*100 > 20
           for: 15m
           labels:
             rule_source: opswatch-prometheus-rules

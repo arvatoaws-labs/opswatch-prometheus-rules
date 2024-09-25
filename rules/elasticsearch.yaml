@@ -13,20 +13,20 @@ spec:
       rules:
         - alert: AwsCloudwatchElasticSearchFilesystemDataFreePrediction
           annotations:
-            summary: ElasticSearch Cluster free storage space predicted to be below 10GB
+            summary: ElasticSearch Cluster free storage space predicted to be below 5GB
             description: ElasticSearch Cluster free storage space is {{$value}}GB for domain {{ $labels.dimension_DomainName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
             runbook_url: https://docs.aws.amazon.com/opensearch-service/latest/developerguide/handling-errors.html
           labels:
             rule_source: opswatch-prometheus-rules
             severity: warning
           expr: round(predict_linear(aws_cloudwatch_ES_FreeStorageSpace_ClientId_DomainName_min[4h], 3600 * 2) / 1024, 0.1) < 5
-          for: 30m
+          for: 60m
         - alert: AwsCloudwatchElasticSearchFilesystemDataFree
           annotations:
-            summary: ElasticSearch Cluster free storage space below 5GB
+            summary: ElasticSearch Cluster free storage space below 2GB
             description: ElasticSearch Cluster free storage space is {{$value}}GB for domain {{ $labels.dimension_DomainName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
             runbook_url: https://docs.aws.amazon.com/opensearch-service/latest/developerguide/handling-errors.html
-          expr: round(aws_cloudwatch_ES_FreeStorageSpace_ClientId_DomainName_min / 1024, 0.1) < 2.5
+          expr: round(aws_cloudwatch_ES_FreeStorageSpace_ClientId_DomainName_min / 1024, 0.1) < 2
           for: 30m
           labels:
             rule_source: opswatch-prometheus-rules
@@ -128,8 +128,8 @@ spec:
             summary: Elasticsearch Cluster added more than 100 additional shards within last hour
             description: Elasticsearch Cluster added {{$value}} additional shards for domain {{ $labels.dimension_DomainName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
             runbook_url: https://docs.aws.amazon.com/opensearch-service/latest/developerguide/handling-errors.html
-          expr: max_over_time(aws_cloudwatch_ES_Shardsactive_ClientId_DomainName[60m]) - min_over_time(aws_cloudwatch_ES_Shardsactive_ClientId_DomainName[240m]) > 100
-          for: 30m
+          expr: max_over_time(aws_cloudwatch_ES_Shardsactive_ClientId_DomainName[60m]) - min_over_time(aws_cloudwatch_ES_Shardsactive_ClientId_DomainName[60m]) > 100
+          for: 60m
           labels:
             rule_source: opswatch-prometheus-rules
             severity: warning

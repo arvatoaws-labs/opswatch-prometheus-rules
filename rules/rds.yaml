@@ -298,7 +298,7 @@ spec:
             summary: RDS free local storage is less than 4GB
             description: RDS free local storage is {{$value}}GB for DB instance {{ $labels.dimension_DBInstanceIdentifier }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
             runbook_url: https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_Troubleshooting.html#CHAP_Troubleshooting.Storage
-          expr: round(aws_cloudwatch_RDS_FreeLocalStorage_DBInstanceIdentifier)/(1024^3) < 4
+          expr: round(aws_cloudwatch_RDS_FreeLocalStorage_DBInstanceIdentifier/(1024^3,0.1)) < 4
           for: 15m
           labels:
             rule_source: opswatch-prometheus-rules
@@ -308,17 +308,17 @@ spec:
             summary: RDS free storage is predicted to run out
             description: RDS free storage prediction for DB instance {{ $labels.dimension_DBInstanceIdentifier }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
             runbook_url: https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_Troubleshooting.html#CHAP_Troubleshooting.Storage
-          expr: round(predict_linear(aws_cloudwatch_RDS_FreeStorageSpace_DBInstanceIdentifier[20m], 3600 * 6))/(1024^3)  < 1
+          expr: round(predict_linear(aws_cloudwatch_RDS_FreeStorageSpace_DBInstanceIdentifier[2h], 3600 * 4)/(1024^3),0.1) < 2
           for: 15m
           labels:
             rule_source: opswatch-prometheus-rules
-            severity: critical
+            severity: warning
         - alert: AwsCloudwatchRdsFreeStorage
           annotations:
             summary: RDS free storage is less than 2GB
             description: RDS free storage is {{$value}}GB for DB instance {{ $labels.dimension_DBInstanceIdentifier }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
             runbook_url: https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_Troubleshooting.html#CHAP_Troubleshooting.Storage
-          expr: round(aws_cloudwatch_RDS_FreeStorageSpace_DBInstanceIdentifier)/(1024^3) < 2
+          expr: round(aws_cloudwatch_RDS_FreeStorageSpace_DBInstanceIdentifier/(1024^3,0.1)) < 2
           for: 15m
           labels:
             rule_source: opswatch-prometheus-rules

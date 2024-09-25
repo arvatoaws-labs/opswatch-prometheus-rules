@@ -16,7 +16,7 @@ spec:
             summary: ALB target response time is greater than 10s
             description: ALB target response time is {{$value}}s for LB {{ $labels.dimension_LoadBalancer }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
             runbook: Should be caused by something behind the ALB reaching a limitation. It could be the application itself in its resources or scalability, or a database or similar managed AWS service reaching the limits of its capabiltiy. Check if any of these seem highly utilized. If present in the architecture the application could also be waiting for an external dependency to respond, but depending on our access that might be hard to check for. At best you might find references to slow or failed external calls in the application logs.
-          expr: round(asdf) > 10
+          expr: round((*asdf) > 10
           for: 15m
           labels:
             rule_source: opswatch-prometheus-rules

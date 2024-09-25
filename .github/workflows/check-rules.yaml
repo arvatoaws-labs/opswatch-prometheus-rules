@@ -74,6 +74,6 @@ jobs:
         cd ${{ github.workspace }}/test
         for i in $FILELIST; do
           echo "Checking file ${i}"
-          promtool check rules ${i}"
+          promtool check rules ${i}
         done  
     - run: echo "🍏 This job's status is ${{ job.status }}."

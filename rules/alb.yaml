@@ -30,7 +30,7 @@ spec:
           for: 15m
           labels:
             rule_source: opswatch-prometheus-rules
-            severity: info
+            severity: warning
         - alert: AwsCloudwatchAlbErrorRate4xx
           annotations:
             summary: ALB 4xx Error ratio is greater than 30%

@@ -102,12 +102,23 @@ spec:
           labels:
             rule_source: opswatch-prometheus-rules
             severity: warning
-        - alert: AwsCloudwatchElasticSearch345xxErrorCount
+        - alert: AwsCloudwatchElasticSearchErrorRate4xx
           annotations:
-            summary: Elasticsearch Cluster 345xx error count is above 100
-            description: ElasticSearch Cluster Connection error count is {{$value}} for domain {{ $labels.dimension_DomainName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+            summary: Elasticsearch Cluster 4xx error rate is
+            description: ElasticSearch Cluster Connection 4xx error rate is {{$value}} for domain {{ $labels.dimension_DomainName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
             runbook_url: https://docs.aws.amazon.com/opensearch-service/latest/developerguide/handling-errors.html
-          expr: (aws_cloudwatch_ES_3xx_ClientId_DomainName > 100) OR (aws_cloudwatch_ES_4xx_ClientId_DomainName > 100) OR (aws_cloudwatch_ES_5xx_ClientId_DomainName > 100)
+          expr: rate(aws_cloudwatch_ES_4xx_ClientId_DomainName_sum[30m])/(rate(aws_cloudwatch_ES_2xx_ClientId_DomainName_sum[30m]) + rate(aws_cloudwatch_ES_3xx_ClientId_DomainName_sum[30m]) + rate(aws_cloudwatch_ES_4xx_ClientId_DomainName_sum[30m]) + rate(aws_cloudwatch_ES_5xx_ClientId_DomainName_sum[30m]))*100
+          for: 45m
+          labels:
+            rule_source: opswatch-prometheus-rules
+            severity: info
+            alarm_class: REACTIVE
+        - alert: AwsCloudwatchElasticSearchErrorRate5xx
+          annotations:
+            summary: Elasticsearch Cluster 5xx error rate is 
+            description: ElasticSearch Cluster Connection 5xx error rate is {{$value}} for domain {{ $labels.dimension_DomainName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+            runbook_url: https://docs.aws.amazon.com/opensearch-service/latest/developerguide/handling-errors.html
+          expr: rate(aws_cloudwatch_ES_5xx_ClientId_DomainName_sum[30m])/(rate(aws_cloudwatch_ES_2xx_ClientId_DomainName_sum[30m]) + rate(aws_cloudwatch_ES_3xx_ClientId_DomainName_sum[30m]) + rate(aws_cloudwatch_ES_4xx_ClientId_DomainName_sum[30m]) + rate(aws_cloudwatch_ES_5xx_ClientId_DomainName_sum[30m]))*100
           for: 45m
           labels:
             rule_source: opswatch-prometheus-rules

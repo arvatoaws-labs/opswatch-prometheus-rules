@@ -66,7 +66,7 @@ spec:
             summary: ElastiCache has CacheHitRate below 10 percent
             description: ElastiCache cluster {{ $labels.dimension_CacheClusterId }} node {{ $labels.dimension_CacheNodeId }} has CacheHitRate of {{$value}}% in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
             runbook_url: https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/ErrorMessages.html
-          expr: aws_cloudwatch_ElastiCache_CacheHitRate_CacheClusterId < 10
+          expr: round(aws_cloudwatch_ElastiCache_CacheHitRate_CacheClusterId) < 10
           for: 30m
           labels:
             rule_source: opswatch-prometheus-rules
@@ -76,7 +76,7 @@ spec:
             summary: ElastiCache has DatabaseMemoryUsage Counted for Evict percentage above 85 percent
             description: ElastiCache cluster {{ $labels.dimension_CacheClusterId }} node {{ $labels.dimension_CacheNodeId }} has Memory Usage Counted for Evict Percentage of {{$value}}% in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
             runbook_url: https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/ErrorMessages.html
-          expr: aws_cloudwatch_ElastiCache_DatabaseMemoryUsageCountedForEvictPercentage > 85
+          expr: round(aws_cloudwatch_ElastiCache_DatabaseMemoryUsageCountedForEvictPercentage) > 85
           for: 15m
           labels:
             rule_source: opswatch-prometheus-rules

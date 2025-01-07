@@ -71,6 +71,14 @@ spec:
           labels:
             rule_source: opswatch-prometheus-rules
             severity: info
+        - record: aws_cloudwatch_ApplicationELB_HTTPCodeTargetCount_LoadBalancer_TargetGroup_sum
+          expr: label_replace(aws_cloudwatch_ApplicationELB_HTTPCodeTarget2XXCount_LoadBalancer_TargetGroup_sum, "http_code", "2xx", "__name__", "(.+)")
+        - record: aws_cloudwatch_ApplicationELB_HTTPCodeTargetCount_LoadBalancer_TargetGroup_sum
+          expr: label_replace(aws_cloudwatch_ApplicationELB_HTTPCodeTarget3XXCount_LoadBalancer_TargetGroup_sum, "http_code", "3xx", "__name__", "(.+)")
+        - record: aws_cloudwatch_ApplicationELB_HTTPCodeTargetCount_LoadBalancer_TargetGroup_sum
+          expr: label_replace(aws_cloudwatch_ApplicationELB_HTTPCodeTarget4XXCount_LoadBalancer_TargetGroup_sum, "http_code", "4xx", "__name__", "(.+)")
+        - record: aws_cloudwatch_ApplicationELB_HTTPCodeTargetCount_LoadBalancer_TargetGroup_sum
+          expr: label_replace(aws_cloudwatch_ApplicationELB_HTTPCodeTarget5XXCount_LoadBalancer_TargetGroup_sum, "http_code", "5xx", "__name__", "(.+)")
         - alert: AwsCloudwatchAlbTargetGroupErrorRate5xx
           annotations:
             summary: ALB TargetGroup 5xx Error ratio is greater than 20%

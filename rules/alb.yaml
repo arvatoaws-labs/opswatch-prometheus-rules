@@ -84,7 +84,7 @@ spec:
             summary: ALB TargetGroup 5xx Error ratio is greater than 20%
             description: ALB TargetGroup 5xx error rate is {{$value}}% for LB {{ $labels.dimension_LoadBalancer }} & TargetGroup {{ $labels.dimension_TargetGroup }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
             runbook_url: https://aws.amazon.com/de/premiumsupport/knowledge-center/elb-fix-failing-health-checks-alb/
-          expr: round(rate(aws_cloudwatch_ApplicationELB_HTTPCodeTarget5XXCount_LoadBalancer_TargetGroup_sum[15m]) / (sum without(http_code) (rate(aws_cloudwatch_ApplicationELB_HTTPCodeTargetCount_LoadBalancer_TargetGroup_sum[15m]))) * 100) > 20
+          expr: round(sum without(http_code) (rate(aws_cloudwatch_ApplicationELB_HTTPCodeTargetCount_LoadBalancer_TargetGroup_sum{http_code="5xx"}[15m])) / (sum without(http_code) (rate(aws_cloudwatch_ApplicationELB_HTTPCodeTargetCount_LoadBalancer_TargetGroup_sum[15m])) + 0.000000000001) * 100) > 20
           for: 15m
           labels:
             rule_source: opswatch-prometheus-rules
@@ -94,7 +94,7 @@ spec:
             summary: ALB TargetGroup 4xx Error ratio is greater than 30%
             description: ALB TargetGroup 4xx error rate is {{$value}}% for LB {{ $labels.dimension_LoadBalancer }} & TargetGroup {{ $labels.dimension_TargetGroup }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
             runbook_url: https://aws.amazon.com/de/premiumsupport/knowledge-center/elb-fix-failing-health-checks-alb/
-          expr: round(rate(aws_cloudwatch_ApplicationELB_HTTPCodeTarget4XXCount_LoadBalancer_TargetGroup_sum[15m]) / (sum without(http_code) (rate(aws_cloudwatch_ApplicationELB_HTTPCodeTargetCount_LoadBalancer_TargetGroup_sum[15m]))) * 100) > 20
+          expr: round(sum without(http_code) (rate(aws_cloudwatch_ApplicationELB_HTTPCodeTargetCount_LoadBalancer_TargetGroup_sum{http_code="4xx"}[15m])) / (sum without(http_code) (rate(aws_cloudwatch_ApplicationELB_HTTPCodeTargetCount_LoadBalancer_TargetGroup_sum[15m])) + 0.000000000001) * 100) > 20
           for: 15m
           labels:
             rule_source: opswatch-prometheus-rules

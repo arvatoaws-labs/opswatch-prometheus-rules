@@ -102,6 +102,14 @@ spec:
           labels:
             rule_source: opswatch-prometheus-rules
             severity: warning
+        - record: aws_cloudwatch_ES_HttpCode_ClientId_DomainName_sum
+          expr: label_replace(aws_cloudwatch_ES_2xx_ClientId_DomainName_sum, "http_code", "2xx", "__name__", "(.+)")
+        - record: aws_cloudwatch_ES_HttpCode_ClientId_DomainName_sum
+          expr: label_replace(aws_cloudwatch_ES_3xx_ClientId_DomainName_sum, "http_code", "3xx", "__name__", "(.+)")
+        - record: aws_cloudwatch_ES_HttpCode_ClientId_DomainName_sum
+          expr: label_replace(aws_cloudwatch_ES_4xx_ClientId_DomainName_sum, "http_code", "4xx", "__name__", "(.+)")
+        - record: aws_cloudwatch_ES_HttpCode_ClientId_DomainName_sum
+          expr: label_replace(aws_cloudwatch_ES_5xx_ClientId_DomainName_sum, "http_code", "5xx", "__name__", "(.+)")
         - alert: AwsCloudwatchElasticSearchErrorRate4xx
           annotations:
             summary: Elasticsearch Cluster 4xx error rate is greater than 30%

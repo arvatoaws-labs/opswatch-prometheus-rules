@@ -21,26 +21,6 @@ spec:
           labels:
             rule_source: opswatch-prometheus-rules
             severity: info
-        - alert: AwsCloudwatchAlbErrorRate5xx
-          annotations:
-            summary: ALB 5xx Error ratio is greater than 20%
-            description: ALB TargetGroup 5xx error rate is {{$value}}% for LB {{ $labels.dimension_LoadBalancer }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-            runbook_url: https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-troubleshooting.html
-          expr: round(rate(aws_cloudwatch_ApplicationELB_HTTPCodeTarget4XXCount_LoadBalancer_sum{}[15m]) / (rate(aws_cloudwatch_ApplicationELB_HTTPCodeTarget2XXCount_LoadBalancer_sum{}[15m]) + rate(aws_cloudwatch_ApplicationELB_HTTPCodeTarget3XXCount_LoadBalancer_sum{}[15m]) + rate(aws_cloudwatch_ApplicationELB_HTTPCodeTarget4XXCount_LoadBalancer_sum{}[15m]) + rate(aws_cloudwatch_ApplicationELB_HTTPCodeTarget5XXCount_LoadBalancer_sum{}[15m]))  * 100) > 20
-          for: 15m
-          labels:
-            rule_source: opswatch-prometheus-rules
-            severity: warning
-        - alert: AwsCloudwatchAlbErrorRate4xx
-          annotations:
-            summary: ALB 4xx Error ratio is greater than 30%
-            description: ALB TargetGroup 4xx error rate is {{$value}}% for LB {{ $labels.dimension_LoadBalancer }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-            runbook_url: https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-troubleshooting.html
-          expr: round(rate(aws_cloudwatch_ApplicationELB_HTTPCodeTarget4XXCount_LoadBalancer_sum{}[15m]) / (rate(aws_cloudwatch_ApplicationELB_HTTPCodeTarget2XXCount_LoadBalancer_sum{}[15m]) + rate(aws_cloudwatch_ApplicationELB_HTTPCodeTarget3XXCount_LoadBalancer_sum{}[15m]) + rate(aws_cloudwatch_ApplicationELB_HTTPCodeTarget4XXCount_LoadBalancer_sum{}[15m]) + rate(aws_cloudwatch_ApplicationELB_HTTPCodeTarget5XXCount_LoadBalancer_sum{}[15m]))  * 100)  > 30
-          for: 15m
-          labels:
-            rule_source: opswatch-prometheus-rules
-            severity: info
         - alert: AwsCloudwatchAlbTargetGroupRatioHealthyHosts
           annotations:
             summary: ALB TargetGroup ratio of healthy hosts is below 50%

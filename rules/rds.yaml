@@ -66,7 +66,7 @@ spec:
           labels:
             rule_source: opswatch-prometheus-rules
             severity: warning
-        - alert: AwsCloudwatchRdsDeleteLatencyyWarning
+        - alert: AwsCloudwatchRdsDeleteLatencyWarning
           annotations:
             summary: RDS DeleteLatency is greater than 20ms
             description: RDS DeleteLatency is {{$value}}ms for DB instance {{ $labels.dimension_DBInstanceIdentifier }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
@@ -323,7 +323,58 @@ spec:
           labels:
             rule_source: opswatch-prometheus-rules
             severity: critical
-        - alert: AwsCloudwatchRdsClusterMaxConnections
+        - alert: AwsCloudwatchRdsFreeableMemoryCritical
+          annotations:
+            summary: RDS freeable memory is less than 300MB
+            description: RDS freeable memory is {{$value}}B for DB instance {{ $labels.dimension_DBInstanceIdentifier }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+            runbook_url: https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_Troubleshooting.html#Troubleshooting.FreeableMemory
+          expr: aws_cloudwatch_RDS_FreeableMemory_DBInstanceIdentifier < 300 * 1024 * 1024
+          for: 15m
+          labels:
+            rule_source: opswatch-prometheus-rules
+            severity: critical
+        - alert: AwsCloudwatchRdsFreeableMemoryWarning
+          annotations:
+            summary: RDS freeable memory is less than 500MB
+            description: RDS freeable memory is {{$value}}B for DB instance {{ $labels.dimension_DBInstanceIdentifier }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+            runbook_url: https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_Troubleshooting.html#Troubleshooting.FreeableMemory
+          expr: aws_cloudwatch_RDS_FreeableMemory_DBInstanceIdentifier < 500 * 1024 * 1024
+          for: 30m
+          labels:
+            rule_source: opswatch-prometheus-rules
+            severity: warning
+        - alert: AwsCloudwatchRdsAuroraOomHealthState
+          annotations:
+            summary: RDS Aurora OOM health state critical
+            description: RDS Aurora OOM health state is {{$value}} for DB instance {{ $labels.dimension_DBInstanceIdentifier }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+            runbook_url: https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/AuroraMySQLOOM.html
+            info: Indicates the memory health state. A value of 0 equals NORMAL. A value of 10 equals RESERVED, which means that the server is approaching a critical level of memory usage.
+          expr: aws_cloudwatch_RDS_AuroraMemoryHealthState_DBInstanceIdentifier > 0
+          for: 15m
+          labels:
+            rule_source: opswatch-prometheus-rules
+            severity: warning
+        - alert: AwsCloudwatchRdsAuroraOomRecoveryTriggered
+          annotations:
+            summary: RDS Aurora OOM recovery triggered
+            description: RDS Aurora OOM recovery triggered {{$value}} times for DB instance {{ $labels.dimension_DBInstanceIdentifier }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+            runbook_url: https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/AuroraMySQLOOM.html
+          expr: increase(aws_cloudwatch_RDS_AuroraNumOomRecoveryTriggered_DBInstanceIdentifier_sum[60m]) > 0
+          for: 15m
+          labels:
+            rule_source: opswatch-prometheus-rules
+            severity: warning
+        - alert: AwsCloudwatchRdsAuroraOomKilledConnections
+          annotations:
+            summary: RDS Aurora OOM killed connections
+            description: RDS Aurora OOM killed {{$value}} connections for DB instance {{ $labels.dimension_DBInstanceIdentifier }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+            runbook_url: https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/AuroraMySQLOOM.html
+          expr: increase(aws_cloudwatch_RDS_AuroraMemoryNumKillConnTotal_DBInstanceIdentifier_sum[60m]) > 0
+          for: 15m
+          labels:
+            rule_source: opswatch-prometheus-rules
+            severity: warning
+        - alert: AwsCloudwatchRdsClusterMaxConnectionsCritical
           annotations:
             summary: RDS connection count is more than 95%
             description: RDS connection count is {{$value}}% for DB cluster {{ $labels.dimension_DBClusterIdentifier }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}

@@ -5,11 +5,11 @@ metadata:
   labels:
     release: prometheus
     app: prometheus-operator
-  name: opswatch.lambda.rules
+  name: opswatch.connect.rules
   namespace: monitoring
 spec:
   groups:
-    - name: lambda.rules
+    - name: connect.rules
       rules:
         - alert: AwsConnectAccessDeniedExceptioErrorWarning
           annotations:

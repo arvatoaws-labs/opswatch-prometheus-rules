@@ -16,7 +16,7 @@ spec:
             summary: AWS trusted advirosr metrics are missing
             description: AWS trusted advirosr metrics are missing in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
             runbook: Please check if metrics are delivered to CloudWatch and Opswatch. If not, please check the AWS Backup service in the AWS console.
-          expr: absent(aws_cloudwatch_TrustedAdvisor_YellowResources_CheckName) or absent(aws_cloudwatch_TrustedAdvisor_RedResources_CheckName)
+          expr: absent(aws_cloudwatch_TrustedAdvisor_YellowResources_CheckName) and absent(aws_cloudwatch_TrustedAdvisor_RedResources_CheckName)
           for: 7d
           labels:
             rule_source: opswatch-prometheus-rules

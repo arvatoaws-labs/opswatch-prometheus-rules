@@ -11,13 +11,35 @@ spec:
   groups:
     - name: backup.rules
       rules:
+        - alert: AwsCloudwatchBackupJobMetricsMissing
+          annotations:
+            summary: AWS backup job completed metrics are missing
+            description: AWS backup job completed metrics are missing in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+            runbook: Please check if metrics are delivered to CloudWatch and Opswatch. If not, please check the AWS Backup service in the AWS console.
+          expr: absent(aws_cloudwatch_Backup_NumberOfBackupJobsCompleted_BackupVaultName_ResourceType)
+          for: 7d
+          labels:
+            rule_source: opswatch-prometheus-rules
+            severity: warning
+            alarm_class: REACTIVE
+            alarm_scope: INTERNAL
+        - alert: AwsCloudwatchBackupJobPartial
+          annotations:
+            summary: AWS backup job only partially completed
+            description: AWS backup job only partially completed for vault {{ $labels.dimension_BackupVaultName }} with resource type {{ $labels.dimension_ResourceType }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+            runbook_url: https://docs.aws.amazon.com/aws-backup/latest/devguide/troubleshooting.html
+          expr: aws_cloudwatch_Backup_NumberOfBackupJobsPartial_ResourceType{dimension_ResourceType!~"(S3|RESOURCE_NOT_SUPPORTED)"} > 0
+          labels:
+            rule_source: opswatch-prometheus-rules
+            severity: info
+            alarm_class: REACTIVE
+            alarm_scope: INTERNAL
         - alert: AwsCloudwatchBackupJobFailed
           annotations:
             summary: AWS backup job failed
             description: AWS backup job failed for vault {{ $labels.dimension_BackupVaultName }} with resource type {{ $labels.dimension_ResourceType }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
             runbook_url: https://docs.aws.amazon.com/aws-backup/latest/devguide/troubleshooting.html
           expr: aws_cloudwatch_Backup_NumberOfBackupJobsFailed_BackupVaultName_ResourceType{dimension_ResourceType!~"(S3|RESOURCE_NOT_SUPPORTED)"} > 0
-          for: 15m
           labels:
             rule_source: opswatch-prometheus-rules
             severity: warning

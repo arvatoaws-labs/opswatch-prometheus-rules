@@ -31,7 +31,7 @@ spec:
           for: 15m
           labels:
             rule_source: opswatch-prometheus-rules
-            severity: critical
+            severity: warning
         - alert: AwsCloudwatchDynamodbThrottledRequestsCritical
           annotations:
             summary: DynamoDB requests are throttled

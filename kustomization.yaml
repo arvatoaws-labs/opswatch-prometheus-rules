@@ -33,3 +33,4 @@ resources :
 - rules/kafka.yaml
 - rules/vpn.yaml
 - rules/classic_elb.yaml
+- rules/trustedadvisor.yaml

@@ -9,15 +9,35 @@ metadata:
   namespace: monitoring
 spec:
   groups:
-    - name: ebs.rules
-      rules:
-        - alert: AwsCloudwatchEBSBurstBalance
-          annotations:
-            summary: EBS Volume Burst Balance low
-            description: EBS Volume Burst Balance is {{$value}}% for EBS Volume {{ $labels.dimension_VolumeId }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-            runbook_url: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AmazonEBS.html
-          expr: aws_cloudwatch_EBS_BurstBalance_VolumeId < 10
-          for: 15m
-          labels:
-            rule_source: opswatch-prometheus-rules
-            severity: warning
+  - name: ebs.rules
+    rules:
+    - alert: AwsCloudwatchEBSBurstBalance
+      annotations:
+        summary: EBS Volume Burst Balance low
+        description: EBS Volume Burst Balance is {{$value}}% for EBS Volume {{ $labels.dimension_VolumeId }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+        runbook_url: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AmazonEBS.html
+      expr: aws_cloudwatch_EBS_BurstBalance_VolumeId < 10
+      for: 15m
+      labels:
+        rule_source: opswatch-prometheus-rules
+        severity: warning
+    - alert: AwsCloudwatchEBSVolumeThroughputExceeded
+      annotations:
+        summary: EBS Volume Throughput Exceeded
+        description: EBS Volume Throughput Exceeded for EBS Volume {{ $labels.dimension_VolumeId }} on {{ $labels.dimension_InstanceId }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+        runbook_url: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AmazonEBS.html
+      expr: aws_cloudwatch_EBS_VolumeThroughputExceededCheck_InstanceId_VolumeId > 0
+      labels:
+        rule_source: opswatch-prometheus-rules
+        severity: warning
+        auto_close: "false"
+    - alert: AwsCloudwatchEBSVolumeIOPSExceeded
+      annotations:
+        summary: EBS Volume IOPS Exceeded
+        description: EBS Volume IOPS Exceeded for EBS Volume {{ $labels.dimension_VolumeId }} on {{ $labels.dimension_InstanceId }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+        runbook_url: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AmazonEBS.html
+      expr: aws_cloudwatch_EBS_VolumeIOPSExceededCheck_InstanceId_VolumeId > 0
+      labels:
+        rule_source: opswatch-prometheus-rules
+        severity: warning
+        auto_close: "false"

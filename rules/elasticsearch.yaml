@@ -51,6 +51,26 @@ spec:
           labels:
             rule_source: opswatch-prometheus-rules
             severity: warning
+        - alert: AwsCloudwatchElasticSearchHealthStatusFlappingRed
+          annotations:
+            summary: ElasticSearch Cluster health status is flapping red
+            description: ElasticSearch Cluster health status is flapping for domain {{ $labels.dimension_DomainName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+            runbook_url: https://docs.aws.amazon.com/opensearch-service/latest/developerguide/handling-errors.html
+          expr: aws_cloudwatch_ES_ClusterStatusred_ClientId_DomainName > 1
+          labels:
+            rule_source: opswatch-prometheus-rules
+            severity: warning
+            auto_close: "false"
+        - alert: AwsCloudwatchElasticSearchHealthStatusFlappingYellow
+          annotations:
+            summary: ElasticSearch Cluster health status is flapping yellow
+            description: ElasticSearch Cluster health status is flapping for domain {{ $labels.dimension_DomainName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+            runbook_url: https://docs.aws.amazon.com/opensearch-service/latest/developerguide/handling-errors.html
+          expr: aws_cloudwatch_ES_ClusterStatusyellow_ClientId_DomainName > 1
+          labels:
+            rule_source: opswatch-prometheus-rules
+            severity: warning
+            auto_close: "false"
         - alert: AwsCloudwatchElasticSearchWritesBlocked
           annotations:
             summary: ElasticSearch Cluster Write are blocked

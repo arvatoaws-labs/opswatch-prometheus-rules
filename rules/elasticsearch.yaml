@@ -51,6 +51,16 @@ spec:
           labels:
             rule_source: opswatch-prometheus-rules
             severity: warning
+        - alert: AwsCloudwatchElasticSearchWritesBlocked
+          annotations:
+            summary: ElasticSearch Cluster Write are blocked
+            description: ElasticSearch Cluster Write are blocked for domain {{ $labels.dimension_DomainName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+            runbook_url: https://docs.aws.amazon.com/opensearch-service/latest/developerguide/handling-errors.html
+          expr: aws_cloudwatch_ES_ClusterIndexWritesBlocked_ClientId_DomainName > 0
+          for: 15m
+          labels:
+            rule_source: opswatch-prometheus-rules
+            severity: critical
         - alert: AwsCloudwatchElasticSearchMasterNotReachable
           annotations:
             summary: ElasticSearch Cluster master node is not reachable

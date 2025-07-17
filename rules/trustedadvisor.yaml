@@ -37,4 +37,4 @@ spec:
           for: 15m
           labels:
             rule_source: opswatch-prometheus-rules
-            severity: info
+            severity: warning

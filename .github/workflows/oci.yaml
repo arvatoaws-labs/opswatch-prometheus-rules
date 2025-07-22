@@ -1,0 +1,32 @@
+name: 'OCI'
+on:
+  push:
+    branches:
+    - dev
+    - main
+jobs:
+  oci:
+    runs-on: arvato
+    permissions:
+      id-token: write
+      contents: read
+    container:
+      image: ghcr.io/arvatoaws-labs/helm-pipeline/release:latest
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v4
+      with:
+        ref: ${{ github.ref }}
+        fetch-tags: true
+    - name: Login to GitHub Packages Docker Registry
+      uses: docker/login-action@v3
+      with:
+        registry: ghcr.io
+        username: ${{github.actor}}
+        password: ${{ secrets.GITHUB_TOKEN }}
+    - name: Build and Push OCI Image
+      run: |
+        git config --global --add safe.directory /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}
+        sha_short=$(git rev-parse --short HEAD)
+        flux push artifact oci://ghcr.io/${{ github.event.repository.name }}:branch_`echo ${{ github.ref_name }} | sed -E 's/[^a-zA-Z0-9\.\-_]/-/'` --reproducible --path ./ --source=https://github.com/arvatoaws/${{ github.event.repository.name }}.git --revision="$sha_short" --provider=aws
+        flux push artifact oci://ghcr.io/${{ github.event.repository.name }}:commit_$sha_short --reproducible --path ./ --source=https://github.com/arvatoaws/${{ github.event.repository.name }}.git --revision="$sha_short" --provider=aws

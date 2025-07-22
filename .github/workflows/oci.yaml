@@ -28,5 +28,5 @@ jobs:
       run: |
         git config --global --add safe.directory /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}
         sha_short=$(git rev-parse --short HEAD)
-        flux push artifact oci://ghcr.io/arvatoaws-labs/${{ github.event.repository.name }}:branch_`echo ${{ github.ref_name }} | sed -E 's/[^a-zA-Z0-9\.\-_]/-/'` --reproducible --path ./ --source=https://github.com/arvatoaws/${{ github.event.repository.name }}.git --revision="$sha_short" --provider=aws
-        flux push artifact oci://ghcr.io/arvatoaws-labs/${{ github.event.repository.name }}:commit_$sha_short --reproducible --path ./ --source=https://github.com/arvatoaws/${{ github.event.repository.name }}.git --revision="$sha_short" --provider=aws
+        flux push artifact oci://ghcr.io/arvatoaws-labs/${{ github.event.repository.name }}:branch_`echo ${{ github.ref_name }} | sed -E 's/[^a-zA-Z0-9\.\-_]/-/'` --reproducible --path ./ --source=https://github.com/arvatoaws/${{ github.event.repository.name }}.git --revision="$sha_short" --provider=generic
+        flux push artifact oci://ghcr.io/arvatoaws-labs/${{ github.event.repository.name }}:commit_$sha_short --reproducible --path ./ --source=https://github.com/arvatoaws/${{ github.event.repository.name }}.git --revision="$sha_short" --provider=generic

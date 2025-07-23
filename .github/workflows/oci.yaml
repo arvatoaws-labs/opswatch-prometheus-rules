@@ -7,9 +7,10 @@ on:
 jobs:
   oci:
     runs-on: arvato
-    # permissions:
-    #   id-token: write
-    #   contents: read
+    permissions:
+      id-token: write
+      contents: read
+      packages: write
     container:
       image: ghcr.io/arvatoaws-labs/helm-pipeline/release:latest
     steps:

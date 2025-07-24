@@ -1,0 +1,33 @@
+---
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  labels:
+    release: prometheus
+    app: prometheus-operator
+  name: opswatch.subnet.rules
+  namespace: monitoring
+spec:
+  groups:
+    - name: subnet.rules
+      rules:
+        - alert: AwsSubnetsAvailableIpAddressWarning
+          annotations:
+            summary: Number of available ip addresses in a subnet is less than 10%
+            description: Number of available ip addresses is {{$value}}% for subnet {{ $labels.subnet_id}} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+            runbook_url: https://docs.aws.amazon.com/vpc/latest/userguide/amazon-vpc-limits.html
+          expr: round(aws_apidescribe_AvailableIpAddressCount / aws_apidescribe_TotalIpAddressCount * 100) < 10
+          for: 15m
+          labels:
+            rule_source: opswatch-prometheus-rules
+            severity: warning
+        - alert: AwsSubnetsAvailableIpAddressWarningTotal
+          annotations:
+            summary: Number of available ip addresses in a subnet is less than 10
+            description: Number of available ip addresses is {{$value}} for subnet {{ $labels.subnet_id}} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+            runbook_url: https://docs.aws.amazon.com/vpc/latest/userguide/amazon-vpc-limits.html
+          expr: aws_apidescribe_AvailableIpAddressCount < 10
+          for: 15m
+          labels:
+            rule_source: opswatch-prometheus-rules
+            severity: warning

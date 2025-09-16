@@ -49,6 +49,6 @@ spec:
           for: 15m
           labels:
             rule_source: opswatch-prometheus-rules
-            severity: warning
+            severity: info # TODO: desired not enabled in many accounts warning
             alarm_scope: INTERNAL
         #TODO: add ControlTower rule

@@ -11,21 +11,11 @@ spec:
   groups:
     - name: cloudfoundation.rules
       rules:
-        - alert: CloudFoundationOrganizationMemberStatusNotActive
-          annotations:
-            summary: Status of organization member account is not active
-            description: Status of account {{ $labels.dimension_Account }} in organization {{ $labels.dimension_OrganizationId }} is {{ $labels.dimension_Status }}
-          expr: min_over_time(aws_cloudwatch_CloudFoundation_OrganizationMemberStatus_Account_OrganizationId_Status{dimension_Status!="ACTIVE"}[4h]) >= 1
-          for: 15m
-          labels:
-            rule_source: opswatch-prometheus-rules
-            severity: warning
-            alarm_scope: INTERNAL
         - alert: CloudFoundationGuardDutyStatusNotEnabled
           annotations:
             summary: Status of GuardDuty is not enabled
             description: Status GuardDuty in account {{ $labels.dimension_Account }} and organization {{ $labels.dimension_OrganizationId }} is {{ $labels.dimension_Status }}
-          expr: min_over_time(aws_cloudwatch_CloudFoundation_GuardDutyStatus_Account_OrganizationId_Status{dimension_Status!="Enabled"}[4h]) >= 1
+          expr: (max_over_time(aws_cloudwatch_CloudFoundation_OrganizationMemberStatus_Account_OrganizationId_Status{dimension_Status="ACTIVE"}[4h]) >= 1) and on(dimension_Account) (max_over_time(aws_cloudwatch_CloudFoundation_GuardDutyStatus_Account_OrganizationId_Status{dimension_Status!="Enabled"}[4h]) >= 1)
           for: 15m
           labels:
             rule_source: opswatch-prometheus-rules
@@ -35,7 +25,7 @@ spec:
           annotations:
             summary: CloudTrail is not lgging
             description: CloudTrail in account {{ $labels.dimension_Account }} and organization {{ $labels.dimension_OrganizationId }} is not logging
-          expr: max_over_time(aws_cloudwatch_CloudFoundation_CloudTrailStatus_Account_OrganizationId[4h]) > 1
+          expr: (max_over_time(aws_cloudwatch_CloudFoundation_CloudTrailStatus_Account_OrganizationId[4h]) < 1) and on(dimension_Account) (max_over_time(aws_cloudwatch_CloudFoundation_OrganizationMemberStatus_Account_OrganizationId_Status{dimension_Status="ACTIVE"}[4h]) >= 1)
           for: 15m
           labels:
             rule_source: opswatch-prometheus-rules
@@ -45,7 +35,7 @@ spec:
           annotations:
             summary: SecurityHub is not enabled
             description: Member status SecurityHub in account {{ $labels.dimension_Account }} and organization {{ $labels.dimension_OrganizationId }} is {{ $labels.dimension_MemberStatus }}. Policy association status is {{ $labels.dimension_PolicyAssociationStatus}}
-          expr: (max_over_time(aws_cloudwatch_CloudFoundation_SecurityHubStatus_Account_MemberStatus_OrganizationId_PolicyAssociationStatus{dimension_MemberStatus!~"Master|Enabled"}[4h:]) >= 1 or max_over_time(aws_cloudwatch_CloudFoundation_SecurityHubStatus_Account_MemberStatus_OrganizationId_PolicyAssociationStatus{dimension_PolicyAssociationStatus!="SUCCESS"}[4h:]) >= 1)
+          expr: ((max_over_time(aws_cloudwatch_CloudFoundation_SecurityHubStatus_Account_MemberStatus_OrganizationId_PolicyAssociationStatus{dimension_MemberStatus!~"Master|Enabled"}[4h]) >= 1 or on(dimension_Account) max_over_time(aws_cloudwatch_CloudFoundation_SecurityHubStatus_Account_MemberStatus_OrganizationId_PolicyAssociationStatus{dimension_PolicyAssociationStatus!="SUCCESS"}[4h]) >= 1)) and on(dimension_Account) (max_over_time(aws_cloudwatch_CloudFoundation_OrganizationMemberStatus_Account_OrganizationId_Status{dimension_Status="ACTIVE"}[4h]) >= 1)
           for: 15m
           labels:
             rule_source: opswatch-prometheus-rules

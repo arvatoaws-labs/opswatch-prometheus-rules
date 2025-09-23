@@ -16,7 +16,7 @@ spec:
         - record: aws_cloudwatch_CloudFoundation_CloudTrailStatus_Active_Account
           expr: (max_over_time(aws_cloudwatch_CloudFoundation_CloudTrailStatus_Account_OrganizationId[4h])) and on(dimension_Account) (max_over_time(aws_cloudwatch_CloudFoundation_OrganizationMemberStatus_Account_OrganizationId_Status{dimension_Status="ACTIVE"}[4h]) >= 1)
         - record: CloudFoundationSLA
-          expr: count by (dimension_OrganizationId) (aws_cloudwatch_CloudFoundation_GuardDutyStatus_Active_Account{dimension_Status!="Enabled"} or (aws_cloudwatch_CloudFoundation_CloudTrailStatus_Active_Account < 1))
+          expr: sum by (dimension_OrganizationId, asy_component) (aws_cloudwatch_CloudFoundation_GuardDutyStatus_Active_Account{dimension_Status!="Enabled"}) + sum by (dimension_OrganizationId, asy_component) (1 - aws_cloudwatch_CloudFoundation_CloudTrailStatus_Active_Account)
         - alert: CloudFoundationGuardDutyStatusNotEnabled
           annotations:
             summary: Status of GuardDuty is not enabled

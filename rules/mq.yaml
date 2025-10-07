@@ -34,9 +34,9 @@ spec:
         # JournalFilledOpenTransactions (https://github.com/arvatoaws-labs/activemq-xa-cli)
         - alert: AwsCloudwatchMQJournalWarning
           annotations:
-            summary: MQ Journal is above 100 open files
+            summary: MQ Journal is above 500 open files
             description: MQ Journal has {{$value}} files for MQ Broker {{ $labels.dimensions_Broker }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}. Consider rollbacking or committing open XA transactions.
-          expr: round(aws_cloudwatch_AmazonMQ_JournalFilesForFullRecovery_Broker + aws_cloudwatch_AmazonMQ_JournalFilesForFastRecovery_Broker) > 100
+          expr: round(aws_cloudwatch_AmazonMQ_JournalFilesForFullRecovery_Broker + aws_cloudwatch_AmazonMQ_JournalFilesForFastRecovery_Broker) > 500
           for: 30m
           labels:
             rule_source: opswatch-prometheus-rules

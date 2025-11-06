@@ -35,3 +35,4 @@ resources:
 - rules/vpn.yaml
 - rules/classic_elb.yaml
 - rules/trustedadvisor.yaml
+- rules/cloudfoundation.yaml

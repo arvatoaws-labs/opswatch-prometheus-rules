@@ -5,7 +5,7 @@ metadata:
   labels:
     release: prometheus
     app: prometheus-operator
-  name: opswatch.cloudwatch.rules
+  name: opswatch.cloudfoundation.rules
   namespace: monitoring
 spec:
   groups:

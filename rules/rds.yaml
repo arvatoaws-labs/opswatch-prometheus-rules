@@ -423,7 +423,7 @@ spec:
           for: 30m
           labels:
             rule_source: opswatch-prometheus-rules
-            severity: critical
+            severity: warning
         - alert: AwsCloudwatchRdsClusterACUUtilizationHigh
           annotations:
             summary: RDS ACU utilization is more than 90%
@@ -433,4 +433,4 @@ spec:
           for: 30m
           labels:
             rule_source: opswatch-prometheus-rules
-            severity: critical
+            severity: warning

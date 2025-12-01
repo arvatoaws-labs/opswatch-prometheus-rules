@@ -9,62 +9,62 @@ metadata:
   namespace: monitoring
 spec:
   groups:
-    - name: cloudwatch.rules
-      rules:
-        - alert: AwsCloudwatchMetricUpdateAbsent
-          annotations:
-            summary: Cloudwatch Metric Streams are absent
-            description: Cloudwatch Metric Streams are not present
-            runbook: Ensure that the Opswatch Service is up and running
-          expr: absent(aws_cloudwatch_CloudWatch_MetricUpdate_MetricStreamName_sum)
-          for: 15m
-          labels:
-            rule_source: opswatch-prometheus-rules
-            severity: critical
-            alarm_scope: INTERNAL
-        - alert: AwsCloudwatchMetricUpdateRateLow
-          annotations:
-            summary: Cloudwatch Metric Streams rate low
-            description: Cloudwatch Metric Streams rate is {{$value}} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-            runbook: Ensure that the Opswatch Service is up and running
-          expr: sum by (overwrite_asy_customer,overwrite_aws_account_id,overwrite_aws_region) (rate(aws_cloudwatch_CloudWatch_MetricUpdate_MetricStreamName_sum[15m])) < 0.01
-          for: 30m
-          labels:
-            rule_source: opswatch-prometheus-rules
-            severity: critical
-            alarm_scope: INTERNAL
-    - name: prometheus.rules
-      rules:
-        - alert: PrometheusTSDBOutOfOrderSamples
-          annotations:
-            summary: Prometheus TSDB Out Of Order Samples
-            description: Prometheus TSDB Out Of Order Samples
-          expr: irate(prometheus_tsdb_out_of_order_samples_total[15m]) > 0
-          for: 5m
-          labels:
-            rule_source: opswatch-prometheus-rules
-            severity: warning
-            alarm_class: REACTIVE
-            alarm_scope: INTERNAL
-        - alert: PrometheusTargetScrapesOutOfOrderSamples
-          annotations:
-            summary: Prometheus Target Scrapes Out Of Order Samples
-            description: Prometheus Target Scrapes Out Of Order Samples
-          expr: irate(prometheus_target_scrapes_sample_out_of_order_total[15m]) > 0
-          for: 5m
-          labels:
-            rule_source: opswatch-prometheus-rules
-            severity: warning
-            alarm_class: REACTIVE
-            alarm_scope: INTERNAL
-        - alert: PrometheusTargetScrapesDuplicateTimestamp
-          annotations:
-            summary: Prometheus Target Scrapes Duplicate Timestamp
-            description: Prometheus Target Scrapes Duplicate Timestamp
-          expr: irate(prometheus_target_scrapes_sample_duplicate_timestamp_total[15m]) > 0
-          for: 5m
-          labels:
-            rule_source: opswatch-prometheus-rules
-            severity: warning
-            alarm_class: REACTIVE
-            alarm_scope: INTERNAL
+  - name: cloudwatch.rules
+    rules:
+    - alert: AwsCloudwatchMetricUpdateAbsent
+      annotations:
+        summary: Cloudwatch Metric Streams are absent
+        description: Cloudwatch Metric Streams are not present
+        runbook: Ensure that the Opswatch Service is up and running
+      expr: absent(aws_cloudwatch_CloudWatch_MetricUpdate_MetricStreamName_sum)
+      for: 15m
+      labels:
+        rule_source: opswatch-prometheus-rules
+        severity: critical
+        alarm_scope: INTERNAL
+    - alert: AwsCloudwatchMetricUpdateRateLow
+      annotations:
+        summary: Cloudwatch Metric Streams rate low
+        description: Cloudwatch Metric Streams rate is {{$value}} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+        runbook: Ensure that the Opswatch Service is up and running
+      expr: sum by (overwrite_asy_customer,overwrite_aws_account_id,overwrite_aws_region) (rate(aws_cloudwatch_CloudWatch_MetricUpdate_MetricStreamName_sum[15m])) < 0.01
+      for: 30m
+      labels:
+        rule_source: opswatch-prometheus-rules
+        severity: critical
+        alarm_scope: INTERNAL
+  - name: prometheus.rules
+    rules:
+    - alert: PrometheusTSDBOutOfOrderSamples
+      annotations:
+        summary: Prometheus TSDB Out Of Order Samples
+        description: Prometheus TSDB Out Of Order Samples
+      expr: irate(prometheus_tsdb_out_of_order_samples_total[15m]) > 0
+      for: 5m
+      labels:
+        rule_source: opswatch-prometheus-rules
+        severity: warning
+        alarm_class: REACTIVE
+        alarm_scope: INTERNAL
+    - alert: PrometheusTargetScrapesOutOfOrderSamples
+      annotations:
+        summary: Prometheus Target Scrapes Out Of Order Samples
+        description: Prometheus Target Scrapes Out Of Order Samples
+      expr: irate(prometheus_target_scrapes_sample_out_of_order_total[15m]) > 0
+      for: 5m
+      labels:
+        rule_source: opswatch-prometheus-rules
+        severity: warning
+        alarm_class: REACTIVE
+        alarm_scope: INTERNAL
+    - alert: PrometheusTargetScrapesDuplicateTimestamp
+      annotations:
+        summary: Prometheus Target Scrapes Duplicate Timestamp
+        description: Prometheus Target Scrapes Duplicate Timestamp
+      expr: irate(prometheus_target_scrapes_sample_duplicate_timestamp_total[15m]) > 0
+      for: 5m
+      labels:
+        rule_source: opswatch-prometheus-rules
+        severity: warning
+        alarm_class: REACTIVE
+        alarm_scope: INTERNAL

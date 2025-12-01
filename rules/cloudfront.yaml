@@ -9,35 +9,35 @@ metadata:
   namespace: monitoring
 spec:
   groups:
-    - name: cloudfront.rules
-      rules:
-        - alert: AwsCloudwatchCloudfrontErrorRate5xx
-          annotations:
-            summary: Cloudfront 5xx error rate is greater than 20%
-            description: Cloudfront 5xx error rate is {{$value}}% for cloudfront distributionid {{ $labels.dimension_DistributionId }} ({{ $labels.cloudfront_first_alias }}) in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-            runbook_url: https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/troubleshooting-distributions.html
-          expr: round(aws_cloudwatch_CloudFront_5xxErrorRate_DistributionId_Region) > 20
-          for: 15m
-          labels:
-            rule_source: opswatch-prometheus-rules
-            severity: info
-        - alert: AwsCloudwatchCloudfrontErrorRate4xx
-          annotations:
-            summary: Cloudfront 4xx error rate is greater than 30%
-            description: Cloudfront 4xx error rate is {{$value}}% for cloudfront distributionid {{ $labels.dimension_DistributionId }} ({{ $labels.cloudfront_first_alias }}) in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-            runbook_url: https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/troubleshooting-distributions.html
-          expr: round(aws_cloudwatch_CloudFront_4xxErrorRate_DistributionId_Region) > 30
-          for: 30m
-          labels:
-            rule_source: opswatch-prometheus-rules
-            severity: info
-        - alert: AwsCloudwatchCloudfrontTrafficSurge
-          annotations:
-            summary: Cloudfront request rate increase by a lot within the last 2 hours
-            description: Cloudfront request rate increase is {{$value}} for cloudfront distributionid {{ $labels.dimension_DistributionId }} ({{ $labels.cloudfront_first_alias }}) in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-            runbook_url: https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/troubleshooting-distributions.html
-          expr: increase(aws_cloudwatch_CloudFront_Requests_DistributionId_Region{}[2h]) > 5000
-          for: 30m
-          labels:
-            rule_source: opswatch-prometheus-rules
-            severity: info
+  - name: cloudfront.rules
+    rules:
+    - alert: AwsCloudwatchCloudfrontErrorRate5xx
+      annotations:
+        summary: Cloudfront 5xx error rate is greater than 20%
+        description: Cloudfront 5xx error rate is {{$value}}% for cloudfront distributionid {{ $labels.dimension_DistributionId }} ({{ $labels.cloudfront_first_alias }}) in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+        runbook_url: https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/troubleshooting-distributions.html
+      expr: round(aws_cloudwatch_CloudFront_5xxErrorRate_DistributionId_Region) > 20
+      for: 15m
+      labels:
+        rule_source: opswatch-prometheus-rules
+        severity: info
+    - alert: AwsCloudwatchCloudfrontErrorRate4xx
+      annotations:
+        summary: Cloudfront 4xx error rate is greater than 30%
+        description: Cloudfront 4xx error rate is {{$value}}% for cloudfront distributionid {{ $labels.dimension_DistributionId }} ({{ $labels.cloudfront_first_alias }}) in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+        runbook_url: https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/troubleshooting-distributions.html
+      expr: round(aws_cloudwatch_CloudFront_4xxErrorRate_DistributionId_Region) > 30
+      for: 30m
+      labels:
+        rule_source: opswatch-prometheus-rules
+        severity: info
+    - alert: AwsCloudwatchCloudfrontTrafficSurge
+      annotations:
+        summary: Cloudfront request rate increase by a lot within the last 2 hours
+        description: Cloudfront request rate increase is {{$value}} for cloudfront distributionid {{ $labels.dimension_DistributionId }} ({{ $labels.cloudfront_first_alias }}) in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+        runbook_url: https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/troubleshooting-distributions.html
+      expr: increase(aws_cloudwatch_CloudFront_Requests_DistributionId_Region{}[2h]) > 5000
+      for: 30m
+      labels:
+        rule_source: opswatch-prometheus-rules
+        severity: info

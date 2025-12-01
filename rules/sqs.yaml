@@ -9,57 +9,57 @@ metadata:
   namespace: monitoring
 spec:
   groups:
-    - name: sqs.rules
-      rules:
-        - alert: AwsCloudwatchSQSCongestion
-          annotations:
-            summary: SQS queue has more than 150 unprocessed messages
-            description: SQS queue {{ $labels.dimension_QueueName }} has {{$value}} messages in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-            runbook: Ensure that SQS workers are processing messages
-          expr: aws_cloudwatch_SQS_ApproximateNumberOfMessagesVisible_QueueName > 150
-          for: 15m
-          labels:
-            rule_source: opswatch-prometheus-rules
-            severity: info
-        # - alert: AwsCloudwatchSQSEmptyReceives
-        #   annotations:
-        #     summary: SQS has more than 100 empty receives
-        #     description: SQS queue {{ $labels.dimension_QueueName }} has {{$value}} empty receives in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-        #     runbook: Reduction of SQS worker capacity is recommended
-        #   expr: aws_cloudwatch_SQS_NumberOfEmptyReceives_QueueName > 0.95
-        #   # TODO: sensible limit value missing
-        #   for: 15m
-        #   labels:
-        #     rule_source: opswatch-prometheus-rules
-        #     severity: info
-        - alert: AwsCloudwatchSQSOldMessagesOlderThan4Hours
-          annotations:
-            summary: SQS has messsages approaching expiration
-            description: SQS queue {{ $labels.dimension_QueueName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }} doesn't seem to be processing messages, the oldest message is more than 4 hours old.
-            runbook: This likely means that the application is not processing messages. Investigate in the application for the root cause.
-          expr: aws_cloudwatch_SQS_ApproximateAgeOfOldestMessage_QueueName{dimension_QueueName!~".*([dD]ead-?[lL]et[t]?er|dlq|DLQ)(\\.fifo)?$"} > 3600*4
-          for: 15m
-          labels:
-            rule_source: opswatch-prometheus-rules
-            severity: warning
-        - alert: AwsCloudwatchSQSOldMessagesExpiring
-          annotations:
-            summary: SQS has messsages approaching expiration
-            description: SQS queue {{ $labels.dimension_QueueName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }} doesn't seem to be processing messages, as the messages are close to expiration.
-            runbook: This likely means that the application is not processing messages. Investigate in the application for the root cause.
-          expr: predict_linear(aws_cloudwatch_SQS_ApproximateAgeOfOldestMessage_QueueName[1h], 3600) > aws_apidescribe_SQS_MessageRetentionPeriod_QueueName
-          for: 15m
-          labels:
-            rule_source: opswatch-prometheus-rules
-            severity: warning
-        - alert: AwsCloudwatchSQSDeadLetter
-          annotations:
-            summary: SQS dead letter queue has messages failures from other queues
-            description: SQS queue {{ $labels.dimension_QueueName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }} has {{$value}} messages failures from other queues
-            runbook: The application was consistently unable to process messages from the main queue. Investigate the root cause in the application. Once fixed, if desired, the messages can be moved back to the main queue with SQS redrive or deleted from the dead letter queue if a reprocessing isn't desirable.
-          expr: aws_cloudwatch_SQS_ApproximateNumberOfMessagesVisible_QueueName{dimension_QueueName=~".*([dD]ead-?[lL]et[t]?er|dlq|DLQ)(\\.fifo)?$"} > 0
-          for: 60m
-          labels:
-            rule_source: opswatch-prometheus-rules
-            severity: warning
-            alarm_class: REACTIVE
+  - name: sqs.rules
+    rules:
+    - alert: AwsCloudwatchSQSCongestion
+      annotations:
+        summary: SQS queue has more than 150 unprocessed messages
+        description: SQS queue {{ $labels.dimension_QueueName }} has {{$value}} messages in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+        runbook: Ensure that SQS workers are processing messages
+      expr: aws_cloudwatch_SQS_ApproximateNumberOfMessagesVisible_QueueName > 150
+      for: 15m
+      labels:
+        rule_source: opswatch-prometheus-rules
+        severity: info
+    # - alert: AwsCloudwatchSQSEmptyReceives
+    #   annotations:
+    #     summary: SQS has more than 100 empty receives
+    #     description: SQS queue {{ $labels.dimension_QueueName }} has {{$value}} empty receives in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+    #     runbook: Reduction of SQS worker capacity is recommended
+    #   expr: aws_cloudwatch_SQS_NumberOfEmptyReceives_QueueName > 0.95
+    #   # TODO: sensible limit value missing
+    #   for: 15m
+    #   labels:
+    #     rule_source: opswatch-prometheus-rules
+    #     severity: info
+    - alert: AwsCloudwatchSQSOldMessagesOlderThan4Hours
+      annotations:
+        summary: SQS has messsages approaching expiration
+        description: SQS queue {{ $labels.dimension_QueueName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }} doesn't seem to be processing messages, the oldest message is more than 4 hours old.
+        runbook: This likely means that the application is not processing messages. Investigate in the application for the root cause.
+      expr: aws_cloudwatch_SQS_ApproximateAgeOfOldestMessage_QueueName{dimension_QueueName!~".*([dD]ead-?[lL]et[t]?er|dlq|DLQ)(\\.fifo)?$"} > 3600*4
+      for: 15m
+      labels:
+        rule_source: opswatch-prometheus-rules
+        severity: warning
+    - alert: AwsCloudwatchSQSOldMessagesExpiring
+      annotations:
+        summary: SQS has messsages approaching expiration
+        description: SQS queue {{ $labels.dimension_QueueName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }} doesn't seem to be processing messages, as the messages are close to expiration.
+        runbook: This likely means that the application is not processing messages. Investigate in the application for the root cause.
+      expr: predict_linear(aws_cloudwatch_SQS_ApproximateAgeOfOldestMessage_QueueName[1h], 3600) > aws_apidescribe_SQS_MessageRetentionPeriod_QueueName
+      for: 15m
+      labels:
+        rule_source: opswatch-prometheus-rules
+        severity: warning
+    - alert: AwsCloudwatchSQSDeadLetter
+      annotations:
+        summary: SQS dead letter queue has messages failures from other queues
+        description: SQS queue {{ $labels.dimension_QueueName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }} has {{$value}} messages failures from other queues
+        runbook: The application was consistently unable to process messages from the main queue. Investigate the root cause in the application. Once fixed, if desired, the messages can be moved back to the main queue with SQS redrive or deleted from the dead letter queue if a reprocessing isn't desirable.
+      expr: aws_cloudwatch_SQS_ApproximateNumberOfMessagesVisible_QueueName{dimension_QueueName=~".*([dD]ead-?[lL]et[t]?er|dlq|DLQ)(\\.fifo)?$"} > 0
+      for: 60m
+      labels:
+        rule_source: opswatch-prometheus-rules
+        severity: warning
+        alarm_class: REACTIVE

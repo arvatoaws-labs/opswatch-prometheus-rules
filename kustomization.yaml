@@ -27,7 +27,7 @@ resources:
 - rules/privatelink.yaml
 - rules/sqs.yaml
 - rules/cloudfront.yaml
-- rules/connect.yaml
+# - rules/connect.yaml
 - rules/lambda.yaml
 - rules/cloudwatch.yaml
 - rules/mq.yaml
@@ -35,4 +35,4 @@ resources:
 - rules/vpn.yaml
 - rules/classic_elb.yaml
 - rules/trustedadvisor.yaml
-- rules/cloudfoundation.yaml
+# - rules/cloudfoundation.yaml

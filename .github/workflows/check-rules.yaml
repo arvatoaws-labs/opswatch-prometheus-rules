@@ -6,27 +6,14 @@ on:
   push:
     branches:
     - main
+    - dev
   pull_request:
     branches:
     - main
+    - dev
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 jobs:
-  yamllint:
-    name: Yamllint
-    runs-on: arvato
-    steps:
-    - name: Checkout
-      uses: actions/checkout@master
-    - name: Yamllint
-      uses: karancode/yamllint-github-action@master
-      with:
-        yamllint_file_or_dir: rules/
-        yamllint_strict: false
-        yamllint_comment: true
-        yamllint_config_filepath: .yamllint
-      env:
-        GITHUB_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   check-rules:
     runs-on: arvato
     steps:
@@ -51,6 +38,15 @@ jobs:
     - name: List files in the repository
       run: |
         ls ${{ github.workspace }}
+    - name: Yamllint
+      uses: karancode/yamllint-github-action@master
+      with:
+        yamllint_file_or_dir: rules/
+        yamllint_strict: false
+        yamllint_comment: true
+        yamllint_config_filepath: .yamllint
+      env:
+        GITHUB_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - name: Check files using yamllint
       run: |
         cd ${{ github.workspace }}

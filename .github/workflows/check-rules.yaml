@@ -1,7 +1,7 @@
 ---
 name: Check Prometheus rules
 # Controls when the action will run.
-on  :
+on:
   # Triggers the workflow on push or pull request events
   push:
     branches:
@@ -14,7 +14,7 @@ on  :
 jobs:
   yamllint:
     name: Yamllint
-    runs-on: ubuntu-latest
+    runs-on: arvato
     steps:
     - name: Checkout
       uses: actions/checkout@master
@@ -40,13 +40,13 @@ jobs:
       run: |
         sudo apt-get update
         sudo apt-get install wget yamllint
-        sudo wget -qO /usr/local/bin/yq https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64
+        sudo wget -qO /usr/local/bin/yq https://github.com/mikefarah/yq/releases/latest/download/yq_linux_arm64
         sudo chmod 755 /usr/local/bin/yq
-        wget -q https://github.com/prometheus/prometheus/releases/download/v2.45.4/prometheus-2.45.4.linux-amd64.tar.gz
-        tar -xzf prometheus-2.45.4.linux-amd64.tar.gz
-        sudo mv prometheus-2.45.4.linux-amd64/promtool /usr/local/bin/promtool
-        rm -fr prometheus-2.45.4.linux-amd64.tar.gz
-        rm -fr prometheus-2.45.4.linux-amd64
+        wget -q https://github.com/prometheus/prometheus/releases/download/v3.7.3/prometheus-3.7.3.linux-arm64.tar.gz
+        tar -xzf prometheus-3.7.3.linux-arm64.tar.gz
+        sudo mv prometheus-3.7.3.linux-arm64/promtool /usr/local/bin/promtool
+        rm -fr prometheus-3.7.3.linux-arm64.tar.gz
+        rm -fr prometheus-3.7.3.linux-arm64
     - name: List files in the repository
       run: |
         ls ${{ github.workspace }}
@@ -61,12 +61,12 @@ jobs:
         find rules -name "*.yaml"  | awk '{ print "cat " $1 " | yq .spec > test/"$1 }' | sh
         ls -la test/rules
     - name: Finding files
-      id: finding-files        
+      id: finding-files
       run: |
         {
           cd ${{ github.workspace }}/test
           echo 'FILELIST<<EOF'
-          find . -name '*.yaml' -print 
+          find . -name '*.yaml' -print
           echo EOF
         } >> "$GITHUB_ENV"
     - name: Check files using promtool
@@ -74,5 +74,5 @@ jobs:
         cd ${{ github.workspace }}/test
         for i in $FILELIST; do
           promtool check rules ${i}
-        done  
+        done
     - run: echo "🍏 This job's status is ${{ job.status }}."

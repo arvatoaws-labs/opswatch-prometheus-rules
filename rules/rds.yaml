@@ -423,7 +423,7 @@ spec:
       for: 30m
       labels:
         rule_source: opswatch-prometheus-rules
-        severity: warning # ACU Utilization is not automatically an outage. Other alerts (Crashloopbackof, R53, ...) are also important. Often customers have set too small ACU limits.
+        severity: warning  # ACU Utilization is not automatically an outage. Other alerts (Crashloopbackof, R53, ...) are also important. Often customers have set too small ACU limits.
     - alert: AwsCloudwatchRdsClusterACUUtilizationHigh
       annotations:
         summary: RDS ACU utilization is more than 90%
@@ -433,4 +433,4 @@ spec:
       for: 30m
       labels:
         rule_source: opswatch-prometheus-rules
-        severity: warning # ACU Utilization is not automatically an outage. Other alerts (Crashloopbackof, R53, ...) are also important. Often customers have set too small ACU limits.
+        severity: warning  # ACU Utilization is not automatically an outage. Other alerts (Crashloopbackof, R53, ...) are also important. Often customers have set too small ACU limits.

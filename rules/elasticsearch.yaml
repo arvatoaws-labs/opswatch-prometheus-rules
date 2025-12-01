@@ -9,186 +9,146 @@ metadata:
   namespace: monitoring
 spec:
   groups:
-    - name: elasticsearch.rules
-      rules:
-        - alert: AwsCloudwatchElasticSearchFilesystemDataFreePrediction
-          annotations:
-            summary: ElasticSearch Cluster free storage space predicted to be below 5GB
-            description: ElasticSearch Cluster free storage space is {{$value}}GB for domain {{ $labels.dimension_DomainName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-            runbook_url: https://docs.aws.amazon.com/opensearch-service/latest/developerguide/handling-errors.html
-          labels:
-            rule_source: opswatch-prometheus-rules
-            severity: warning
-          expr: round(predict_linear(aws_cloudwatch_ES_FreeStorageSpace_ClientId_DomainName_min[4h], 3600 * 2) / 1024, 0.1) < 5
-          for: 60m
-        - alert: AwsCloudwatchElasticSearchFilesystemDataFree
-          annotations:
-            summary: ElasticSearch Cluster free storage space below 2GB
-            description: ElasticSearch Cluster free storage space is {{$value}}GB for domain {{ $labels.dimension_DomainName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-            runbook_url: https://docs.aws.amazon.com/opensearch-service/latest/developerguide/handling-errors.html
-          expr: round(aws_cloudwatch_ES_FreeStorageSpace_ClientId_DomainName_min / 1024, 0.1) < 2
-          for: 30m
-          labels:
-            rule_source: opswatch-prometheus-rules
-            severity: critical
-        - alert: AwsCloudwatchElasticSearchHealthStatusRed
-          annotations:
-            summary: ElasticSearch Cluster health status is RED
-            description: ElasticSearch Cluster health status is red for domain {{ $labels.dimension_DomainName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-            runbook_url: https://docs.aws.amazon.com/opensearch-service/latest/developerguide/handling-errors.html
-          expr: aws_cloudwatch_ES_ClusterStatusred_ClientId_DomainName > 1
-          for: 15m
-          labels:
-            rule_source: opswatch-prometheus-rules
-            severity: critical
-        - alert: AwsCloudwatchElasticSearchHealthStatusYellow
-          annotations:
-            summary: ElasticSearch Cluster health status is YELLOW
-            description: ElasticSearch Cluster health status is yellow for domain {{ $labels.dimension_DomainName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-            runbook_url: https://docs.aws.amazon.com/opensearch-service/latest/developerguide/handling-errors.html
-          expr: aws_cloudwatch_ES_ClusterStatusyellow_ClientId_DomainName > 1
-          for: 15m
-          labels:
-            rule_source: opswatch-prometheus-rules
-            severity: warning
-        - alert: AwsCloudwatchElasticSearchHealthStatusFlappingRed
-          annotations:
-            summary: ElasticSearch Cluster health status is flapping red
-            description: ElasticSearch Cluster health status is flapping for domain {{ $labels.dimension_DomainName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-            runbook_url: https://docs.aws.amazon.com/opensearch-service/latest/developerguide/handling-errors.html
-          expr: aws_cloudwatch_ES_ClusterStatusred_ClientId_DomainName > 1
-          labels:
-            rule_source: opswatch-prometheus-rules
-            severity: warning
-            auto_close: "false"
-        - alert: AwsCloudwatchElasticSearchHealthStatusFlappingYellow
-          annotations:
-            summary: ElasticSearch Cluster health status is flapping yellow
-            description: ElasticSearch Cluster health status is flapping for domain {{ $labels.dimension_DomainName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-            runbook_url: https://docs.aws.amazon.com/opensearch-service/latest/developerguide/handling-errors.html
-          expr: aws_cloudwatch_ES_ClusterStatusyellow_ClientId_DomainName > 1
-          labels:
-            rule_source: opswatch-prometheus-rules
-            severity: warning
-            auto_close: "false"
-        - alert: AwsCloudwatchElasticSearchWritesBlocked
-          annotations:
-            summary: ElasticSearch Cluster Write are blocked
-            description: ElasticSearch Cluster Write are blocked for domain {{ $labels.dimension_DomainName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-            runbook_url: https://docs.aws.amazon.com/opensearch-service/latest/developerguide/handling-errors.html
-          expr: aws_cloudwatch_ES_ClusterIndexWritesBlocked_ClientId_DomainName > 0
-          for: 15m
-          labels:
-            rule_source: opswatch-prometheus-rules
-            severity: critical
-        - alert: AwsCloudwatchElasticSearchDashboardNotHealthy
-          annotations:
-            summary: ElasticSearch Dashboard is failing
-            description: ElasticSearch Dashboard is failing for domain {{ $labels.dimension_DomainName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-            runbook_url: https://docs.aws.amazon.com/opensearch-service/latest/developerguide/handling-errors.html
-          expr: aws_cloudwatch_ES_OpenSearchDashboardsHealthyNodes_ClientId_DomainName < 1
-          for: 15m
-          labels:
-            rule_source: opswatch-prometheus-rules
-            severity: critical
-        - alert: AwsCloudwatchElasticSearchMasterNotReachable
-          annotations:
-            summary: ElasticSearch Cluster master node is not reachable
-            description: ElasticSearch Cluster master node is not reachable for domain {{ $labels.dimension_DomainName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-            runbook_url: https://docs.aws.amazon.com/opensearch-service/latest/developerguide/handling-errors.html
-          expr: aws_cloudwatch_ES_MasterReachableFromNode_ClientId_DomainName == 0
-          for: 15m
-          labels:
-            rule_source: opswatch-prometheus-rules
-            severity: critical
-        - alert: AwsCloudwatchElasticSearchHealthUnassignedShards
-          annotations:
-            summary: ElasticSearch Cluster has unassigned shards
-            description: ElasticSearch Cluster has {{$value}} unassigned shards for domain {{ $labels.dimension_DomainName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-            runbook_url: https://docs.aws.amazon.com/opensearch-service/latest/developerguide/handling-errors.html
-          expr: aws_cloudwatch_ES_Shardsunassigned_ClientId_DomainName > 0
-          for: 15m
-          labels:
-            rule_source: opswatch-prometheus-rules
-            severity: info
-        - alert: AwsCloudwatchElasticSearchHealthRelocatingShards
-          annotations:
-            summary: ElasticSearch Cluster is relocating shards
-            description: ElasticSearch Cluster is relocation {{$value}} shards for domain {{ $labels.dimension_DomainName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-            runbook_url: https://docs.aws.amazon.com/opensearch-service/latest/developerguide/handling-errors.html
-          expr: aws_cloudwatch_ES_Shardsrelocating_ClientId_DomainName > 0
-          for: 30m
-          labels:
-            rule_source: opswatch-prometheus-rules
-            severity: info
-        - alert: AwsCloudwatchElasticSearchHealthActiveShards
-          annotations:
-            summary: ElasticSearch Clusters has no active shards
-            description: ElasticSearch Cluster has {{$value}} actiove shards for domain {{ $labels.dimension_DomainName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-            runbook_url: https://docs.aws.amazon.com/opensearch-service/latest/developerguide/handling-errors.html
-          expr: aws_cloudwatch_ES_Shardsactive_ClientId_DomainName < 1
-          for: 15m
-          labels:
-            rule_source: opswatch-prometheus-rules
-            severity: warning
-            alarm_class: REACTIVE
-        - alert: AwsCloudwatchElasticSearchCPUUtil
-          annotations:
-            summary: ElasticSearch Cluster CPU utilization is above 90 percent
-            description: ElasticSearch Cluster CPU utilization is above {{$value}}% for domain {{ $labels.dimension_DomainName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-            runbook_url: https://docs.aws.amazon.com/opensearch-service/latest/developerguide/handling-errors.html
-          expr: round(aws_cloudwatch_ES_CPUUtilization_ClientId_DomainName) > 90
-          for: 60m
-          labels:
-            rule_source: opswatch-prometheus-rules
-            severity: warning
-        - record: aws_cloudwatch_ES_HttpCode_ClientId_DomainName_sum
-          expr: label_replace(aws_cloudwatch_ES_2xx_ClientId_DomainName_sum, "http_code", "2xx", "__name__", "(.+)")
-        - record: aws_cloudwatch_ES_HttpCode_ClientId_DomainName_sum
-          expr: label_replace(aws_cloudwatch_ES_3xx_ClientId_DomainName_sum, "http_code", "3xx", "__name__", "(.+)")
-        - record: aws_cloudwatch_ES_HttpCode_ClientId_DomainName_sum
-          expr: label_replace(aws_cloudwatch_ES_4xx_ClientId_DomainName_sum, "http_code", "4xx", "__name__", "(.+)")
-        - record: aws_cloudwatch_ES_HttpCode_ClientId_DomainName_sum
-          expr: label_replace(aws_cloudwatch_ES_5xx_ClientId_DomainName_sum, "http_code", "5xx", "__name__", "(.+)")
-        - alert: AwsCloudwatchElasticSearchErrorRate4xx
-          annotations:
-            summary: Elasticsearch Cluster 4xx error rate is greater than 30%
-            description: ElasticSearch Cluster Connection 4xx error rate is {{$value}}% for domain {{ $labels.dimension_DomainName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-            runbook_url: https://docs.aws.amazon.com/opensearch-service/latest/developerguide/handling-errors.html
-          expr: round(sum without(http_code) (rate(aws_cloudwatch_ES_HttpCode_ClientId_DomainName_sum{http_code="4xx"}[60m])) / (sum without(http_code) (rate(aws_cloudwatch_ES_HttpCode_ClientId_DomainName_sum[60m])) + 0.0000001) * 100) > 30
-          for: 15m
-          labels:
-            rule_source: opswatch-prometheus-rules
-            severity: info
-            alarm_class: REACTIVE
-        - alert: AwsCloudwatchElasticSearchErrorRate5xx
-          annotations:
-            summary: Elasticsearch Cluster 5xx error rate is greater than 20%
-            description: ElasticSearch Cluster Connection 5xx error rate is {{$value}}% for domain {{ $labels.dimension_DomainName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-            runbook_url: https://docs.aws.amazon.com/opensearch-service/latest/developerguide/handling-errors.html
-          expr: round(sum without(http_code) (rate(aws_cloudwatch_ES_HttpCode_ClientId_DomainName_sum{http_code="5xx"}[60m])) / (sum without(http_code) (rate(aws_cloudwatch_ES_HttpCode_ClientId_DomainName_sum[60m])) + 0.0000001) * 100) > 20
-          for: 15m
-          labels:
-            rule_source: opswatch-prometheus-rules
-            severity: warning
-            alarm_class: REACTIVE
-        - alert: AwsCloudwatchElasticSearchAutomatedSnapshotErrorCount
-          annotations:
-            summary: Elasticsearch Cluster automated snapshot error count is greater than 2
-            description: ElasticSearch Cluster automated snapshot error count is {{$value}} for domain {{ $labels.dimension_DomainName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-            runbook_url: https://docs.aws.amazon.com/opensearch-service/latest/developerguide/handling-errors.html
-          expr: aws_cloudwatch_ES_AutomatedSnapshotFailure_ClientId_DomainName > 2
-          for: 15m
-          labels:
-            rule_source: opswatch-prometheus-rules
-            severity: warning
-        - alert: AwsCloudwatchElasticSearchShardsNumberGrowingStrongly
-          annotations:
-            summary: Elasticsearch Cluster added more than 100 additional shards within last hour
-            description: Elasticsearch Cluster added {{$value}} additional shards for domain {{ $labels.dimension_DomainName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-            runbook_url: https://docs.aws.amazon.com/opensearch-service/latest/developerguide/handling-errors.html
-          expr: max_over_time(aws_cloudwatch_ES_Shardsactive_ClientId_DomainName[60m]) - min_over_time(aws_cloudwatch_ES_Shardsactive_ClientId_DomainName[60m]) > 100
-          for: 60m
-          labels:
-            rule_source: opswatch-prometheus-rules
-            severity: warning
+  - name: elasticsearch.rules
+    rules:
+    - alert: AwsCloudwatchElasticSearchFilesystemDataFreePrediction
+      annotations:
+        summary: ElasticSearch Cluster free storage space predicted to be below 5GB
+        description: ElasticSearch Cluster free storage space is {{$value}}GB for domain {{ $labels.dimension_DomainName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+        runbook_url: https://docs.aws.amazon.com/opensearch-service/latest/developerguide/handling-errors.html
+      labels:
+        rule_source: opswatch-prometheus-rules
+        severity: warning
+      expr: round(predict_linear(aws_cloudwatch_ES_FreeStorageSpace_ClientId_DomainName_min[4h], 3600 * 2) / 1024, 0.1) < 5
+      for: 60m
+    - alert: AwsCloudwatchElasticSearchFilesystemDataFree
+      annotations:
+        summary: ElasticSearch Cluster free storage space below 2GB
+        description: ElasticSearch Cluster free storage space is {{$value}}GB for domain {{ $labels.dimension_DomainName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+        runbook_url: https://docs.aws.amazon.com/opensearch-service/latest/developerguide/handling-errors.html
+      expr: round(aws_cloudwatch_ES_FreeStorageSpace_ClientId_DomainName_min / 1024, 0.1) < 2
+      for: 30m
+      labels:
+        rule_source: opswatch-prometheus-rules
+        severity: critical
+    - alert: AwsCloudwatchElasticSearchHealthStatusRed
+      annotations:
+        summary: ElasticSearch Cluster health status is RED
+        description: ElasticSearch Cluster health status is red for domain {{ $labels.dimension_DomainName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+        runbook_url: https://docs.aws.amazon.com/opensearch-service/latest/developerguide/handling-errors.html
+      expr: aws_cloudwatch_ES_ClusterStatusred_ClientId_DomainName > 1
+      for: 15m
+      labels:
+        rule_source: opswatch-prometheus-rules
+        severity: critical
+    - alert: AwsCloudwatchElasticSearchHealthStatusYellow
+      annotations:
+        summary: ElasticSearch Cluster health status is YELLOW
+        description: ElasticSearch Cluster health status is yellow for domain {{ $labels.dimension_DomainName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+        runbook_url: https://docs.aws.amazon.com/opensearch-service/latest/developerguide/handling-errors.html
+      expr: aws_cloudwatch_ES_ClusterStatusyellow_ClientId_DomainName > 1
+      for: 15m
+      labels:
+        rule_source: opswatch-prometheus-rules
+        severity: warning
+    - alert: AwsCloudwatchElasticSearchMasterNotReachable
+      annotations:
+        summary: ElasticSearch Cluster master node is not reachable
+        description: ElasticSearch Cluster master node is not reachable for domain {{ $labels.dimension_DomainName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+        runbook_url: https://docs.aws.amazon.com/opensearch-service/latest/developerguide/handling-errors.html
+      expr: aws_cloudwatch_ES_MasterReachableFromNode_ClientId_DomainName == 0
+      for: 15m
+      labels:
+        rule_source: opswatch-prometheus-rules
+        severity: critical
+    - alert: AwsCloudwatchElasticSearchHealthUnassignedShards
+      annotations:
+        summary: ElasticSearch Cluster has unassigned shards
+        description: ElasticSearch Cluster has {{$value}} unassigned shards for domain {{ $labels.dimension_DomainName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+        runbook_url: https://docs.aws.amazon.com/opensearch-service/latest/developerguide/handling-errors.html
+      expr: aws_cloudwatch_ES_Shardsunassigned_ClientId_DomainName > 0
+      for: 15m
+      labels:
+        rule_source: opswatch-prometheus-rules
+        severity: info
+    - alert: AwsCloudwatchElasticSearchHealthRelocatingShards
+      annotations:
+        summary: ElasticSearch Cluster is relocating shards
+        description: ElasticSearch Cluster is relocation {{$value}} shards for domain {{ $labels.dimension_DomainName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+        runbook_url: https://docs.aws.amazon.com/opensearch-service/latest/developerguide/handling-errors.html
+      expr: aws_cloudwatch_ES_Shardsrelocating_ClientId_DomainName > 0
+      for: 30m
+      labels:
+        rule_source: opswatch-prometheus-rules
+        severity: info
+    - alert: AwsCloudwatchElasticSearchHealthActiveShards
+      annotations:
+        summary: ElasticSearch Clusters has no active shards
+        description: ElasticSearch Cluster has {{$value}} actiove shards for domain {{ $labels.dimension_DomainName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+        runbook_url: https://docs.aws.amazon.com/opensearch-service/latest/developerguide/handling-errors.html
+      expr: aws_cloudwatch_ES_Shardsactive_ClientId_DomainName < 1
+      for: 15m
+      labels:
+        rule_source: opswatch-prometheus-rules
+        severity: warning
+        alarm_class: REACTIVE
+    - alert: AwsCloudwatchElasticSearchCPUUtil
+      annotations:
+        summary: ElasticSearch Cluster CPU utilization is above 90 percent
+        description: ElasticSearch Cluster CPU utilization is above {{$value}}% for domain {{ $labels.dimension_DomainName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+        runbook_url: https://docs.aws.amazon.com/opensearch-service/latest/developerguide/handling-errors.html
+      expr: round(aws_cloudwatch_ES_CPUUtilization_ClientId_DomainName) > 90
+      for: 60m
+      labels:
+        rule_source: opswatch-prometheus-rules
+        severity: warning
+    - record: aws_cloudwatch_ES_HttpCode_ClientId_DomainName_sum
+      expr: label_replace(aws_cloudwatch_ES_2xx_ClientId_DomainName_sum, "http_code", "2xx", "__name__", "(.+)")
+    - record: aws_cloudwatch_ES_HttpCode_ClientId_DomainName_sum
+      expr: label_replace(aws_cloudwatch_ES_3xx_ClientId_DomainName_sum, "http_code", "3xx", "__name__", "(.+)")
+    - record: aws_cloudwatch_ES_HttpCode_ClientId_DomainName_sum
+      expr: label_replace(aws_cloudwatch_ES_4xx_ClientId_DomainName_sum, "http_code", "4xx", "__name__", "(.+)")
+    - record: aws_cloudwatch_ES_HttpCode_ClientId_DomainName_sum
+      expr: label_replace(aws_cloudwatch_ES_5xx_ClientId_DomainName_sum, "http_code", "5xx", "__name__", "(.+)")
+    - alert: AwsCloudwatchElasticSearchErrorRate4xx
+      annotations:
+        summary: Elasticsearch Cluster 4xx error rate is greater than 30%
+        description: ElasticSearch Cluster Connection 4xx error rate is {{$value}}% for domain {{ $labels.dimension_DomainName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+        runbook_url: https://docs.aws.amazon.com/opensearch-service/latest/developerguide/handling-errors.html
+      expr: round(sum without(http_code) (rate(aws_cloudwatch_ES_HttpCode_ClientId_DomainName_sum{http_code="4xx"}[60m])) / (sum without(http_code) (rate(aws_cloudwatch_ES_HttpCode_ClientId_DomainName_sum[60m])) + 0.0000001) * 100) > 30
+      for: 15m
+      labels:
+        rule_source: opswatch-prometheus-rules
+        severity: info
+        alarm_class: REACTIVE
+    - alert: AwsCloudwatchElasticSearchErrorRate5xx
+      annotations:
+        summary: Elasticsearch Cluster 5xx error rate is greater than 20%
+        description: ElasticSearch Cluster Connection 5xx error rate is {{$value}}% for domain {{ $labels.dimension_DomainName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+        runbook_url: https://docs.aws.amazon.com/opensearch-service/latest/developerguide/handling-errors.html
+      expr: round(sum without(http_code) (rate(aws_cloudwatch_ES_HttpCode_ClientId_DomainName_sum{http_code="5xx"}[60m])) / (sum without(http_code) (rate(aws_cloudwatch_ES_HttpCode_ClientId_DomainName_sum[60m])) + 0.0000001) * 100) > 20
+      for: 15m
+      labels:
+        rule_source: opswatch-prometheus-rules
+        severity: warning
+        alarm_class: REACTIVE
+    - alert: AwsCloudwatchElasticSearchAutomatedSnapshotErrorCount
+      annotations:
+        summary: Elasticsearch Cluster automated snapshot error count is greater than 2
+        description: ElasticSearch Cluster automated snapshot error count is {{$value}} for domain {{ $labels.dimension_DomainName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+        runbook_url: https://docs.aws.amazon.com/opensearch-service/latest/developerguide/handling-errors.html
+      expr: aws_cloudwatch_ES_AutomatedSnapshotFailure_ClientId_DomainName > 2
+      for: 15m
+      labels:
+        rule_source: opswatch-prometheus-rules
+        severity: warning
+    - alert: AwsCloudwatchElasticSearchShardsNumberGrowingStrongly
+      annotations:
+        summary: Elasticsearch Cluster added more than 100 additional shards within last hour
+        description: Elasticsearch Cluster added {{$value}} additional shards for domain {{ $labels.dimension_DomainName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+        runbook_url: https://docs.aws.amazon.com/opensearch-service/latest/developerguide/handling-errors.html
+      expr: max_over_time(aws_cloudwatch_ES_Shardsactive_ClientId_DomainName[60m]) - min_over_time(aws_cloudwatch_ES_Shardsactive_ClientId_DomainName[60m]) > 100
+      for: 60m
+      labels:
+        rule_source: opswatch-prometheus-rules
+        severity: warning

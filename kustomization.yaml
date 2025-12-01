@@ -27,7 +27,7 @@ resources:
 - rules/privatelink.yaml
 - rules/sqs.yaml
 - rules/cloudfront.yaml
-- rules/connect.yaml
+# - rules/connect.yaml
 - rules/lambda.yaml
 - rules/cloudwatch.yaml
 - rules/mq.yaml

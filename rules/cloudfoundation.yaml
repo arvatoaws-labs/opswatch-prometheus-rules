@@ -9,38 +9,38 @@ metadata:
   namespace: monitoring
 spec:
   groups:
-    - name: cloudfoundation.rules
-      rules:
-        - record: CloudFoundationSLA
-          expr: (sum by (asy_component, dimension_OrganizationId) (aws_cloudwatch_CloudFoundation_OrganizationMemberStatus_Account_OrganizationId_Status{dimension_Status="ACTIVE"}) - (1 + sum by (asy_component, dimension_OrganizationId) ((sum by(asy_component, dimension_OrganizationId, dimension_Account) (aws_cloudwatch_CloudFoundation_GuardDutyStatus_Active_Account{dimension_Status="Enabled"}) and sum by (asy_component, dimension_OrganizationId, dimension_Account) (aws_cloudwatch_CloudFoundation_OrganizationMemberStatus_Account_OrganizationId_Status{dimension_Status="ACTIVE"}))))) + (sum by (asy_component, dimension_OrganizationId) (aws_cloudwatch_CloudFoundation_CloudTrailStatus_Account_OrganizationId <bool 1)) + (sum by (asy_component, dimension_OrganizationId) (aws_cloudwatch_CloudFoundation_OrganizationMemberStatus_Account_OrganizationId_Status{dimension_Status="ACTIVE"}) - (sum by (asy_component, dimension_OrganizationId) ((sum by(asy_component, dimension_OrganizationId, dimension_Account) (aws_cloudwatch_CloudFoundation_SecurityHubStatus_Account_MemberStatus_OrganizationId_PolicyAssociationStatus{dimension_PolicyAssociationStatus="SUCCESS"}) and sum by (asy_component, dimension_OrganizationId, dimension_Account) (aws_cloudwatch_CloudFoundation_OrganizationMemberStatus_Account_OrganizationId_Status{dimension_Status="ACTIVE"})))))
-        - alert: CloudFoundationGuardDutyStatusNotEnabled
-          annotations:
-            summary: Status of GuardDuty is not enabled
-            description: Status GuardDuty in account {{ $labels.dimension_Account }} and organization {{ $labels.dimension_OrganizationId }} is {{ $labels.dimension_Status }}
-          expr: (sum by (asy_component, dimension_OrganizationId) (aws_cloudwatch_CloudFoundation_OrganizationMemberStatus_Account_OrganizationId_Status{dimension_Status="ACTIVE"}) - (1 + sum by (asy_component, dimension_OrganizationId) ((sum by(asy_component, dimension_OrganizationId, dimension_Account) (aws_cloudwatch_CloudFoundation_GuardDutyStatus_Active_Account{dimension_Status="Enabled"}) and sum by (asy_component, dimension_OrganizationId, dimension_Account) (aws_cloudwatch_CloudFoundation_OrganizationMemberStatus_Account_OrganizationId_Status{dimension_Status="ACTIVE"}))))) > 0
-          for: 15m
-          labels:
-            rule_source: opswatch-prometheus-rules
-            severity: warning
-            alarm_scope: INTERNAL
-        - alert: CloudFoundationCloudTrailNotLogging
-          annotations:
-            summary: CloudTrail is not lgging
-            description: CloudTrail in account {{ $labels.dimension_Account }} and organization {{ $labels.dimension_OrganizationId }} is not logging
-          expr: sum by (asy_component, dimension_OrganizationId) (aws_cloudwatch_CloudFoundation_CloudTrailStatus_Account_OrganizationId <bool 1) > 0
-          for: 15m
-          labels:
-            rule_source: opswatch-prometheus-rules
-            severity: warning
-            alarm_scope: INTERNAL
-        - alert: CloudFoundationSecurityHubNotEnabled
-          annotations:
-            summary: SecurityHub is not enabled
-            description: Member status SecurityHub in account {{ $labels.dimension_Account }} and organization {{ $labels.dimension_OrganizationId }} is {{ $labels.dimension_MemberStatus }}. Policy association status is {{ $labels.dimension_PolicyAssociationStatus}}
-          expr: (sum by (asy_component, dimension_OrganizationId) (aws_cloudwatch_CloudFoundation_OrganizationMemberStatus_Account_OrganizationId_Status{dimension_Status="ACTIVE"}) - (sum by (asy_component, dimension_OrganizationId) ((sum by(asy_component, dimension_OrganizationId, dimension_Account) (aws_cloudwatch_CloudFoundation_SecurityHubStatus_Account_MemberStatus_OrganizationId_PolicyAssociationStatus{dimension_PolicyAssociationStatus="SUCCESS"}) and sum by (asy_component, dimension_OrganizationId, dimension_Account) (aws_cloudwatch_CloudFoundation_OrganizationMemberStatus_Account_OrganizationId_Status{dimension_Status="ACTIVE"}))))) > 0
-          for: 15m
-          labels:
-            rule_source: opswatch-prometheus-rules
-            severity: info # TODO: desired not enabled in many accounts warning
-            alarm_scope: INTERNAL
+  - name: cloudfoundation.rules
+    rules:
+    - record: CloudFoundationSLA
+      expr: (sum by (asy_component, dimension_OrganizationId) (aws_cloudwatch_CloudFoundation_OrganizationMemberStatus_Account_OrganizationId_Status{dimension_Status="ACTIVE"}) - (1 + sum by (asy_component, dimension_OrganizationId) ((sum by(asy_component, dimension_OrganizationId, dimension_Account) (aws_cloudwatch_CloudFoundation_GuardDutyStatus_Active_Account{dimension_Status="Enabled"}) and sum by (asy_component, dimension_OrganizationId, dimension_Account) (aws_cloudwatch_CloudFoundation_OrganizationMemberStatus_Account_OrganizationId_Status{dimension_Status="ACTIVE"}))))) + (sum by (asy_component, dimension_OrganizationId) (aws_cloudwatch_CloudFoundation_CloudTrailStatus_Account_OrganizationId <bool 1)) + (sum by (asy_component, dimension_OrganizationId) (aws_cloudwatch_CloudFoundation_OrganizationMemberStatus_Account_OrganizationId_Status{dimension_Status="ACTIVE"}) - (sum by (asy_component, dimension_OrganizationId) ((sum by(asy_component, dimension_OrganizationId, dimension_Account) (aws_cloudwatch_CloudFoundation_SecurityHubStatus_Account_MemberStatus_OrganizationId_PolicyAssociationStatus{dimension_PolicyAssociationStatus="SUCCESS"}) and sum by (asy_component, dimension_OrganizationId, dimension_Account) (aws_cloudwatch_CloudFoundation_OrganizationMemberStatus_Account_OrganizationId_Status{dimension_Status="ACTIVE"})))))
+    - alert: CloudFoundationGuardDutyStatusNotEnabled
+      annotations:
+        summary: Status of GuardDuty is not enabled
+        description: Status GuardDuty in account {{ $labels.dimension_Account }} and organization {{ $labels.dimension_OrganizationId }} is {{ $labels.dimension_Status }}
+      expr: (sum by (asy_component, dimension_OrganizationId) (aws_cloudwatch_CloudFoundation_OrganizationMemberStatus_Account_OrganizationId_Status{dimension_Status="ACTIVE"}) - (1 + sum by (asy_component, dimension_OrganizationId) ((sum by(asy_component, dimension_OrganizationId, dimension_Account) (aws_cloudwatch_CloudFoundation_GuardDutyStatus_Active_Account{dimension_Status="Enabled"}) and sum by (asy_component, dimension_OrganizationId, dimension_Account) (aws_cloudwatch_CloudFoundation_OrganizationMemberStatus_Account_OrganizationId_Status{dimension_Status="ACTIVE"}))))) > 0
+      for: 15m
+      labels:
+        rule_source: opswatch-prometheus-rules
+        severity: warning
+        alarm_scope: INTERNAL
+    - alert: CloudFoundationCloudTrailNotLogging
+      annotations:
+        summary: CloudTrail is not lgging
+        description: CloudTrail in account {{ $labels.dimension_Account }} and organization {{ $labels.dimension_OrganizationId }} is not logging
+      expr: sum by (asy_component, dimension_OrganizationId) (aws_cloudwatch_CloudFoundation_CloudTrailStatus_Account_OrganizationId <bool 1) > 0
+      for: 15m
+      labels:
+        rule_source: opswatch-prometheus-rules
+        severity: warning
+        alarm_scope: INTERNAL
+    - alert: CloudFoundationSecurityHubNotEnabled
+      annotations:
+        summary: SecurityHub is not enabled
+        description: Member status SecurityHub in account {{ $labels.dimension_Account }} and organization {{ $labels.dimension_OrganizationId }} is {{ $labels.dimension_MemberStatus }}. Policy association status is {{ $labels.dimension_PolicyAssociationStatus}}
+      expr: (sum by (asy_component, dimension_OrganizationId) (aws_cloudwatch_CloudFoundation_OrganizationMemberStatus_Account_OrganizationId_Status{dimension_Status="ACTIVE"}) - (sum by (asy_component, dimension_OrganizationId) ((sum by(asy_component, dimension_OrganizationId, dimension_Account) (aws_cloudwatch_CloudFoundation_SecurityHubStatus_Account_MemberStatus_OrganizationId_PolicyAssociationStatus{dimension_PolicyAssociationStatus="SUCCESS"}) and sum by (asy_component, dimension_OrganizationId, dimension_Account) (aws_cloudwatch_CloudFoundation_OrganizationMemberStatus_Account_OrganizationId_Status{dimension_Status="ACTIVE"}))))) > 0
+      for: 15m
+      labels:
+        rule_source: opswatch-prometheus-rules
+        severity: info # TODO: desired not enabled in many accounts warning
+        alarm_scope: INTERNAL
         #TODO: add ControlTower rule

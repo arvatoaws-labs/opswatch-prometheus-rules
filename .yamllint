@@ -2,8 +2,8 @@
 yaml-files:
 - '*.yaml'
 - '*.yml'
-- .yamllint
-rules     :
+- '.yamllint'
+rules:
   braces: enable
   brackets: enable
   colons: enable
@@ -31,3 +31,4 @@ rules     :
   indentation:
     spaces: 2
     indent-sequences: false
+

@@ -9,155 +9,155 @@ metadata:
   namespace: monitoring
 spec:
   groups:
-    - name: connect.rules
-      rules:
-        - alert: AwsConnectAccessDeniedExceptioErrorWarning
-          annotations:
-            summary: AWS Connect Access Denied Error
-            description: Warning for Connect Access Denied Error 
-            runbook_url: https://docs.aws.amazon.com/connect/latest/adminguide/troubleshooting.html
-          expr: aws_cloudwatch_ConnectMonitoringCustomMetrics_AccessDeniedException_count > 0
-          for: 30m
-          labels:
-            rule_source: opswatch-prometheus-rules
-            severity: Warning
-        - alert: AwsConnectBadRequestErrorWarning
-          annotations:
-            summary: AWS Connect Bad Request Error
-            description: Warning for Connect Access Denied Error 
-            runbook_url: https://docs.aws.amazon.com/connect/latest/adminguide/troubleshooting.html
-          expr: aws_cloudwatch_ConnectMonitoringCustomMetrics_BadRequest_count > 0
-          for: 30m
-          labels:
-            rule_source: opswatch-prometheus-rules
-            severity: Warning
-        - alert: AwsConnectNotFoundErrorWarning
-          annotations:
-            summary: AWS Connect Not Found Error
-            description: Warning for Connect Access Denied Error 
-            runbook_url: https://docs.aws.amazon.com/connect/latest/adminguide/troubleshooting.html
-          expr: aws_cloudwatch_ConnectMonitoringCustomMetrics_NotFound_count > 0
-          for: 30m
-          labels:
-            rule_source: opswatch-prometheus-rules
-            severity: Warning
-        - alert: AwsConnectInternalServerErrorWarning
-          annotations:
-            summary: AWS Connect Internal Server Error
-            description: Warning for Connect Access Denied Error 
-            runbook_url: https://docs.aws.amazon.com/connect/latest/adminguide/troubleshooting.html
-          expr: aws_cloudwatch_ConnectMonitoringCustomMetrics_InternalServerError_count > 0
-          for: 30m
-          labels:
-            rule_source: opswatch-prometheus-rules
-            severity: Warning
-        - alert: AwsConnectThrottlingExceptionErrorWarning
-          annotations:
-            summary: AWS Connect Throttling Exception Error
-            description: Warning for Connect Access Denied Error 
-            runbook_url: https://docs.aws.amazon.com/connect/latest/adminguide/troubleshooting.html
-          expr: aws_cloudwatch_ConnectMonitoringCustomMetrics_ThrottlingException_count > 0
-          for: 30m
-          labels:
-            rule_source: opswatch-prometheus-rules
-            severity: Warning
-        - alert: AwsConnectValidationExceptionErrorWarning
-          annotations:
-            summary: AWS Connect Validation Exception Error
-            description: Warning for Connect Access Denied Error 
-            runbook_url: https://docs.aws.amazon.com/connect/latest/adminguide/troubleshooting.html
-          expr: aws_cloudwatch_ConnectMonitoringCustomMetrics_ValidationException_count > 0
-          for: 30m
-          labels:
-            rule_source: opswatch-prometheus-rules
-            severity: Warning
-        - alert: AwsConnectInvalidClientTokenIdErrorWarning
-          annotations:
-            summary: AWS Connect Invalid Client Token ID Error
-            description: Warning for Connect Access Denied Error 
-            runbook_url: https://docs.aws.amazon.com/connect/latest/adminguide/troubleshooting.html
-          expr: aws_cloudwatch_ConnectMonitoringCustomMetrics_InvalidClientTokenId_count > 0
-          for: 30m
-          labels:
-            rule_source: opswatch-prometheus-rules
-            severity: Warning
-        - alert: AwsConnectSubscriptionRequiredErrorWarning
-          annotations:
-            summary: AWS Connect Subscription Required Error
-            description: Warning for Connect Access Denied Error 
-            runbook_url: https://docs.aws.amazon.com/connect/latest/adminguide/troubleshooting.html
-          expr: aws_cloudwatch_ConnectMonitoringCustomMetrics_SubscriptionRequired_count > 0
-          for: 30m
-          labels:
-            rule_source: opswatch-prometheus-rules
-            severity: Warning
-        - alert: AwsConnectRequestTimeoutErrorWarning
-          annotations:
-            summary: AWS Connect Request Timeout Error
-            description: Warning for Connect Access Denied Error 
-            runbook_url: https://docs.aws.amazon.com/connect/latest/adminguide/troubleshooting.html
-          expr: aws_cloudwatch_ConnectMonitoringCustomMetrics_RequestTimeout_count > 0
-          for: 30m
-          labels:
-            rule_source: opswatch-prometheus-rules
-            severity: Warning
-        - alert: AwsConnectServiceUnavailableErrorWarning
-          annotations:
-            summary: AWS Connect Service Unavailable Error
-            description: Warning for Connect Access Denied Error 
-            runbook_url: https://docs.aws.amazon.com/connect/latest/adminguide/troubleshooting.html
-          expr: aws_cloudwatch_ConnectMonitoringCustomMetrics_ServiceUnavailable_count > 0
-          for: 30m
-          labels:
-            rule_source: opswatch-prometheus-rules
-            severity: Warning
-        - alert: AwsConnectRequestEntityTooLargeErrorWarning
-          annotations:
-            summary: AWS Connect Request Entity Too Large Error
-            description: Warning for Connect Access Denied Error 
-            runbook_url: https://docs.aws.amazon.com/connect/latest/adminguide/troubleshooting.html
-          expr: aws_cloudwatch_ConnectMonitoringCustomMetrics_RequestEntityTooLarge_count > 0
-          for: 30m
-          labels:
-            rule_source: opswatch-prometheus-rules
-            severity: Warning
-        - alert: AwsConnectIncompleteSignatureErrorWarning
-          annotations:
-            summary: AWS Connect Incomplete Signature Error
-            description: Warning for Connect Access Denied Error 
-            runbook_url: https://docs.aws.amazon.com/connect/latest/adminguide/troubleshooting.html
-          expr: aws_cloudwatch_ConnectMonitoringCustomMetrics_IncompleteSignature_count > 0
-          for: 30m
-          labels:
-            rule_source: opswatch-prometheus-rules
-            severity: Warning
-        - alert: AwsConnectUnauthorizedErrorWarning
-          annotations:
-            summary: AWS Connect Unauthorized Error
-            description: Warning for Connect Access Denied Error 
-            runbook_url: https://docs.aws.amazon.com/connect/latest/adminguide/troubleshooting.html
-          expr: aws_cloudwatch_ConnectMonitoringCustomMetrics_Unauthorized_count > 0
-          for: 30m
-          labels:
-            rule_source: opswatch-prometheus-rules
-            severity: Warning
-        - alert: AwsConnectRequestExpiredErrorWarning
-          annotations:
-            summary: AWS Connect Request Expired Error
-            description: Warning for Connect Access Denied Error 
-            runbook_url: https://docs.aws.amazon.com/connect/latest/adminguide/troubleshooting.html
-          expr: aws_cloudwatch_ConnectMonitoringCustomMetrics_RequestExpired_count > 0
-          for: 30m
-          labels:
-            rule_source: opswatch-prometheus-rules
-            severity: Warning
-        - alert: AwsConnectInvalidParameterErrorWarning
-          annotations:
-            summary: AWS Connect Invalid Parameter Error
-            description: Warning for Connect Access Denied Error 
-            runbook_url: https://docs.aws.amazon.com/connect/latest/adminguide/troubleshooting.html
-          expr: aws_cloudwatch_ConnectMonitoringCustomMetrics_InvalidParameter_count > 0
-          for: 30m
-          labels:
-            rule_source: opswatch-prometheus-rules
-            severity: Warning
+  - name: connect.rules
+    rules:
+    - alert: AwsConnectAccessDeniedExceptioErrorWarning
+      annotations:
+        summary: AWS Connect Access Denied Error
+        description: Warning for Connect Access Denied Error 
+        runbook_url: https://docs.aws.amazon.com/connect/latest/adminguide/troubleshooting.html
+      expr: aws_cloudwatch_ConnectMonitoringCustomMetrics_AccessDeniedException_count > 0
+      for: 30m
+      labels:
+        rule_source: opswatch-prometheus-rules
+        severity: Warning
+    - alert: AwsConnectBadRequestErrorWarning
+      annotations:
+        summary: AWS Connect Bad Request Error
+        description: Warning for Connect Access Denied Error 
+        runbook_url: https://docs.aws.amazon.com/connect/latest/adminguide/troubleshooting.html
+      expr: aws_cloudwatch_ConnectMonitoringCustomMetrics_BadRequest_count > 0
+      for: 30m
+      labels:
+        rule_source: opswatch-prometheus-rules
+        severity: Warning
+    - alert: AwsConnectNotFoundErrorWarning
+      annotations:
+        summary: AWS Connect Not Found Error
+        description: Warning for Connect Access Denied Error 
+        runbook_url: https://docs.aws.amazon.com/connect/latest/adminguide/troubleshooting.html
+      expr: aws_cloudwatch_ConnectMonitoringCustomMetrics_NotFound_count > 0
+      for: 30m
+      labels:
+        rule_source: opswatch-prometheus-rules
+        severity: Warning
+    - alert: AwsConnectInternalServerErrorWarning
+      annotations:
+        summary: AWS Connect Internal Server Error
+        description: Warning for Connect Access Denied Error 
+        runbook_url: https://docs.aws.amazon.com/connect/latest/adminguide/troubleshooting.html
+      expr: aws_cloudwatch_ConnectMonitoringCustomMetrics_InternalServerError_count > 0
+      for: 30m
+      labels:
+        rule_source: opswatch-prometheus-rules
+        severity: Warning
+    - alert: AwsConnectThrottlingExceptionErrorWarning
+      annotations:
+        summary: AWS Connect Throttling Exception Error
+        description: Warning for Connect Access Denied Error 
+        runbook_url: https://docs.aws.amazon.com/connect/latest/adminguide/troubleshooting.html
+      expr: aws_cloudwatch_ConnectMonitoringCustomMetrics_ThrottlingException_count > 0
+      for: 30m
+      labels:
+        rule_source: opswatch-prometheus-rules
+        severity: Warning
+    - alert: AwsConnectValidationExceptionErrorWarning
+      annotations:
+        summary: AWS Connect Validation Exception Error
+        description: Warning for Connect Access Denied Error 
+        runbook_url: https://docs.aws.amazon.com/connect/latest/adminguide/troubleshooting.html
+      expr: aws_cloudwatch_ConnectMonitoringCustomMetrics_ValidationException_count > 0
+      for: 30m
+      labels:
+        rule_source: opswatch-prometheus-rules
+        severity: Warning
+    - alert: AwsConnectInvalidClientTokenIdErrorWarning
+      annotations:
+        summary: AWS Connect Invalid Client Token ID Error
+        description: Warning for Connect Access Denied Error 
+        runbook_url: https://docs.aws.amazon.com/connect/latest/adminguide/troubleshooting.html
+      expr: aws_cloudwatch_ConnectMonitoringCustomMetrics_InvalidClientTokenId_count > 0
+      for: 30m
+      labels:
+        rule_source: opswatch-prometheus-rules
+        severity: Warning
+    - alert: AwsConnectSubscriptionRequiredErrorWarning
+      annotations:
+        summary: AWS Connect Subscription Required Error
+        description: Warning for Connect Access Denied Error 
+        runbook_url: https://docs.aws.amazon.com/connect/latest/adminguide/troubleshooting.html
+      expr: aws_cloudwatch_ConnectMonitoringCustomMetrics_SubscriptionRequired_count > 0
+      for: 30m
+      labels:
+        rule_source: opswatch-prometheus-rules
+        severity: Warning
+    - alert: AwsConnectRequestTimeoutErrorWarning
+      annotations:
+        summary: AWS Connect Request Timeout Error
+        description: Warning for Connect Access Denied Error 
+        runbook_url: https://docs.aws.amazon.com/connect/latest/adminguide/troubleshooting.html
+      expr: aws_cloudwatch_ConnectMonitoringCustomMetrics_RequestTimeout_count > 0
+      for: 30m
+      labels:
+        rule_source: opswatch-prometheus-rules
+        severity: Warning
+    - alert: AwsConnectServiceUnavailableErrorWarning
+      annotations:
+        summary: AWS Connect Service Unavailable Error
+        description: Warning for Connect Access Denied Error 
+        runbook_url: https://docs.aws.amazon.com/connect/latest/adminguide/troubleshooting.html
+      expr: aws_cloudwatch_ConnectMonitoringCustomMetrics_ServiceUnavailable_count > 0
+      for: 30m
+      labels:
+        rule_source: opswatch-prometheus-rules
+        severity: Warning
+    - alert: AwsConnectRequestEntityTooLargeErrorWarning
+      annotations:
+        summary: AWS Connect Request Entity Too Large Error
+        description: Warning for Connect Access Denied Error 
+        runbook_url: https://docs.aws.amazon.com/connect/latest/adminguide/troubleshooting.html
+      expr: aws_cloudwatch_ConnectMonitoringCustomMetrics_RequestEntityTooLarge_count > 0
+      for: 30m
+      labels:
+        rule_source: opswatch-prometheus-rules
+        severity: Warning
+    - alert: AwsConnectIncompleteSignatureErrorWarning
+      annotations:
+        summary: AWS Connect Incomplete Signature Error
+        description: Warning for Connect Access Denied Error 
+        runbook_url: https://docs.aws.amazon.com/connect/latest/adminguide/troubleshooting.html
+      expr: aws_cloudwatch_ConnectMonitoringCustomMetrics_IncompleteSignature_count > 0
+      for: 30m
+      labels:
+        rule_source: opswatch-prometheus-rules
+        severity: Warning
+    - alert: AwsConnectUnauthorizedErrorWarning
+      annotations:
+        summary: AWS Connect Unauthorized Error
+        description: Warning for Connect Access Denied Error 
+        runbook_url: https://docs.aws.amazon.com/connect/latest/adminguide/troubleshooting.html
+      expr: aws_cloudwatch_ConnectMonitoringCustomMetrics_Unauthorized_count > 0
+      for: 30m
+      labels:
+        rule_source: opswatch-prometheus-rules
+        severity: Warning
+    - alert: AwsConnectRequestExpiredErrorWarning
+      annotations:
+        summary: AWS Connect Request Expired Error
+        description: Warning for Connect Access Denied Error 
+        runbook_url: https://docs.aws.amazon.com/connect/latest/adminguide/troubleshooting.html
+      expr: aws_cloudwatch_ConnectMonitoringCustomMetrics_RequestExpired_count > 0
+      for: 30m
+      labels:
+        rule_source: opswatch-prometheus-rules
+        severity: Warning
+    - alert: AwsConnectInvalidParameterErrorWarning
+      annotations:
+        summary: AWS Connect Invalid Parameter Error
+        description: Warning for Connect Access Denied Error 
+        runbook_url: https://docs.aws.amazon.com/connect/latest/adminguide/troubleshooting.html
+      expr: aws_cloudwatch_ConnectMonitoringCustomMetrics_InvalidParameter_count > 0
+      for: 30m
+      labels:
+        rule_source: opswatch-prometheus-rules
+        severity: Warning

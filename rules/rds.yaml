@@ -10,427 +10,427 @@ metadata:
   namespace: monitoring
 spec:
   groups:
-    - name: rds.rules
-      rules:
-        - alert: AwsCloudwatchRdsDDLLatencyWarning
-          annotations:
-            summary: RDS DDLLatency is greater than 20ms
-            description: RDS DDLLatency latency is {{$value}}ms for DB instance {{ $labels.dimension_DBInstanceIdentifier }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-          expr: round(aws_cloudwatch_RDS_DDLLatency_DBInstanceIdentifier) > 20
-          for: 15m
-          labels:
-            rule_source: opswatch-prometheus-rules
-            severity: info
-        - alert: AwsCloudwatchRdsDDLLatencyCritical
-          annotations:
-            summary: RDS DDLLatency is greater than 50ms
-            description: RDS DDLLatency latency is {{$value}}ms for DB instance {{ $labels.dimension_DBInstanceIdentifier }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-          expr: round(aws_cloudwatch_RDS_DDLLatency_DBInstanceIdentifier) > 50
-          for: 15m
-          labels:
-            rule_source: opswatch-prometheus-rules
-            severity: warning
-        - alert: AwsCloudwatchRdsReadLatencyWarning
-          annotations:
-            summary: RDS ReadLatency is greater than 20ms
-            description: RDS ReadLatency is {{$value}}ms for DB instance {{ $labels.dimension_DBInstanceIdentifier }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-          expr: round(aws_cloudwatch_RDS_ReadLatency_DBInstanceIdentifier) > 20
-          for: 15m
-          labels:
-            rule_source: opswatch-prometheus-rules
-            severity: info
-        - alert: AwsCloudwatchRdsReadLatencyCritical
-          annotations:
-            summary: RDS ReadLatency is greater than 50ms
-            description: RDS ReadLatency is {{$value}}ms for DB instance {{ $labels.dimension_DBInstanceIdentifier }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-          expr: round(aws_cloudwatch_RDS_ReadLatency_DBInstanceIdentifier) > 50
-          for: 15m
-          labels:
-            rule_source: opswatch-prometheus-rules
-            severity: warning
-        - alert: AwsCloudwatchRdsWriteLatencyWarning
-          annotations:
-            summary: RDS WriteLatency is greater than 20ms
-            description: RDS DDLLatency latency is {{$value}}ms for DB instance {{ $labels.dimension_DBInstanceIdentifier }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-          expr: round(aws_cloudwatch_RDS_WriteLatency_DBInstanceIdentifier) > 20
-          for: 15m
-          labels:
-            rule_source: opswatch-prometheus-rules
-            severity: info
-        - alert: AwsCloudwatchRdsWriteLatencyCritical
-          annotations:
-            summary: RDS WriteLatency is greater than 50ms
-            description: RDS WriteLatency is {{$value}}ms for DB instance {{ $labels.dimension_DBInstanceIdentifier }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-          expr: round(aws_cloudwatch_RDS_WriteLatency_DBInstanceIdentifier) > 50
-          for: 15m
-          labels:
-            rule_source: opswatch-prometheus-rules
-            severity: warning
-        - alert: AwsCloudwatchRdsDeleteLatencyWarning
-          annotations:
-            summary: RDS DeleteLatency is greater than 20ms
-            description: RDS DeleteLatency is {{$value}}ms for DB instance {{ $labels.dimension_DBInstanceIdentifier }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-          expr: round(aws_cloudwatch_RDS_DeleteLatency_DBInstanceIdentifier) > 20
-          for: 15m
-          labels:
-            rule_source: opswatch-prometheus-rules
-            severity: info
-        - alert: AwsCloudwatchRdsDeleteLatencyCritical
-          annotations:
-            summary: RDS DeleteLatency is greater than 50ms
-            description: RDS DeleteLatency is {{$value}}ms for DB instance {{ $labels.dimension_DBInstanceIdentifier }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-          expr: round(aws_cloudwatch_RDS_DeleteLatency_DBInstanceIdentifier) > 50
-          for: 15m
-          labels:
-            rule_source: opswatch-prometheus-rules
-            severity: warning
-        - alert: AwsCloudwatchRdsUpdateLatencyWarning
-          annotations:
-            summary: RDS UpdateLatency is greater than 20ms
-            description: RDS UpdateLatency is {{$value}}ms for DB instance {{ $labels.dimension_DBInstanceIdentifier }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-          expr: round(aws_cloudwatch_RDS_UpdateLatency_DBInstanceIdentifier) > 20
-          for: 15m
-          labels:
-            rule_source: opswatch-prometheus-rules
-            severity: info
-        - alert: AwsCloudwatchRdsUpdateLatencyCritical
-          annotations:
-            summary: RDS UpdateLatency is greater than 50ms
-            description: RDS UpdateLatency is {{$value}}ms for DB instance {{ $labels.dimension_DBInstanceIdentifier }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-          expr: round(aws_cloudwatch_RDS_UpdateLatency_DBInstanceIdentifier) > 50
-          for: 15m
-          labels:
-            rule_source: opswatch-prometheus-rules
-            severity: warning
-        - alert: AwsCloudwatchRdsCommitLatencyWarningSingleAz
-          annotations:
-            summary: RDS CommitLatency is greater than 20ms (single az)
-            description: RDS CommitLatency is {{$value}}ms for DB instance {{ $labels.dimension_DBInstanceIdentifier }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-          expr: round(aws_cloudwatch_RDS_CommitLatency_DBInstanceIdentifier{rds_engine!~".*aurora.*",rds_db_multi_az="false"}) > 20
-          for: 15m
-          labels:
-            rule_source: opswatch-prometheus-rules
-            severity: info
-        - alert: AwsCloudwatchRdsCommitLatencyWarningMultiAz
-          annotations:
-            summary: RDS CommitLatency is greater than 30ms (multi az)
-            description: RDS CommitLatency is {{$value}}ms for DB instance {{ $labels.dimension_DBInstanceIdentifier }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-          expr: round(aws_cloudwatch_RDS_CommitLatency_DBInstanceIdentifier{rds_engine!~".*aurora.*",rds_db_multi_az="true"}) > 30
-          for: 15m
-          labels:
-            rule_source: opswatch-prometheus-rules
-            severity: info
-        - alert: AwsCloudwatchRdsCommitLatencyWarningAurora
-          annotations:
-            summary: RDS CommitLatency is greater than 60ms (aurora)
-            description: RDS CommitLatency is {{$value}}ms for DB instance {{ $labels.dimension_DBInstanceIdentifier }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-          expr: round(aws_cloudwatch_RDS_CommitLatency_DBInstanceIdentifier{rds_engine=~".*aurora.*"}) > 60
-          for: 15m
-          labels:
-            rule_source: opswatch-prometheus-rules
-            severity: warning
-        - alert: AwsCloudwatchRdsDDLLatencyWarning
-          annotations:
-            summary: RDS CommitLatency is greater than 20ms
-            description: RDS CommitLatency is {{$value}}ms for DB instance {{ $labels.dimension_DBInstanceIdentifier }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-          expr: round(aws_cloudwatch_RDS_CommitLatency_DBInstanceIdentifier) > 20
-          for: 15m
-          labels:
-            rule_source: opswatch-prometheus-rules
-            severity: warning
-        - alert: AwsCloudwatchRdsBurstBalanceCritical
-          annotations:
-            summary: RDS burst balance is below 10%
-            description: RDS burst balance is at {{$value}}% for DB instance {{ $labels.dimension_DBInstanceIdentifier }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-            runbook_url: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/burstable-credits-baseline-concepts.html
-          labels:
-            rule_source: opswatch-prometheus-rules
-            severity: critical
-          expr: round(aws_cloudwatch_RDS_BurstBalance_DBInstanceIdentifier) < 10
-          for: 30m
-        - alert: AwsCloudwatchRdsBurstBalancePrediction
-          annotations:
-            summary: RDS burst balance will be below 10% in 2 hours
-            description: RDS burst balance will at {{$value}}% for DB instance {{ $labels.dimension_DBInstanceIdentifier }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-            runbook_url: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/burstable-credits-baseline-concepts.html
-          labels:
-            rule_source: opswatch-prometheus-rules
-            severity: warning
-          expr: round(predict_linear(aws_cloudwatch_RDS_BurstBalance_DBInstanceIdentifier[30m], 3600 * 2)) < 10
-          for: 30m
-        - alert: AwsCloudwatchRdsCPUCreditBalanceCritical
-          annotations:
-            summary: RDS CPU Credit balance is below 10
-            description: RDS CPU Credit balance is at {{$value}} for DB instance {{ $labels.dimension_DBInstanceIdentifier }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-            runbook_url: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/burstable-credits-baseline-concepts.html
-          labels:
-            rule_source: opswatch-prometheus-rules
-            severity: critical
-          expr: round(aws_cloudwatch_RDS_CPUCreditBalance_DBInstanceIdentifier{rds_db_instance_class=~"db.t2.*"}) < 10
-          for: 30m
-        - alert: AwsCloudwatchRdsCPUCreditBalancePrediction
-          annotations:
-            summary: RDS CPU Credit balance will be below 10 in 2 hours
-            description: RDS Credit balance will at {{$value}} for DB instance {{ $labels.dimension_DBInstanceIdentifier }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-            runbook_url: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/burstable-credits-baseline-concepts.html
-          labels:
-            rule_source: opswatch-prometheus-rules
-            severity: warning
-          expr: round(predict_linear(aws_cloudwatch_RDS_CPUCreditBalance_DBInstanceIdentifier{rds_db_instance_class=~"db.t2.*"}[30m], 3600 * 2)) < 10
-          for: 30m
-        - alert: AwsCloudwatchRdsCPUUnlimitedCreditChargeInstance
-          annotations:
-            summary: RDS has charged CPU credits
-            description: RDS CPU Credit charged is at {{$value}} for DB instance {{ $labels.dimension_DBInstanceIdentifier }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-            runbook_url: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/burstable-credits-baseline-concepts.html
-          labels:
-            rule_source: opswatch-prometheus-rules
-            severity: warning
-          expr: round(aws_cloudwatch_RDS_CPUSurplusCreditsCharged_DBInstanceIdentifier) > 0
-          for: 30m
-        - alert: AwsCloudwatchRdsCPUUnlimitedCreditChargeCluster
-          annotations:
-            summary: RDS has charged CPU credits
-            description: RDS CPU Credit charged is at {{$value}} for DB instance {{ $labels.dimension_DBClusterIdentifier }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-            runbook_url: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/burstable-credits-baseline-concepts.html
-          labels:
-            rule_source: opswatch-prometheus-rules
-            severity: warning
-          expr: round(aws_cloudwatch_RDS_CPUSurplusCreditsCharged_DBInstanceIdentifier) > 0
-          for: 30m
-        - alert: AwsCloudwatchRDSCPUUtilizationHigh
-          annotations:
-            summary: RDS CPU utlization greater than 90%
-            description: RDS CPU utlization at {{$value}}% for DB instance {{ $labels.dimension_DBInstanceIdentifier }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-            runbook: Likely fixing this would either require optimizing the queries (which is up to the app developers) or upgrading the instance class. To provide the customer with information, if enabled you could check the performance insights for what is causing the most load
-          labels:
-            rule_source: opswatch-prometheus-rules
-            severity: warning
-          expr: round(aws_cloudwatch_RDS_CPUUtilization_DBInstanceIdentifier) > 90
-          for: 60m
-        - alert: AwsCloudwatchRdsEBSByteCreditBalanceCritical
-          annotations:
-            summary: RDS EBS Byte Credit balance is low below 10
-            description: RDS EBS Byte Credit balance is at {{$value}} for DB instance {{ $labels.dimension_DBInstanceIdentifier }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-            runbook_url: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/burstable-credits-baseline-concepts.html
-          labels:
-            rule_source: opswatch-prometheus-rules
-            severity: critical
-          expr: aws_cloudwatch_RDS_EBSByteBalance_DBInstanceIdentifier{rds_engine!~".*aurora.*"}  < 10
-          for: 30m
-        - alert: AwsCloudwatchRdsEBSByteCreditBalancePrediction
-          annotations:
-            summary: RDS EBS Byte Credit balance will be below 10 in 2 hours
-            description: RDS EBS Byte Credit balance will at {{$value}} for DB instance {{ $labels.dimension_DBInstanceIdentifier }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-            runbook_url: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/burstable-credits-baseline-concepts.html
-          labels:
-            rule_source: opswatch-prometheus-rules
-            severity: warning
-          expr: round(predict_linear(aws_cloudwatch_RDS_EBSByteBalance_DBInstanceIdentifier{rds_engine!~".*aurora.*"}[30m], 3600 * 2)) < 10
-          for: 30m
-        - alert: AwsCloudwatchRdsEBSIOCreditBalanceCritical
-          annotations:
-            summary: RDS EBS IO Credit balance is below 10
-            description: RDS EBS IO Credit balance is at {{$value}} for DB instance {{ $labels.dimension_DBInstanceIdentifier }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-            runbook_url: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/burstable-credits-baseline-concepts.html
-          labels:
-            rule_source: opswatch-prometheus-rules
-            severity: critical
-          expr: aws_cloudwatch_RDS_EBSIOBalance_DBInstanceIdentifier < 10
-          for: 30m
-        - alert: AwsCloudwatchRdsEBSIOCreditBalancePrediction
-          annotations:
-            summary: RDS EBS IO Credit balance will be below 10 in 2 hours
-            description: RDS EBS IO Credit balance will at {{$value}} for DB instance {{ $labels.dimension_DBInstanceIdentifier }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-            runbook_url: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/burstable-credits-baseline-concepts.html
-          labels:
-            rule_source: opswatch-prometheus-rules
-            severity: warning
-          expr: round(predict_linear(aws_cloudwatch_RDS_EBSIOBalance_DBInstanceIdentifier[30m], 3600 * 2)) < 10
-          for: 30m
-        - alert: AwsCloudwatchRdsDeadlocks
-          annotations:
-            summary: RDS reports deadlocks
-            description: RDS reports {{$value}} deadlocks for DB instance {{ $labels.dimension_DBInstanceIdentifier }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-          expr: aws_cloudwatch_RDS_Deadlocks_DBInstanceIdentifier > 0
-          for: 15m
-          labels:
-            rule_source: opswatch-prometheus-rules
-            severity: warning
-        - alert: AwsCloudwatchRdsAbortedClients
-          annotations:
-            summary: RDS reports aborted clients
-            description: RDS reports {{$value}} aborted clients for DB instance {{ $labels.dimension_DBInstanceIdentifier }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-          expr: aws_cloudwatch_RDS_AbortedClients_DBInstanceIdentifier > 10
-          for: 15m
-          labels:
-            rule_source: opswatch-prometheus-rules
-            severity: warning
-        - alert: AwsCloudwatchRdsLoginFailures
-          annotations:
-            summary: RDS reports login failures
-            description: RDS reports {{$value}} login failures for DB instance {{ $labels.dimension_DBInstanceIdentifier }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-          expr: aws_cloudwatch_RDS_LoginFailures_DBInstanceIdentifier > 0
-          for: 15m
-          labels:
-            rule_source: opswatch-prometheus-rules
-            severity: warning
-        - alert: AwsCloudwatchRdsAuroraReplicaLag
-          annotations:
-            summary: RDS aurora replica lag is more than 100ms
-            description: RDS aurora replica lag is {{$value}}ms for DB instance {{ $labels.dimension_DBInstanceIdentifier }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-          expr: round(aws_cloudwatch_RDS_AuroraReplicaLag_DBInstanceIdentifier) > 100
-          for: 60m
-          labels:
-            rule_source: opswatch-prometheus-rules
-            severity: warning
-        - alert: AwsCloudwatchRdsAuroraBinlogReplicaLag
-          annotations:
-            summary: RDS aurora binlog replica lag is more than 100ms
-            description: RDS aurora binlog replica lag is {{$value}}ms for DB instance {{ $labels.dimension_DBInstanceIdentifier }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-          expr: round(aws_cloudwatch_RDS_AuroraBinlogReplicaLag_DBInstanceIdentifier) > 100
-          for: 15m
-          labels:
-            rule_source: opswatch-prometheus-rules
-            severity: info
-        - alert: AwsCloudwatchRdsFreeLocalStorage
-          annotations:
-            summary: RDS free local storage is less than 4GB
-            description: RDS free local storage is {{$value}}GB for DB instance {{ $labels.dimension_DBInstanceIdentifier }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-            runbook_url: https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_Troubleshooting.html#CHAP_Troubleshooting.Storage
-          expr: round(aws_cloudwatch_RDS_FreeStorageSpace_DBInstanceIdentifier/1024^3,0.1) < 4
-          for: 15m
-          labels:
-            rule_source: opswatch-prometheus-rules
-            severity: warning
-        - alert: AwsCloudwatchRdsFreeStoragePrediction
-          annotations:
-            summary: RDS free storage is predicted to run out
-            description: RDS free storage prediction for DB instance {{ $labels.dimension_DBInstanceIdentifier }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-            runbook_url: https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_Troubleshooting.html#CHAP_Troubleshooting.Storage
-          expr: round(predict_linear(aws_cloudwatch_RDS_FreeStorageSpace_DBInstanceIdentifier[2h], 3600 * 4)/(1024^3),0.1) < 2
-          for: 15m
-          labels:
-            rule_source: opswatch-prometheus-rules
-            severity: warning
-        - alert: AwsCloudwatchRdsFreeStorage
-          annotations:
-            summary: RDS free storage is less than 2GB
-            description: RDS free storage is {{$value}}GB for DB instance {{ $labels.dimension_DBInstanceIdentifier }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-            runbook_url: https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_Troubleshooting.html#CHAP_Troubleshooting.Storage
-          expr: round(aws_cloudwatch_RDS_FreeStorageSpace_DBInstanceIdentifier/1024^3,0.1) < 2
-          for: 15m
-          labels:
-            rule_source: opswatch-prometheus-rules
-            severity: critical
-        - alert: AwsCloudwatchRdsFreeableMemoryCritical
-          annotations:
-            summary: RDS freeable memory is less than 300MB
-            description: RDS freeable memory is {{$value}}B for DB instance {{ $labels.dimension_DBInstanceIdentifier }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-            runbook_url: https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_Troubleshooting.html#Troubleshooting.FreeableMemory
-          expr: aws_cloudwatch_RDS_FreeableMemory_DBInstanceIdentifier < 300 * 1024 * 1024
-          for: 15m
-          labels:
-            rule_source: opswatch-prometheus-rules
-            severity: critical
-        - alert: AwsCloudwatchRdsFreeableMemoryWarning
-          annotations:
-            summary: RDS freeable memory is less than 500MB
-            description: RDS freeable memory is {{$value}}B for DB instance {{ $labels.dimension_DBInstanceIdentifier }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-            runbook_url: https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_Troubleshooting.html#Troubleshooting.FreeableMemory
-          expr: aws_cloudwatch_RDS_FreeableMemory_DBInstanceIdentifier < 500 * 1024 * 1024
-          for: 30m
-          labels:
-            rule_source: opswatch-prometheus-rules
-            severity: warning
-        - alert: AwsCloudwatchRdsAuroraOomHealthState
-          annotations:
-            summary: RDS Aurora OOM health state critical
-            description: RDS Aurora OOM health state is {{$value}} for DB instance {{ $labels.dimension_DBInstanceIdentifier }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-            runbook_url: https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/AuroraMySQLOOM.html
-            info: Indicates the memory health state. A value of 0 equals NORMAL. A value of 10 equals RESERVED, which means that the server is approaching a critical level of memory usage.
-          expr: aws_cloudwatch_RDS_AuroraMemoryHealthState_DBInstanceIdentifier > 0
-          for: 15m
-          labels:
-            rule_source: opswatch-prometheus-rules
-            severity: warning
-        - alert: AwsCloudwatchRdsAuroraOomRecoveryTriggered
-          annotations:
-            summary: RDS Aurora OOM recovery triggered
-            description: RDS Aurora OOM recovery triggered {{$value}} times for DB instance {{ $labels.dimension_DBInstanceIdentifier }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-            runbook_url: https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/AuroraMySQLOOM.html
-          expr: increase(aws_cloudwatch_RDS_AuroraNumOomRecoveryTriggered_DBInstanceIdentifier_sum[60m]) > 0
-          for: 15m
-          labels:
-            rule_source: opswatch-prometheus-rules
-            severity: warning
-        - alert: AwsCloudwatchRdsAuroraOomKilledConnections
-          annotations:
-            summary: RDS Aurora OOM killed connections
-            description: RDS Aurora OOM killed {{$value}} connections for DB instance {{ $labels.dimension_DBInstanceIdentifier }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-            runbook_url: https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/AuroraMySQLOOM.html
-          expr: increase(aws_cloudwatch_RDS_AuroraMemoryNumKillConnTotal_DBInstanceIdentifier_sum[60m]) > 0
-          for: 15m
-          labels:
-            rule_source: opswatch-prometheus-rules
-            severity: warning
-        - alert: AwsCloudwatchRdsClusterMaxConnectionsCritical
-          annotations:
-            summary: RDS connection count is more than 95%
-            description: RDS connection count is {{$value}}% for DB cluster {{ $labels.dimension_DBClusterIdentifier }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-            runbook_url: https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_Limits.html#RDS_Limits.MaxConnections
-          expr: round(aws_cloudwatch_RDS_DatabaseConnections_DBClusterIdentifier / aws_apidescribe_RDS_MaxConnections_DBClusterIdentifier * 100) > 95
-          for: 15m
-          labels:
-            rule_source: opswatch-prometheus-rules
-            severity: critical
-        - alert: AwsCloudwatchRdsClusterMaxConnectionsWarning
-          annotations:
-            summary: RDS connection count is more than 80%
-            description: RDS connection count is {{$value}}% for DB cluster {{ $labels.dimension_DBClusterIdentifier }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-            runbook_url: https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_Limits.html#RDS_Limits.MaxConnections
-          expr: round(aws_cloudwatch_RDS_DatabaseConnections_DBClusterIdentifier / aws_apidescribe_RDS_MaxConnections_DBClusterIdentifier * 100) > 80
-          for: 15m
-          labels:
-            rule_source: opswatch-prometheus-rules
-            severity: warning
-        - alert: AwsCloudwatchRdsInstanceMaxConnectionsCritical
-          annotations:
-            summary: RDS connection count is more than 95%
-            description: RDS connection count is {{$value}}% for DB instance {{ $labels.dimension_DBInstanceIdentifier }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-            runbook_url: https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_Limits.html#RDS_Limits.MaxConnections
-          expr: round(aws_cloudwatch_RDS_DatabaseConnections_DBInstanceIdentifier / aws_apidescribe_RDS_MaxConnections_DBInstanceIdentifier * 100) > 95
-          for: 15m
-          labels:
-            rule_source: opswatch-prometheus-rules
-            severity: critical
-        - alert: AwsCloudwatchRdsInstanceMaxConnectionsWarning
-          annotations:
-            summary: RDS connection count is more than 80%
-            description: RDS connection count is {{$value}}% for DB instance {{ $labels.dimension_DBInstanceIdentifier }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-            runbook_url: https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_Limits.html#RDS_Limits.MaxConnections
-          expr: round(aws_cloudwatch_RDS_DatabaseConnections_DBInstanceIdentifier / aws_apidescribe_RDS_MaxConnections_DBInstanceIdentifier * 100) > 80
-          for: 15m
-          labels:
-            rule_source: opswatch-prometheus-rules
-            severity: warning
-        - alert: AwsCloudwatchRdsInstanceACUUtilizationHigh
-          annotations:
-            summary: RDS ACU utilization is more than 90%
-            description: RDS ACU utilization is {{$value}}% for DB instance {{ $labels.dimension_DBInstanceIdentifier }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-            runbook_url: https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_Limits.html#RDS_Limits.MaxConnections
-          expr: round(aws_cloudwatch_RDS_ACUUtilization_DBInstanceIdentifier) > 90
-          for: 30m
-          labels:
-            rule_source: opswatch-prometheus-rules
-            severity: critical
-        - alert: AwsCloudwatchRdsClusterACUUtilizationHigh
-          annotations:
-            summary: RDS ACU utilization is more than 90%
-            description: RDS ACU utilization is {{$value}}% for DB instance {{ $labels.dimension_DBInstanceIdentifier }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-            runbook_url: https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_Limits.html#RDS_Limits.MaxConnections
-          expr: round(aws_cloudwatch_RDS_ACUUtilization_DBClusterIdentifier) > 90
-          for: 30m
-          labels:
-            rule_source: opswatch-prometheus-rules
-            severity: critical
+  - name: rds.rules
+    rules:
+    - alert: AwsCloudwatchRdsDDLLatencyWarning
+      annotations:
+        summary: RDS DDLLatency is greater than 20ms
+        description: RDS DDLLatency latency is {{$value}}ms for DB instance {{ $labels.dimension_DBInstanceIdentifier }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+      expr: round(aws_cloudwatch_RDS_DDLLatency_DBInstanceIdentifier) > 20
+      for: 15m
+      labels:
+        rule_source: opswatch-prometheus-rules
+        severity: info
+    - alert: AwsCloudwatchRdsDDLLatencyCritical
+      annotations:
+        summary: RDS DDLLatency is greater than 50ms
+        description: RDS DDLLatency latency is {{$value}}ms for DB instance {{ $labels.dimension_DBInstanceIdentifier }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+      expr: round(aws_cloudwatch_RDS_DDLLatency_DBInstanceIdentifier) > 50
+      for: 15m
+      labels:
+        rule_source: opswatch-prometheus-rules
+        severity: warning
+    - alert: AwsCloudwatchRdsReadLatencyWarning
+      annotations:
+        summary: RDS ReadLatency is greater than 20ms
+        description: RDS ReadLatency is {{$value}}ms for DB instance {{ $labels.dimension_DBInstanceIdentifier }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+      expr: round(aws_cloudwatch_RDS_ReadLatency_DBInstanceIdentifier) > 20
+      for: 15m
+      labels:
+        rule_source: opswatch-prometheus-rules
+        severity: info
+    - alert: AwsCloudwatchRdsReadLatencyCritical
+      annotations:
+        summary: RDS ReadLatency is greater than 50ms
+        description: RDS ReadLatency is {{$value}}ms for DB instance {{ $labels.dimension_DBInstanceIdentifier }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+      expr: round(aws_cloudwatch_RDS_ReadLatency_DBInstanceIdentifier) > 50
+      for: 15m
+      labels:
+        rule_source: opswatch-prometheus-rules
+        severity: warning
+    - alert: AwsCloudwatchRdsWriteLatencyWarning
+      annotations:
+        summary: RDS WriteLatency is greater than 20ms
+        description: RDS DDLLatency latency is {{$value}}ms for DB instance {{ $labels.dimension_DBInstanceIdentifier }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+      expr: round(aws_cloudwatch_RDS_WriteLatency_DBInstanceIdentifier) > 20
+      for: 15m
+      labels:
+        rule_source: opswatch-prometheus-rules
+        severity: info
+    - alert: AwsCloudwatchRdsWriteLatencyCritical
+      annotations:
+        summary: RDS WriteLatency is greater than 50ms
+        description: RDS WriteLatency is {{$value}}ms for DB instance {{ $labels.dimension_DBInstanceIdentifier }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+      expr: round(aws_cloudwatch_RDS_WriteLatency_DBInstanceIdentifier) > 50
+      for: 15m
+      labels:
+        rule_source: opswatch-prometheus-rules
+        severity: warning
+    - alert: AwsCloudwatchRdsDeleteLatencyWarning
+      annotations:
+        summary: RDS DeleteLatency is greater than 20ms
+        description: RDS DeleteLatency is {{$value}}ms for DB instance {{ $labels.dimension_DBInstanceIdentifier }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+      expr: round(aws_cloudwatch_RDS_DeleteLatency_DBInstanceIdentifier) > 20
+      for: 15m
+      labels:
+        rule_source: opswatch-prometheus-rules
+        severity: info
+    - alert: AwsCloudwatchRdsDeleteLatencyCritical
+      annotations:
+        summary: RDS DeleteLatency is greater than 50ms
+        description: RDS DeleteLatency is {{$value}}ms for DB instance {{ $labels.dimension_DBInstanceIdentifier }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+      expr: round(aws_cloudwatch_RDS_DeleteLatency_DBInstanceIdentifier) > 50
+      for: 15m
+      labels:
+        rule_source: opswatch-prometheus-rules
+        severity: warning
+    - alert: AwsCloudwatchRdsUpdateLatencyWarning
+      annotations:
+        summary: RDS UpdateLatency is greater than 20ms
+        description: RDS UpdateLatency is {{$value}}ms for DB instance {{ $labels.dimension_DBInstanceIdentifier }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+      expr: round(aws_cloudwatch_RDS_UpdateLatency_DBInstanceIdentifier) > 20
+      for: 15m
+      labels:
+        rule_source: opswatch-prometheus-rules
+        severity: info
+    - alert: AwsCloudwatchRdsUpdateLatencyCritical
+      annotations:
+        summary: RDS UpdateLatency is greater than 50ms
+        description: RDS UpdateLatency is {{$value}}ms for DB instance {{ $labels.dimension_DBInstanceIdentifier }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+      expr: round(aws_cloudwatch_RDS_UpdateLatency_DBInstanceIdentifier) > 50
+      for: 15m
+      labels:
+        rule_source: opswatch-prometheus-rules
+        severity: warning
+    - alert: AwsCloudwatchRdsCommitLatencyWarningSingleAz
+      annotations:
+        summary: RDS CommitLatency is greater than 20ms (single az)
+        description: RDS CommitLatency is {{$value}}ms for DB instance {{ $labels.dimension_DBInstanceIdentifier }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+      expr: round(aws_cloudwatch_RDS_CommitLatency_DBInstanceIdentifier{rds_engine!~".*aurora.*",rds_db_multi_az="false"}) > 20
+      for: 15m
+      labels:
+        rule_source: opswatch-prometheus-rules
+        severity: info
+    - alert: AwsCloudwatchRdsCommitLatencyWarningMultiAz
+      annotations:
+        summary: RDS CommitLatency is greater than 30ms (multi az)
+        description: RDS CommitLatency is {{$value}}ms for DB instance {{ $labels.dimension_DBInstanceIdentifier }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+      expr: round(aws_cloudwatch_RDS_CommitLatency_DBInstanceIdentifier{rds_engine!~".*aurora.*",rds_db_multi_az="true"}) > 30
+      for: 15m
+      labels:
+        rule_source: opswatch-prometheus-rules
+        severity: info
+    - alert: AwsCloudwatchRdsCommitLatencyWarningAurora
+      annotations:
+        summary: RDS CommitLatency is greater than 60ms (aurora)
+        description: RDS CommitLatency is {{$value}}ms for DB instance {{ $labels.dimension_DBInstanceIdentifier }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+      expr: round(aws_cloudwatch_RDS_CommitLatency_DBInstanceIdentifier{rds_engine=~".*aurora.*"}) > 60
+      for: 15m
+      labels:
+        rule_source: opswatch-prometheus-rules
+        severity: warning
+    - alert: AwsCloudwatchRdsDDLLatencyWarning
+      annotations:
+        summary: RDS CommitLatency is greater than 20ms
+        description: RDS CommitLatency is {{$value}}ms for DB instance {{ $labels.dimension_DBInstanceIdentifier }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+      expr: round(aws_cloudwatch_RDS_CommitLatency_DBInstanceIdentifier) > 20
+      for: 15m
+      labels:
+        rule_source: opswatch-prometheus-rules
+        severity: warning
+    - alert: AwsCloudwatchRdsBurstBalanceCritical
+      annotations:
+        summary: RDS burst balance is below 10%
+        description: RDS burst balance is at {{$value}}% for DB instance {{ $labels.dimension_DBInstanceIdentifier }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+        runbook_url: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/burstable-credits-baseline-concepts.html
+      labels:
+        rule_source: opswatch-prometheus-rules
+        severity: critical
+      expr: round(aws_cloudwatch_RDS_BurstBalance_DBInstanceIdentifier) < 10
+      for: 30m
+    - alert: AwsCloudwatchRdsBurstBalancePrediction
+      annotations:
+        summary: RDS burst balance will be below 10% in 2 hours
+        description: RDS burst balance will at {{$value}}% for DB instance {{ $labels.dimension_DBInstanceIdentifier }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+        runbook_url: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/burstable-credits-baseline-concepts.html
+      labels:
+        rule_source: opswatch-prometheus-rules
+        severity: warning
+      expr: round(predict_linear(aws_cloudwatch_RDS_BurstBalance_DBInstanceIdentifier[30m], 3600 * 2)) < 10
+      for: 30m
+    - alert: AwsCloudwatchRdsCPUCreditBalanceCritical
+      annotations:
+        summary: RDS CPU Credit balance is below 10
+        description: RDS CPU Credit balance is at {{$value}} for DB instance {{ $labels.dimension_DBInstanceIdentifier }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+        runbook_url: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/burstable-credits-baseline-concepts.html
+      labels:
+        rule_source: opswatch-prometheus-rules
+        severity: critical
+      expr: round(aws_cloudwatch_RDS_CPUCreditBalance_DBInstanceIdentifier{rds_db_instance_class=~"db.t2.*"}) < 10
+      for: 30m
+    - alert: AwsCloudwatchRdsCPUCreditBalancePrediction
+      annotations:
+        summary: RDS CPU Credit balance will be below 10 in 2 hours
+        description: RDS Credit balance will at {{$value}} for DB instance {{ $labels.dimension_DBInstanceIdentifier }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+        runbook_url: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/burstable-credits-baseline-concepts.html
+      labels:
+        rule_source: opswatch-prometheus-rules
+        severity: warning
+      expr: round(predict_linear(aws_cloudwatch_RDS_CPUCreditBalance_DBInstanceIdentifier{rds_db_instance_class=~"db.t2.*"}[30m], 3600 * 2)) < 10
+      for: 30m
+    - alert: AwsCloudwatchRdsCPUUnlimitedCreditChargeInstance
+      annotations:
+        summary: RDS has charged CPU credits
+        description: RDS CPU Credit charged is at {{$value}} for DB instance {{ $labels.dimension_DBInstanceIdentifier }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+        runbook_url: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/burstable-credits-baseline-concepts.html
+      labels:
+        rule_source: opswatch-prometheus-rules
+        severity: warning
+      expr: round(aws_cloudwatch_RDS_CPUSurplusCreditsCharged_DBInstanceIdentifier) > 0
+      for: 30m
+    - alert: AwsCloudwatchRdsCPUUnlimitedCreditChargeCluster
+      annotations:
+        summary: RDS has charged CPU credits
+        description: RDS CPU Credit charged is at {{$value}} for DB instance {{ $labels.dimension_DBClusterIdentifier }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+        runbook_url: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/burstable-credits-baseline-concepts.html
+      labels:
+        rule_source: opswatch-prometheus-rules
+        severity: warning
+      expr: round(aws_cloudwatch_RDS_CPUSurplusCreditsCharged_DBInstanceIdentifier) > 0
+      for: 30m
+    - alert: AwsCloudwatchRDSCPUUtilizationHigh
+      annotations:
+        summary: RDS CPU utlization greater than 90%
+        description: RDS CPU utlization at {{$value}}% for DB instance {{ $labels.dimension_DBInstanceIdentifier }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+        runbook: Likely fixing this would either require optimizing the queries (which is up to the app developers) or upgrading the instance class. To provide the customer with information, if enabled you could check the performance insights for what is causing the most load
+      labels:
+        rule_source: opswatch-prometheus-rules
+        severity: warning
+      expr: round(aws_cloudwatch_RDS_CPUUtilization_DBInstanceIdentifier) > 90
+      for: 60m
+    - alert: AwsCloudwatchRdsEBSByteCreditBalanceCritical
+      annotations:
+        summary: RDS EBS Byte Credit balance is low below 10
+        description: RDS EBS Byte Credit balance is at {{$value}} for DB instance {{ $labels.dimension_DBInstanceIdentifier }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+        runbook_url: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/burstable-credits-baseline-concepts.html
+      labels:
+        rule_source: opswatch-prometheus-rules
+        severity: critical
+      expr: aws_cloudwatch_RDS_EBSByteBalance_DBInstanceIdentifier{rds_engine!~".*aurora.*"}  < 10
+      for: 30m
+    - alert: AwsCloudwatchRdsEBSByteCreditBalancePrediction
+      annotations:
+        summary: RDS EBS Byte Credit balance will be below 10 in 2 hours
+        description: RDS EBS Byte Credit balance will at {{$value}} for DB instance {{ $labels.dimension_DBInstanceIdentifier }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+        runbook_url: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/burstable-credits-baseline-concepts.html
+      labels:
+        rule_source: opswatch-prometheus-rules
+        severity: warning
+      expr: round(predict_linear(aws_cloudwatch_RDS_EBSByteBalance_DBInstanceIdentifier{rds_engine!~".*aurora.*"}[30m], 3600 * 2)) < 10
+      for: 30m
+    - alert: AwsCloudwatchRdsEBSIOCreditBalanceCritical
+      annotations:
+        summary: RDS EBS IO Credit balance is below 10
+        description: RDS EBS IO Credit balance is at {{$value}} for DB instance {{ $labels.dimension_DBInstanceIdentifier }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+        runbook_url: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/burstable-credits-baseline-concepts.html
+      labels:
+        rule_source: opswatch-prometheus-rules
+        severity: critical
+      expr: aws_cloudwatch_RDS_EBSIOBalance_DBInstanceIdentifier < 10
+      for: 30m
+    - alert: AwsCloudwatchRdsEBSIOCreditBalancePrediction
+      annotations:
+        summary: RDS EBS IO Credit balance will be below 10 in 2 hours
+        description: RDS EBS IO Credit balance will at {{$value}} for DB instance {{ $labels.dimension_DBInstanceIdentifier }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+        runbook_url: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/burstable-credits-baseline-concepts.html
+      labels:
+        rule_source: opswatch-prometheus-rules
+        severity: warning
+      expr: round(predict_linear(aws_cloudwatch_RDS_EBSIOBalance_DBInstanceIdentifier[30m], 3600 * 2)) < 10
+      for: 30m
+    - alert: AwsCloudwatchRdsDeadlocks
+      annotations:
+        summary: RDS reports deadlocks
+        description: RDS reports {{$value}} deadlocks for DB instance {{ $labels.dimension_DBInstanceIdentifier }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+      expr: aws_cloudwatch_RDS_Deadlocks_DBInstanceIdentifier > 0
+      for: 15m
+      labels:
+        rule_source: opswatch-prometheus-rules
+        severity: warning
+    - alert: AwsCloudwatchRdsAbortedClients
+      annotations:
+        summary: RDS reports aborted clients
+        description: RDS reports {{$value}} aborted clients for DB instance {{ $labels.dimension_DBInstanceIdentifier }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+      expr: aws_cloudwatch_RDS_AbortedClients_DBInstanceIdentifier > 10
+      for: 15m
+      labels:
+        rule_source: opswatch-prometheus-rules
+        severity: warning
+    - alert: AwsCloudwatchRdsLoginFailures
+      annotations:
+        summary: RDS reports login failures
+        description: RDS reports {{$value}} login failures for DB instance {{ $labels.dimension_DBInstanceIdentifier }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+      expr: aws_cloudwatch_RDS_LoginFailures_DBInstanceIdentifier > 0
+      for: 15m
+      labels:
+        rule_source: opswatch-prometheus-rules
+        severity: warning
+    - alert: AwsCloudwatchRdsAuroraReplicaLag
+      annotations:
+        summary: RDS aurora replica lag is more than 100ms
+        description: RDS aurora replica lag is {{$value}}ms for DB instance {{ $labels.dimension_DBInstanceIdentifier }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+      expr: round(aws_cloudwatch_RDS_AuroraReplicaLag_DBInstanceIdentifier) > 100
+      for: 60m
+      labels:
+        rule_source: opswatch-prometheus-rules
+        severity: warning
+    - alert: AwsCloudwatchRdsAuroraBinlogReplicaLag
+      annotations:
+        summary: RDS aurora binlog replica lag is more than 100ms
+        description: RDS aurora binlog replica lag is {{$value}}ms for DB instance {{ $labels.dimension_DBInstanceIdentifier }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+      expr: round(aws_cloudwatch_RDS_AuroraBinlogReplicaLag_DBInstanceIdentifier) > 100
+      for: 15m
+      labels:
+        rule_source: opswatch-prometheus-rules
+        severity: info
+    - alert: AwsCloudwatchRdsFreeLocalStorage
+      annotations:
+        summary: RDS free local storage is less than 4GB
+        description: RDS free local storage is {{$value}}GB for DB instance {{ $labels.dimension_DBInstanceIdentifier }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+        runbook_url: https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_Troubleshooting.html#CHAP_Troubleshooting.Storage
+      expr: round(aws_cloudwatch_RDS_FreeStorageSpace_DBInstanceIdentifier/1024^3,0.1) < 4
+      for: 15m
+      labels:
+        rule_source: opswatch-prometheus-rules
+        severity: warning
+    - alert: AwsCloudwatchRdsFreeStoragePrediction
+      annotations:
+        summary: RDS free storage is predicted to run out
+        description: RDS free storage prediction for DB instance {{ $labels.dimension_DBInstanceIdentifier }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+        runbook_url: https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_Troubleshooting.html#CHAP_Troubleshooting.Storage
+      expr: round(predict_linear(aws_cloudwatch_RDS_FreeStorageSpace_DBInstanceIdentifier[2h], 3600 * 4)/(1024^3),0.1) < 2
+      for: 15m
+      labels:
+        rule_source: opswatch-prometheus-rules
+        severity: warning
+    - alert: AwsCloudwatchRdsFreeStorage
+      annotations:
+        summary: RDS free storage is less than 2GB
+        description: RDS free storage is {{$value}}GB for DB instance {{ $labels.dimension_DBInstanceIdentifier }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+        runbook_url: https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_Troubleshooting.html#CHAP_Troubleshooting.Storage
+      expr: round(aws_cloudwatch_RDS_FreeStorageSpace_DBInstanceIdentifier/1024^3,0.1) < 2
+      for: 15m
+      labels:
+        rule_source: opswatch-prometheus-rules
+        severity: critical
+    - alert: AwsCloudwatchRdsFreeableMemoryCritical
+      annotations:
+        summary: RDS freeable memory is less than 300MB
+        description: RDS freeable memory is {{$value}}B for DB instance {{ $labels.dimension_DBInstanceIdentifier }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+        runbook_url: https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_Troubleshooting.html#Troubleshooting.FreeableMemory
+      expr: aws_cloudwatch_RDS_FreeableMemory_DBInstanceIdentifier < 300 * 1024 * 1024
+      for: 15m
+      labels:
+        rule_source: opswatch-prometheus-rules
+        severity: critical
+    - alert: AwsCloudwatchRdsFreeableMemoryWarning
+      annotations:
+        summary: RDS freeable memory is less than 500MB
+        description: RDS freeable memory is {{$value}}B for DB instance {{ $labels.dimension_DBInstanceIdentifier }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+        runbook_url: https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_Troubleshooting.html#Troubleshooting.FreeableMemory
+      expr: aws_cloudwatch_RDS_FreeableMemory_DBInstanceIdentifier < 500 * 1024 * 1024
+      for: 30m
+      labels:
+        rule_source: opswatch-prometheus-rules
+        severity: warning
+    - alert: AwsCloudwatchRdsAuroraOomHealthState
+      annotations:
+        summary: RDS Aurora OOM health state critical
+        description: RDS Aurora OOM health state is {{$value}} for DB instance {{ $labels.dimension_DBInstanceIdentifier }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+        runbook_url: https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/AuroraMySQLOOM.html
+        info: Indicates the memory health state. A value of 0 equals NORMAL. A value of 10 equals RESERVED, which means that the server is approaching a critical level of memory usage.
+      expr: aws_cloudwatch_RDS_AuroraMemoryHealthState_DBInstanceIdentifier > 0
+      for: 15m
+      labels:
+        rule_source: opswatch-prometheus-rules
+        severity: warning
+    - alert: AwsCloudwatchRdsAuroraOomRecoveryTriggered
+      annotations:
+        summary: RDS Aurora OOM recovery triggered
+        description: RDS Aurora OOM recovery triggered {{$value}} times for DB instance {{ $labels.dimension_DBInstanceIdentifier }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+        runbook_url: https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/AuroraMySQLOOM.html
+      expr: increase(aws_cloudwatch_RDS_AuroraNumOomRecoveryTriggered_DBInstanceIdentifier_sum[60m]) > 0
+      for: 15m
+      labels:
+        rule_source: opswatch-prometheus-rules
+        severity: warning
+    - alert: AwsCloudwatchRdsAuroraOomKilledConnections
+      annotations:
+        summary: RDS Aurora OOM killed connections
+        description: RDS Aurora OOM killed {{$value}} connections for DB instance {{ $labels.dimension_DBInstanceIdentifier }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+        runbook_url: https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/AuroraMySQLOOM.html
+      expr: increase(aws_cloudwatch_RDS_AuroraMemoryNumKillConnTotal_DBInstanceIdentifier_sum[60m]) > 0
+      for: 15m
+      labels:
+        rule_source: opswatch-prometheus-rules
+        severity: warning
+    - alert: AwsCloudwatchRdsClusterMaxConnectionsCritical
+      annotations:
+        summary: RDS connection count is more than 95%
+        description: RDS connection count is {{$value}}% for DB cluster {{ $labels.dimension_DBClusterIdentifier }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+        runbook_url: https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_Limits.html#RDS_Limits.MaxConnections
+      expr: round(aws_cloudwatch_RDS_DatabaseConnections_DBClusterIdentifier / aws_apidescribe_RDS_MaxConnections_DBClusterIdentifier * 100) > 95
+      for: 15m
+      labels:
+        rule_source: opswatch-prometheus-rules
+        severity: critical
+    - alert: AwsCloudwatchRdsClusterMaxConnectionsWarning
+      annotations:
+        summary: RDS connection count is more than 80%
+        description: RDS connection count is {{$value}}% for DB cluster {{ $labels.dimension_DBClusterIdentifier }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+        runbook_url: https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_Limits.html#RDS_Limits.MaxConnections
+      expr: round(aws_cloudwatch_RDS_DatabaseConnections_DBClusterIdentifier / aws_apidescribe_RDS_MaxConnections_DBClusterIdentifier * 100) > 80
+      for: 15m
+      labels:
+        rule_source: opswatch-prometheus-rules
+        severity: warning
+    - alert: AwsCloudwatchRdsInstanceMaxConnectionsCritical
+      annotations:
+        summary: RDS connection count is more than 95%
+        description: RDS connection count is {{$value}}% for DB instance {{ $labels.dimension_DBInstanceIdentifier }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+        runbook_url: https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_Limits.html#RDS_Limits.MaxConnections
+      expr: round(aws_cloudwatch_RDS_DatabaseConnections_DBInstanceIdentifier / aws_apidescribe_RDS_MaxConnections_DBInstanceIdentifier * 100) > 95
+      for: 15m
+      labels:
+        rule_source: opswatch-prometheus-rules
+        severity: critical
+    - alert: AwsCloudwatchRdsInstanceMaxConnectionsWarning
+      annotations:
+        summary: RDS connection count is more than 80%
+        description: RDS connection count is {{$value}}% for DB instance {{ $labels.dimension_DBInstanceIdentifier }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+        runbook_url: https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_Limits.html#RDS_Limits.MaxConnections
+      expr: round(aws_cloudwatch_RDS_DatabaseConnections_DBInstanceIdentifier / aws_apidescribe_RDS_MaxConnections_DBInstanceIdentifier * 100) > 80
+      for: 15m
+      labels:
+        rule_source: opswatch-prometheus-rules
+        severity: warning
+    - alert: AwsCloudwatchRdsInstanceACUUtilizationHigh
+      annotations:
+        summary: RDS ACU utilization is more than 90%
+        description: RDS ACU utilization is {{$value}}% for DB instance {{ $labels.dimension_DBInstanceIdentifier }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+        runbook_url: https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_Limits.html#RDS_Limits.MaxConnections
+      expr: round(aws_cloudwatch_RDS_ACUUtilization_DBInstanceIdentifier) > 90
+      for: 30m
+      labels:
+        rule_source: opswatch-prometheus-rules
+        severity: warning  # ACU Utilization is not automatically an outage. Other alerts (Crashloopbackof, R53, ...) are also important. Often customers have set too small ACU limits.
+    - alert: AwsCloudwatchRdsClusterACUUtilizationHigh
+      annotations:
+        summary: RDS ACU utilization is more than 90%
+        description: RDS ACU utilization is {{$value}}% for DB instance {{ $labels.dimension_DBInstanceIdentifier }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+        runbook_url: https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_Limits.html#RDS_Limits.MaxConnections
+      expr: round(aws_cloudwatch_RDS_ACUUtilization_DBClusterIdentifier) > 90
+      for: 30m
+      labels:
+        rule_source: opswatch-prometheus-rules
+        severity: warning  # ACU Utilization is not automatically an outage. Other alerts (Crashloopbackof, R53, ...) are also important. Often customers have set too small ACU limits.

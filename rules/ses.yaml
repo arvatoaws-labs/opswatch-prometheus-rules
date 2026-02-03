@@ -9,49 +9,49 @@ metadata:
   namespace: monitoring
 spec:
   groups:
-    - name: ses.rules
-      rules:
-        - alert: AwsCloudwatchSESBounceWarning
-          annotations:
-            summary: SES bounce rate is greater than 5%
-            description: SES bounce rate is {{$value}}% in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-            runbook_url: https://aws.amazon.com/blogs/messaging-and-targeting/handling-bounces-and-complaints/
-          expr: round(aws_cloudwatch_SES_ReputationBounceRate * 100, 0.01) > 5
-          for: 30m
-          labels:
-            rule_source: opswatch-prometheus-rules
-            severity: info
-        - alert: AwsCloudwatchSESComplaintWarning
-          annotations:
-            summary: SES complain rate is greater than 0.1%
-            description: SES complain rate is {{$value}}% in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-            runbook_url: https://aws.amazon.com/blogs/messaging-and-targeting/handling-bounces-and-complaints/
-          expr: round(aws_cloudwatch_SES_ReputationComplaintRate * 100, 0.01) > 0.1
-          for: 30m
-          labels:
-            rule_source: opswatch-prometheus-rules
-            severity: info
-        - alert: AwsCloudwatchSESBounceCritical
-          annotations:
-            summary: SES bounce rate is greater than 10%
-            description: SES bounce rate is {{$value}}% in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-            runbook_url: https://aws.amazon.com/blogs/messaging-and-targeting/handling-bounces-and-complaints/
-          expr: round(aws_cloudwatch_SES_ReputationBounceRate * 100, 0.01) > 10
-          for: 30m
-          labels:
-            rule_source: opswatch-prometheus-rules
-            severity: warning
-            alarm_class: REACTIVE
-            ci_operational: 'false'
-        - alert: AwsCloudwatchSESComplaintCritical
-          annotations:
-            summary: SES complain rate is greater than 0.5%
-            description: SES complain rate is {{$value}}% in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-            runbook_url: https://aws.amazon.com/blogs/messaging-and-targeting/handling-bounces-and-complaints/
-          expr: round(aws_cloudwatch_SES_ReputationComplaintRate * 100, 0.01) > 0.5
-          for: 30m
-          labels:
-            rule_source: opswatch-prometheus-rules
-            severity: warning
-            alarm_class: REACTIVE
-            ci_operational: 'false'
+  - name: ses.rules
+    rules:
+    - alert: AwsCloudwatchSESBounceWarning
+      annotations:
+        summary: SES bounce rate is greater than 5%
+        description: SES bounce rate is {{$value}}% in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+        runbook_url: https://aws.amazon.com/blogs/messaging-and-targeting/handling-bounces-and-complaints/
+      expr: round(aws_cloudwatch_SES_ReputationBounceRate * 100, 0.01) > 5
+      for: 30m
+      labels:
+        rule_source: opswatch-prometheus-rules
+        severity: info
+    - alert: AwsCloudwatchSESComplaintWarning
+      annotations:
+        summary: SES complain rate is greater than 0.1%
+        description: SES complain rate is {{$value}}% in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+        runbook_url: https://aws.amazon.com/blogs/messaging-and-targeting/handling-bounces-and-complaints/
+      expr: round(aws_cloudwatch_SES_ReputationComplaintRate * 100, 0.01) > 0.1
+      for: 30m
+      labels:
+        rule_source: opswatch-prometheus-rules
+        severity: info
+    - alert: AwsCloudwatchSESBounceCritical
+      annotations:
+        summary: SES bounce rate is greater than 10%
+        description: SES bounce rate is {{$value}}% in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+        runbook_url: https://aws.amazon.com/blogs/messaging-and-targeting/handling-bounces-and-complaints/
+      expr: round(aws_cloudwatch_SES_ReputationBounceRate * 100, 0.01) > 10
+      for: 30m
+      labels:
+        rule_source: opswatch-prometheus-rules
+        severity: warning
+        alarm_class: REACTIVE
+        ci_operational: 'false'
+    - alert: AwsCloudwatchSESComplaintCritical
+      annotations:
+        summary: SES complain rate is greater than 0.5%
+        description: SES complain rate is {{$value}}% in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+        runbook_url: https://aws.amazon.com/blogs/messaging-and-targeting/handling-bounces-and-complaints/
+      expr: round(aws_cloudwatch_SES_ReputationComplaintRate * 100, 0.01) > 0.5
+      for: 30m
+      labels:
+        rule_source: opswatch-prometheus-rules
+        severity: warning
+        alarm_class: REACTIVE
+        ci_operational: 'false'

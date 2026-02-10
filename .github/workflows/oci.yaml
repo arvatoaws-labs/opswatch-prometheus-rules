@@ -15,7 +15,7 @@ jobs:
       image: ghcr.io/arvatoaws-labs/helm-pipeline/release:latest
     steps:
     - name: Checkout Code
-      uses: actions/checkout@v5
+      uses: actions/checkout@v6
       with:
         ref: ${{ github.ref }}
         fetch-tags: true

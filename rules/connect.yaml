@@ -20,7 +20,7 @@ spec:
       for: 30m
       labels:
         rule_source: opswatch-prometheus-rules
-        severity: Warning
+        severity: warning
     - alert: AwsConnectBadRequestErrorWarning
       annotations:
         summary: AWS Connect Bad Request Error
@@ -30,7 +30,7 @@ spec:
       for: 30m
       labels:
         rule_source: opswatch-prometheus-rules
-        severity: Warning
+        severity: warning
     - alert: AwsConnectNotFoundErrorWarning
       annotations:
         summary: AWS Connect Not Found Error
@@ -40,7 +40,7 @@ spec:
       for: 30m
       labels:
         rule_source: opswatch-prometheus-rules
-        severity: Warning
+        severity: warning
     - alert: AwsConnectInternalServerErrorWarning
       annotations:
         summary: AWS Connect Internal Server Error
@@ -50,7 +50,7 @@ spec:
       for: 30m
       labels:
         rule_source: opswatch-prometheus-rules
-        severity: Warning
+        severity: warning
     - alert: AwsConnectThrottlingExceptionErrorWarning
       annotations:
         summary: AWS Connect Throttling Exception Error
@@ -60,7 +60,7 @@ spec:
       for: 30m
       labels:
         rule_source: opswatch-prometheus-rules
-        severity: Warning
+        severity: warning
     - alert: AwsConnectValidationExceptionErrorWarning
       annotations:
         summary: AWS Connect Validation Exception Error
@@ -70,7 +70,7 @@ spec:
       for: 30m
       labels:
         rule_source: opswatch-prometheus-rules
-        severity: Warning
+        severity: warning
     - alert: AwsConnectInvalidClientTokenIdErrorWarning
       annotations:
         summary: AWS Connect Invalid Client Token ID Error
@@ -80,7 +80,7 @@ spec:
       for: 30m
       labels:
         rule_source: opswatch-prometheus-rules
-        severity: Warning
+        severity: warning
     - alert: AwsConnectSubscriptionRequiredErrorWarning
       annotations:
         summary: AWS Connect Subscription Required Error
@@ -90,7 +90,7 @@ spec:
       for: 30m
       labels:
         rule_source: opswatch-prometheus-rules
-        severity: Warning
+        severity: warning
     - alert: AwsConnectRequestTimeoutErrorWarning
       annotations:
         summary: AWS Connect Request Timeout Error
@@ -100,7 +100,7 @@ spec:
       for: 30m
       labels:
         rule_source: opswatch-prometheus-rules
-        severity: Warning
+        severity: warning
     - alert: AwsConnectServiceUnavailableErrorWarning
       annotations:
         summary: AWS Connect Service Unavailable Error
@@ -110,7 +110,7 @@ spec:
       for: 30m
       labels:
         rule_source: opswatch-prometheus-rules
-        severity: Warning
+        severity: warning
     - alert: AwsConnectRequestEntityTooLargeErrorWarning
       annotations:
         summary: AWS Connect Request Entity Too Large Error
@@ -120,7 +120,7 @@ spec:
       for: 30m
       labels:
         rule_source: opswatch-prometheus-rules
-        severity: Warning
+        severity: warning
     - alert: AwsConnectIncompleteSignatureErrorWarning
       annotations:
         summary: AWS Connect Incomplete Signature Error
@@ -130,7 +130,7 @@ spec:
       for: 30m
       labels:
         rule_source: opswatch-prometheus-rules
-        severity: Warning
+        severity: warning
     - alert: AwsConnectUnauthorizedErrorWarning
       annotations:
         summary: AWS Connect Unauthorized Error
@@ -140,7 +140,7 @@ spec:
       for: 30m
       labels:
         rule_source: opswatch-prometheus-rules
-        severity: Warning
+        severity: warning
     - alert: AwsConnectRequestExpiredErrorWarning
       annotations:
         summary: AWS Connect Request Expired Error
@@ -150,7 +150,7 @@ spec:
       for: 30m
       labels:
         rule_source: opswatch-prometheus-rules
-        severity: Warning
+        severity: warning
     - alert: AwsConnectInvalidParameterErrorWarning
       annotations:
         summary: AWS Connect Invalid Parameter Error
@@ -160,4 +160,4 @@ spec:
       for: 30m
       labels:
         rule_source: opswatch-prometheus-rules
-        severity: Warning
+        severity: warning

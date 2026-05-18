@@ -36,7 +36,7 @@ spec:
         summary: ElasticSearch Cluster health status is RED
         description: ElasticSearch Cluster health status is red for domain {{ $labels.dimension_DomainName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
         runbook_url: https://docs.aws.amazon.com/opensearch-service/latest/developerguide/handling-errors.html
-      expr: aws_cloudwatch_ES_ClusterStatusred_ClientId_DomainName > 1
+      expr: aws_cloudwatch_ES_ClusterStatusred_ClientId_DomainName > 0
       for: 15m
       labels:
         rule_source: opswatch-prometheus-rules
@@ -46,7 +46,7 @@ spec:
         summary: ElasticSearch Cluster health status is YELLOW
         description: ElasticSearch Cluster health status is yellow for domain {{ $labels.dimension_DomainName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
         runbook_url: https://docs.aws.amazon.com/opensearch-service/latest/developerguide/handling-errors.html
-      expr: aws_cloudwatch_ES_ClusterStatusyellow_ClientId_DomainName > 1
+      expr: aws_cloudwatch_ES_ClusterStatusyellow_ClientId_DomainName > 0
       for: 15m
       labels:
         rule_source: opswatch-prometheus-rules

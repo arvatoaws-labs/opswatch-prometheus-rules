@@ -14,20 +14,20 @@ spec:
     rules:
     - alert: AwsCloudwatchDynamodbSuccessfulRequestLatencyWarning
       annotations:
-        summary: DynamoDB SuccessfulRequestLatency is greater than 20ms
-        description: DynamoDB {{ $labels.dimension_Operation}} operation SuccessfulRequestLatency is {{$value}}ms for table {{ $labels.dimension_TableName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+        summary: DynamoDB SuccessfulRequestLatency is greater than 50ms
+        description: DynamoDB Query operation SuccessfulRequestLatency is {{$value}}ms for table {{ $labels.dimension_TableName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
         runbook_url: https://aws.amazon.com/de/premiumsupport/knowledge-center/dynamodb-high-latency/
-      expr: round(aws_cloudwatch_DynamoDB_SuccessfulRequestLatency_Operation_TableName) > 20
+      expr: aws_cloudwatch_DynamoDB_SuccessfulRequestLatency_Operation_TableName{dimension_Operation="Query"} > 50
       for: 30m
       labels:
         rule_source: opswatch-prometheus-rules
         severity: info
     - alert: AwsCloudwatchDynamodbSuccessfulRequestLatencyCritical
       annotations:
-        summary: DynamoDB SuccessfulRequestLatency is greater than 100ms
-        description: DynamoDB {{ $labels.dimension_Operation}} operation SuccessfulRequestLatency is {{$value}}ms for table {{ $labels.dimension_TableName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+        summary: DynamoDB SuccessfulRequestLatency is greater than 150ms
+        description: DynamoDB Query operation SuccessfulRequestLatency is {{$value}}ms for table {{ $labels.dimension_TableName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
         runbook_url: https://aws.amazon.com/de/premiumsupport/knowledge-center/dynamodb-high-latency/
-      expr: round(aws_cloudwatch_DynamoDB_SuccessfulRequestLatency_Operation_TableName) > 100
+      expr: aws_cloudwatch_DynamoDB_SuccessfulRequestLatency_Operation_TableName{dimension_Operation="Query"} > 150
       for: 15m
       labels:
         rule_source: opswatch-prometheus-rules

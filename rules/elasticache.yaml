@@ -91,6 +91,43 @@ spec:
       labels:
         rule_source: opswatch-prometheus-rules
         severity: warning
-# Todo
-# aws_cloudwatch_ElastiCache_NetworkBandwidthInAllowanceExceeded_CacheClusterId_CacheNodeId
-# aws_cloudwatch_ElastiCache_NetworkBandwidthOutAllowanceExceeded_CacheClusterId_CacheNodeId
+    - alert: AwsCloudwatchElastiCacheNetworkBandwidthInAllowanceExceeded
+      annotations:
+        summary: ElastiCache has network bandwidth in allowance exceeded
+        description: ElastiCache cluster {{ $labels.dimension_CacheClusterId }} node {{ $labels.dimension_CacheNodeId }} has {{$value}}% network bandwidth in allowance exceeded in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}. Consider resizing or adding shards if in cluster mode, especially if this is using T instance types.
+        runbook_url: https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/ErrorMessages.html
+      expr: round(aws_cloudwatch_ElastiCache_NetworkBandwidthInAllowanceExceeded_CacheClusterId_CacheNodeId) > 0
+      for: 5m
+      labels:
+        rule_source: opswatch-prometheus-rules
+        severity: warning
+    - alert: AwsCloudwatchElastiCacheNetworkBandwidthOutAllowanceExceeded
+      annotations:
+        summary: ElastiCache has network bandwidth out allowance exceeded
+        description: ElastiCache cluster {{ $labels.dimension_CacheClusterId }} node {{ $labels.dimension_CacheNodeId }} has {{$value}}% network bandwidth out allowance exceeded in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}. Consider resizing or adding shards if in cluster mode, especially if this is using T instance types.
+        runbook_url: https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/ErrorMessages.html
+      expr: round(aws_cloudwatch_ElastiCache_NetworkBandwidthOutAllowanceExceeded_CacheClusterId_CacheNodeId) > 0
+      for: 5m
+      labels:
+        rule_source: opswatch-prometheus-rules
+        severity: warning
+    - alert: AwsCloudwatchElastiCacheNetworkConntrackAllowanceExceeded
+      annotations:
+        summary: ElastiCache has network conntrack allowance exceeded
+        description: ElastiCache cluster {{ $labels.dimension_CacheClusterId }} node {{ $labels.dimension_CacheNodeId }} has {{$value}}% network conntrack allowance exceeded in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}. Consider resizing or adding shards if in cluster mode, especially if this is using T instance types.
+        runbook_url: https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/ErrorMessages.html
+      expr: round(aws_cloudwatch_ElastiCache_NetworkConntrackAllowanceExceeded_CacheClusterId_CacheNodeId) > 0
+      for: 5m
+      labels:
+        rule_source: opswatch-prometheus-rules
+        severity: warning
+    - alert: AwsCloudwatchElastiCacheNetworkPacketsPerSecondAllowanceExceeded
+      annotations:
+        summary: ElastiCache has network packets per second allowance exceeded
+        description: ElastiCache cluster {{ $labels.dimension_CacheClusterId }} node {{ $labels.dimension_CacheNodeId }} has {{$value}}% network packets per second allowance exceeded in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}. Consider resizing or adding shards if in cluster mode, especially if this is using T instance types.
+        runbook_url: https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/ErrorMessages.html
+      expr: round(aws_cloudwatch_ElastiCache_NetworkPacketsPerSecondAllowanceExceeded_CacheClusterId_CacheNodeId) > 0
+      for: 5m
+      labels:
+        rule_source: opswatch-prometheus-rules
+        severity: warning

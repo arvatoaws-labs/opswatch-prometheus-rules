@@ -16,8 +16,9 @@ spec:
         summary: Lambda error rate is greater than 5%
         description: Lambda error rate is {{$value}}% for function {{ $labels.dimension_FunctionName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
         runbook_url: https://docs.aws.amazon.com/lambda/latest/dg/troubleshooting-invocation.html
-      expr: round(rate(aws_cloudwatch_Lambda_Errors_FunctionName_sum[15m]) / (rate(aws_cloudwatch_Lambda_Invocations_FunctionName_sum[15m]) + rate(aws_cloudwatch_Lambda_Errors_FunctionName_sum[15m])) * 100) > 5
-      for: 30m
+      # Invocations already includes failed calls, so it must not be added again to the denominator
+      expr: round(rate(aws_cloudwatch_Lambda_Errors_FunctionName_sum[15m]) / rate(aws_cloudwatch_Lambda_Invocations_FunctionName_sum[15m]) * 100) > 5
+      for: 5m
       labels:
         rule_source: opswatch-prometheus-rules
         severity: info
@@ -26,8 +27,19 @@ spec:
         summary: Lambda error rate is greater than 15%
         description: Lambda error rate is {{$value}}% for function {{ $labels.dimension_FunctionName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
         runbook_url: https://docs.aws.amazon.com/lambda/latest/dg/troubleshooting-invocation.html
-      expr: round(rate(aws_cloudwatch_Lambda_Errors_FunctionName_sum[15m]) / (rate(aws_cloudwatch_Lambda_Invocations_FunctionName_sum[15m]) + rate(aws_cloudwatch_Lambda_Errors_FunctionName_sum[15m])) * 100) > 15
-      for: 30m
+      expr: round(rate(aws_cloudwatch_Lambda_Errors_FunctionName_sum[15m]) / rate(aws_cloudwatch_Lambda_Invocations_FunctionName_sum[15m]) * 100) > 15
+      for: 5m
+      labels:
+        rule_source: opswatch-prometheus-rules
+        severity: warning
+        alarm_class: REACTIVE
+    - alert: AwsCloudwatchLambdaAllInvocationsFailed
+      annotations:
+        summary: Lambda function failed on every invocation in the last hour
+        description: All {{$value}} invocation(s) failed for function {{ $labels.dimension_FunctionName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}. Catches low-frequency functions (e.g. monthly jobs) that a percentage-based rate alert can miss or underreport.
+        runbook_url: https://docs.aws.amazon.com/lambda/latest/dg/troubleshooting-invocation.html
+      expr: increase(aws_cloudwatch_Lambda_Invocations_FunctionName_sum[1h]) > 0 and increase(aws_cloudwatch_Lambda_Errors_FunctionName_sum[1h]) >= increase(aws_cloudwatch_Lambda_Invocations_FunctionName_sum[1h])
+      for: 0m
       labels:
         rule_source: opswatch-prometheus-rules
         severity: warning
@@ -38,7 +50,7 @@ spec:
         description: Lambda was throttled {{$value}} times for function {{ $labels.dimension_FunctionName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
         runbook_url: https://aws.amazon.com/de/premiumsupport/knowledge-center/lambda-troubleshoot-throttling/
       expr: aws_cloudwatch_Lambda_Throttles_FunctionName > 0
-      for: 30m
+      for: 5m
       labels:
         rule_source: opswatch-prometheus-rules
         severity: warning
@@ -49,8 +61,40 @@ spec:
         description: Lambda function timed out with {{$value}}s for function {{ $labels.dimension_FunctionName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
         runbook_url: https://aws.amazon.com/premiumsupport/knowledge-center/lambda-troubleshoot-invocation-timeouts/
       expr: aws_cloudwatch_Lambda_Duration_FunctionName / 1000 > 900
-      for: 30m
+      for: 5m
       labels:
         rule_source: opswatch-prometheus-rules
         severity: warning
         alarm_class: REACTIVE
+    - alert: AwsCloudwatchLambdaDeadLetterErrors
+      annotations:
+        summary: Lambda failed to send a failed event to its dead-letter queue
+        description: Lambda failed to deliver {{$value}} event(s) to the configured dead-letter queue/target for function {{ $labels.dimension_FunctionName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}. The failed event is likely lost.
+        runbook_url: https://docs.aws.amazon.com/lambda/latest/dg/invocation-async.html#invocation-dlq
+      expr: increase(aws_cloudwatch_Lambda_DeadLetterErrors_FunctionName_sum[5m]) > 0
+      for: 0m
+      labels:
+        rule_source: opswatch-prometheus-rules
+        severity: warning
+        alarm_class: REACTIVE
+    - alert: AwsCloudwatchLambdaDestinationDeliveryFailures
+      annotations:
+        summary: Lambda failed to deliver an async invocation result to its destination
+        description: Lambda failed to deliver {{$value}} event(s) to the configured on-success/on-failure destination for function {{ $labels.dimension_FunctionName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+        runbook_url: https://docs.aws.amazon.com/lambda/latest/dg/invocation-async.html#invocation-destinations
+      expr: increase(aws_cloudwatch_Lambda_DestinationDeliveryFailures_FunctionName_sum[5m]) > 0
+      for: 0m
+      labels:
+        rule_source: opswatch-prometheus-rules
+        severity: warning
+        alarm_class: REACTIVE
+    - alert: AwsCloudwatchLambdaIteratorAgeHigh
+      annotations:
+        summary: Lambda stream consumer is falling behind
+        description: Lambda IteratorAge is {{$value}}s for function {{ $labels.dimension_FunctionName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}, indicating it is not keeping up with its Kinesis/DynamoDB stream.
+        runbook_url: https://docs.aws.amazon.com/lambda/latest/dg/with-kinesis.html#services-kinesis-troubleshooting
+      expr: aws_cloudwatch_Lambda_IteratorAge_FunctionName_maximum / 1000 > 60
+      for: 15m
+      labels:
+        rule_source: opswatch-prometheus-rules
+        severity: info

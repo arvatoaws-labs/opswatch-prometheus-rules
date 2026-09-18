@@ -49,8 +49,9 @@ spec:
         summary: Lambda function was throttled
         description: Lambda was throttled {{$value}} times for function {{ $labels.dimension_FunctionName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
         runbook_url: https://aws.amazon.com/de/premiumsupport/knowledge-center/lambda-troubleshoot-throttling/
-      expr: aws_cloudwatch_Lambda_Throttles_FunctionName > 0
-      for: 5m
+      # instantaneous >0 would miss a single-period throttle that clears before the next scrape
+      expr: increase(aws_cloudwatch_Lambda_Throttles_FunctionName[5m]) > 0
+      for: 0m
       labels:
         rule_source: opswatch-prometheus-rules
         severity: warning
@@ -60,7 +61,7 @@ spec:
         summary: Lambda function was timed out after 900s
         description: Lambda function timed out with {{$value}}s for function {{ $labels.dimension_FunctionName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
         runbook_url: https://aws.amazon.com/premiumsupport/knowledge-center/lambda-troubleshoot-invocation-timeouts/
-      expr: aws_cloudwatch_Lambda_Duration_FunctionName / 1000 > 900
+      expr: aws_cloudwatch_Lambda_Duration_FunctionName / 1000 >= 900
       for: 5m
       labels:
         rule_source: opswatch-prometheus-rules

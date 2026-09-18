@@ -17,7 +17,8 @@ spec:
         description: Lambda error rate is {{$value}}% for function {{ $labels.dimension_FunctionName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
         runbook_url: https://docs.aws.amazon.com/lambda/latest/dg/troubleshooting-invocation.html
       # Invocations already includes failed calls, so it must not be added again to the denominator
-      expr: round(rate(aws_cloudwatch_Lambda_Errors_FunctionName_sum[15m]) / rate(aws_cloudwatch_Lambda_Invocations_FunctionName_sum[15m]) * 100) > 5
+      # round() must not wrap the comparison, otherwise values just below the threshold get rounded past it
+      expr: rate(aws_cloudwatch_Lambda_Errors_FunctionName_sum[15m]) / rate(aws_cloudwatch_Lambda_Invocations_FunctionName_sum[15m]) * 100 > 5
       for: 5m
       labels:
         rule_source: opswatch-prometheus-rules
@@ -27,7 +28,7 @@ spec:
         summary: Lambda error rate is greater than 15%
         description: Lambda error rate is {{$value}}% for function {{ $labels.dimension_FunctionName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
         runbook_url: https://docs.aws.amazon.com/lambda/latest/dg/troubleshooting-invocation.html
-      expr: round(rate(aws_cloudwatch_Lambda_Errors_FunctionName_sum[15m]) / rate(aws_cloudwatch_Lambda_Invocations_FunctionName_sum[15m]) * 100) > 15
+      expr: rate(aws_cloudwatch_Lambda_Errors_FunctionName_sum[15m]) / rate(aws_cloudwatch_Lambda_Invocations_FunctionName_sum[15m]) * 100 > 15
       for: 5m
       labels:
         rule_source: opswatch-prometheus-rules
@@ -49,8 +50,8 @@ spec:
         summary: Lambda function was throttled
         description: Lambda was throttled {{$value}} times for function {{ $labels.dimension_FunctionName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
         runbook_url: https://aws.amazon.com/de/premiumsupport/knowledge-center/lambda-troubleshoot-throttling/
-      # instantaneous >0 would miss a single-period throttle that clears before the next scrape
-      expr: increase(aws_cloudwatch_Lambda_Throttles_FunctionName[5m]) > 0
+      # Throttles is a per-period sample, not a cumulative counter, so increase() can miss a drop back to zero
+      expr: max_over_time(aws_cloudwatch_Lambda_Throttles_FunctionName[5m]) > 0
       for: 0m
       labels:
         rule_source: opswatch-prometheus-rules
@@ -61,8 +62,9 @@ spec:
         summary: Lambda function was timed out after 900s
         description: Lambda function timed out with {{$value}}s for function {{ $labels.dimension_FunctionName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
         runbook_url: https://aws.amazon.com/premiumsupport/knowledge-center/lambda-troubleshoot-invocation-timeouts/
-      expr: aws_cloudwatch_Lambda_Duration_FunctionName / 1000 >= 900
-      for: 5m
+      # Duration is a per-period sample, so a single spike can clear before a 5m hold would be satisfied
+      expr: max_over_time(aws_cloudwatch_Lambda_Duration_FunctionName[5m]) / 1000 >= 900
+      for: 0m
       labels:
         rule_source: opswatch-prometheus-rules
         severity: warning
@@ -72,7 +74,8 @@ spec:
         summary: Lambda failed to send a failed event to its dead-letter queue
         description: Lambda failed to deliver {{$value}} event(s) to the configured dead-letter queue/target for function {{ $labels.dimension_FunctionName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}. The failed event is likely lost.
         runbook_url: https://docs.aws.amazon.com/lambda/latest/dg/invocation-async.html#invocation-dlq
-      expr: increase(aws_cloudwatch_Lambda_DeadLetterErrors_FunctionName_sum[5m]) > 0
+      # DeadLetterErrors is a per-period sample, not a cumulative counter, so increase() can miss a drop back to zero
+      expr: max_over_time(aws_cloudwatch_Lambda_DeadLetterErrors_FunctionName_sum[5m]) > 0
       for: 0m
       labels:
         rule_source: opswatch-prometheus-rules
@@ -83,7 +86,7 @@ spec:
         summary: Lambda failed to deliver an async invocation result to its destination
         description: Lambda failed to deliver {{$value}} event(s) to the configured on-success/on-failure destination for function {{ $labels.dimension_FunctionName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
         runbook_url: https://docs.aws.amazon.com/lambda/latest/dg/invocation-async.html#invocation-destinations
-      expr: increase(aws_cloudwatch_Lambda_DestinationDeliveryFailures_FunctionName_sum[5m]) > 0
+      expr: max_over_time(aws_cloudwatch_Lambda_DestinationDeliveryFailures_FunctionName_sum[5m]) > 0
       for: 0m
       labels:
         rule_source: opswatch-prometheus-rules

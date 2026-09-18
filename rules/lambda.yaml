@@ -50,8 +50,8 @@ spec:
         summary: Lambda function was throttled
         description: Lambda was throttled {{$value}} times for function {{ $labels.dimension_FunctionName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
         runbook_url: https://aws.amazon.com/de/premiumsupport/knowledge-center/lambda-troubleshoot-throttling/
-      # Throttles is a per-period sample, not a cumulative counter, so increase() can miss a drop back to zero
-      expr: max_over_time(aws_cloudwatch_Lambda_Throttles_FunctionName[5m]) > 0
+      # window must exceed the for: hold, otherwise a sample can age out before the alert reaches firing
+      expr: max_over_time(aws_cloudwatch_Lambda_Throttles_FunctionName[10m]) > 0
       for: 5m
       labels:
         rule_source: opswatch-prometheus-rules
@@ -62,8 +62,8 @@ spec:
         summary: Lambda function was timed out after 900s
         description: Lambda function timed out with {{$value}}s for function {{ $labels.dimension_FunctionName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
         runbook_url: https://aws.amazon.com/premiumsupport/knowledge-center/lambda-troubleshoot-invocation-timeouts/
-      # Duration is a per-period sample; max_over_time keeps a spike visible for the full for: hold
-      expr: max_over_time(aws_cloudwatch_Lambda_Duration_FunctionName[5m]) / 1000 >= 900
+      # window must exceed the for: hold, otherwise a sample can age out before the alert reaches firing
+      expr: max_over_time(aws_cloudwatch_Lambda_Duration_FunctionName[10m]) / 1000 >= 900
       for: 5m
       labels:
         rule_source: opswatch-prometheus-rules

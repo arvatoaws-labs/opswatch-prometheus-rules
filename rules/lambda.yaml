@@ -18,7 +18,7 @@ spec:
         runbook_url: https://docs.aws.amazon.com/lambda/latest/dg/troubleshooting-invocation.html
       # Invocations already includes failed calls, so it must not be added again to the denominator
       # CloudWatch period sums are not Prometheus counters, so compare period-deduplicated 5m counts
-      expr: sum_over_time(last_over_time(aws_cloudwatch_Lambda_Errors_FunctionName_sum[5m])[10m:5m]) / sum_over_time(last_over_time(aws_cloudwatch_Lambda_Invocations_FunctionName_sum[5m])[10m:5m]) * 100 > 5
+      expr: sum_over_time(last_over_time(aws_cloudwatch_Lambda_Errors_FunctionName_sum[5m])[15m:5m]) / sum_over_time(last_over_time(aws_cloudwatch_Lambda_Invocations_FunctionName_sum[5m])[15m:5m]) * 100 > 5
       for: 5m
       labels:
         rule_source: opswatch-prometheus-rules
@@ -28,7 +28,7 @@ spec:
         summary: Lambda error rate is greater than 15%
         description: Lambda error rate is {{$value}}% for function {{ $labels.dimension_FunctionName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
         runbook_url: https://docs.aws.amazon.com/lambda/latest/dg/troubleshooting-invocation.html
-      expr: sum_over_time(last_over_time(aws_cloudwatch_Lambda_Errors_FunctionName_sum[5m])[10m:5m]) / sum_over_time(last_over_time(aws_cloudwatch_Lambda_Invocations_FunctionName_sum[5m])[10m:5m]) * 100 > 15
+      expr: sum_over_time(last_over_time(aws_cloudwatch_Lambda_Errors_FunctionName_sum[5m])[15m:5m]) / sum_over_time(last_over_time(aws_cloudwatch_Lambda_Invocations_FunctionName_sum[5m])[15m:5m]) * 100 > 15
       for: 5m
       labels:
         rule_source: opswatch-prometheus-rules
@@ -39,7 +39,7 @@ spec:
         summary: Lambda function failed on every invocation in the last hour
         description: All {{$value}} invocation(s) failed for function {{ $labels.dimension_FunctionName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}. Catches low-frequency functions (e.g. monthly jobs) that a percentage-based rate alert can miss or underreport.
         runbook_url: https://docs.aws.amazon.com/lambda/latest/dg/troubleshooting-invocation.html
-      expr: sum_over_time(last_over_time(aws_cloudwatch_Lambda_Invocations_FunctionName_sum[5m])[55m:5m]) > 0 and sum_over_time(last_over_time(aws_cloudwatch_Lambda_Errors_FunctionName_sum[5m])[55m:5m]) >= sum_over_time(last_over_time(aws_cloudwatch_Lambda_Invocations_FunctionName_sum[5m])[55m:5m])
+      expr: sum_over_time(last_over_time(aws_cloudwatch_Lambda_Invocations_FunctionName_sum[5m])[1h:5m]) > 0 and sum_over_time(last_over_time(aws_cloudwatch_Lambda_Errors_FunctionName_sum[5m])[1h:5m]) >= sum_over_time(last_over_time(aws_cloudwatch_Lambda_Invocations_FunctionName_sum[5m])[1h:5m])
       for: 0m
       labels:
         rule_source: opswatch-prometheus-rules

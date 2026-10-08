@@ -16,7 +16,7 @@ spec:
         summary: AWS Health event requires immediate action
         description: "{{ $labels.event_type_code }} ({{ $labels.actionability }}) for {{ $labels.service_type }}, account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}. Affected entities: {{ $labels.affected_entity_count }}"
         runbook_url: https://docs.aws.amazon.com/health/latest/ug/getting-started-phd.html
-      expr: '{__name__=~"aws_apidescribe_Health_Events.*", actionability_severity="2"}'
+      expr: '{__name__=~"aws_apidescribe_Health_Events.*", actionability="ACTION_REQUIRED"}'
       for: 0m
       labels:
         rule_source: opswatch-prometheus-rules
@@ -26,8 +26,8 @@ spec:
         summary: AWS Health event may require action
         description: "{{ $labels.event_type_code }} ({{ $labels.actionability }}) for {{ $labels.service_type }}, account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}. Affected entities: {{ $labels.affected_entity_count }}"
         runbook_url: https://docs.aws.amazon.com/health/latest/ug/getting-started-phd.html
-      expr: '{__name__=~"aws_apidescribe_Health_Events.*", actionability_severity="1"}'
+      expr: '{__name__=~"aws_apidescribe_Health_Events.*", actionability="ACTION_MAY_BE_REQUIRED"}'
       for: 5m
       labels:
         rule_source: opswatch-prometheus-rules
-        severity: warning
+        severity: info

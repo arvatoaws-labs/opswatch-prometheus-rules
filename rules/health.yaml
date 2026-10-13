@@ -20,7 +20,7 @@ spec:
       for: 0m
       labels:
         rule_source: opswatch-prometheus-rules
-        severity: warning
+        severity: info
     - alert: AwsHealthActionMayBeRequired
       annotations:
         summary: AWS Health event may require action

@@ -36,3 +36,4 @@ resources:
 - rules/classic_elb.yaml
 - rules/trustedadvisor.yaml
 - rules/cloudfoundation.yaml
+- rules/health.yaml

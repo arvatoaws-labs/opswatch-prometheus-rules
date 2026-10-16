@@ -32,7 +32,7 @@ spec:
       for: 5m
       labels:
         rule_source: opswatch-prometheus-rules
-        severity: warning
+        severity: critical
         alarm_class: REACTIVE
     - alert: AwsCloudwatchLambdaAllInvocationsFailed
       annotations:
@@ -57,14 +57,13 @@ spec:
         rule_source: opswatch-prometheus-rules
         severity: warning
         alarm_class: REACTIVE
-    - alert: AwsCloudwatchLambdaTimeout
+    - alert: AwsCloudwatchLambdaInvocationErrors
       annotations:
-        summary: Lambda function was timed out after 900s
-        description: Lambda function timed out with {{$value}}s for function {{ $labels.dimension_FunctionName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
-        runbook_url: https://aws.amazon.com/premiumsupport/knowledge-center/lambda-troubleshoot-invocation-timeouts/
-      # window must exceed the for: hold, otherwise a sample can age out before the alert reaches firing
-      expr: max_over_time(aws_cloudwatch_Lambda_Duration_FunctionName[10m]) / 1000 >= 900
-      for: 5m
+        summary: Lambda function invocation failed
+        description: Lambda reported {{$value}} invocation error(s) in a CloudWatch period for function {{ $labels.dimension_FunctionName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
+        runbook_url: https://docs.aws.amazon.com/lambda/latest/dg/troubleshooting-invocation.html
+      expr: max_over_time(aws_cloudwatch_Lambda_Errors_FunctionName_sum[5m]) > 0
+      for: 0m
       labels:
         rule_source: opswatch-prometheus-rules
         severity: warning

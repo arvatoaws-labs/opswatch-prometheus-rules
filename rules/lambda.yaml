@@ -48,8 +48,9 @@ spec:
         summary: Lambda function invocation errors occurred
         description: Lambda reported {{$value}} invocation error(s) for function {{ $labels.dimension_FunctionName }} in customer {{ $labels.overwrite_asy_customer }} account {{ $labels.overwrite_aws_account_id }} region {{ $labels.overwrite_aws_region }}
         runbook_url: https://docs.aws.amazon.com/lambda/latest/dg/troubleshooting-invocation.html
-      expr: max_over_time(aws_cloudwatch_Lambda_Errors_FunctionName_sum[5m]) > 0
+      expr: max_over_time(aws_cloudwatch_Lambda_Errors_FunctionName[5m]) > 0
       for: 0m
+      keep_firing_for: 1h
       labels:
         rule_source: opswatch-prometheus-rules
         severity: warning
